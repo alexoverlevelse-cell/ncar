@@ -46,15 +46,29 @@
 ## Структура проекта
 
 ```
-src/app/              # Next.js App Router — страницы и API-роуты
-src/lib/supabase.ts        # клиент для браузера (anon key, только чтение по RLS)
-src/lib/supabase-admin.ts  # серверный клиент (service role) — только в API-роутах
+src/app/                    # App Router: / (главная), /cars, /cars/[id], /services, /contact
+src/components/             # BottomNav, CarCard, Logo, PageHeader, DemoNotice, icons
+src/types/                  # Car, Service + списки колонок для select в Supabase
+src/lib/site-config.ts      # название, регион, валюта, контакты + buildTelegramLink()
+src/lib/data.ts             # загрузка машин/услуг: Supabase, иначе фоллбэк на демо
+src/lib/demo-data.ts        # демо-машины и услуги для показа, пока нет базы
+src/lib/format.ts           # формат цены, пробега, чисел
+src/lib/supabase.ts         # клиент для браузера (anon key, только чтение по RLS)
+src/lib/supabase-admin.ts   # серверный клиент (service role) — только в API-роутах
 src/lib/telegram.ts         # клиентский доступ к window.Telegram.WebApp, initData
 src/lib/telegram-auth.ts    # серверная проверка подписи initData + isAllowedPublisher()
-supabase/schema.sql   # таблицы cars, services, allowed_publishers + RLS-политики
-.env.example           # список нужных переменных окружения (без значений)
-AGENTS.md              # генерируется Next.js автоматически, не редактировать
+supabase/schema.sql         # таблицы cars, services, allowed_publishers + RLS-политики
+.env.example                # список нужных переменных окружения (без значений)
+AGENTS.md                   # генерируется Next.js автоматически, не редактировать
 ```
+
+**Дизайн**: тёмная тема, оранжевый акцент, нижняя навигация из 4 пунктов —
+по макетам в `Дизай промті/` и `9d81da3d-*.png`. Токены цветов в
+`src/app/globals.css`. Светлой темы намеренно нет.
+
+**Демо-данные**: пока Supabase не подключён, страницы показывают содержимое
+`demo-data.ts` с пометкой `DemoNotice`. Когда появятся реальные объявления,
+удалить фоллбэк в `data.ts` вместе с `demo-data.ts` и `DemoNotice`.
 
 **Как работает запись данных**: клиент никогда не пишет в Supabase напрямую.
 Публикация/редактирование идёт через API-роут в `src/app/api/*`, который:
