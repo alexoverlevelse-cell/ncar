@@ -53,7 +53,7 @@ export const demoServices: Service[] = [
     description: "Подготовим автомобиль и пройдём техосмотр за вас.",
     price: null,
     duration: null,
-    photo: null,
+    photo: "/demo/service-inspection.jpg",
   },
   {
     id: "demo-cleaning",
@@ -61,6 +61,6 @@ export const demoServices: Service[] = [
     description: "Глубокая чистка салона: сиденья, потолок, ковролин.",
     price: null,
     duration: null,
-    photo: null,
+    photo: "/demo/service-cleaning.jpg",
   },
 ];

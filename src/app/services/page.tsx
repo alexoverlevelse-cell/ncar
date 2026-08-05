@@ -33,10 +33,10 @@ export default async function ServicesPage() {
                   <img
                     src={service.photo}
                     alt={service.title}
-                    className="h-20 w-24 shrink-0 object-cover"
+                    className="h-28 w-28 shrink-0 object-cover"
                   />
                 ) : (
-                  <div className="flex h-20 w-24 shrink-0 items-center justify-center bg-gradient-to-br from-surface-2 to-surface">
+                  <div className="flex h-28 w-28 shrink-0 items-center justify-center bg-gradient-to-br from-surface-2 to-surface">
                     <WrenchIcon className="h-7 w-7 text-border" />
                   </div>
                 )}
@@ -52,9 +52,9 @@ export default async function ServicesPage() {
                   </p>
                 </div>
                 {telegramLink ? (
-                  <TelegramIcon className="mr-4 h-5 w-5 shrink-0 self-center text-accent" />
+                  <TelegramIcon className="mr-3 h-5 w-5 shrink-0 self-center text-accent" />
                 ) : (
-                  <ChevronRightIcon className="mr-4 h-4 w-4 shrink-0 self-center text-muted" />
+                  <ChevronRightIcon className="mr-3 h-4 w-4 shrink-0 self-center text-muted" />
                 )}
               </>
             );
