@@ -1,10 +1,15 @@
 import Link from "next/link";
 import { DemoNotice } from "@/components/DemoNotice";
-import { ChevronRightIcon, TelegramIcon, WrenchIcon } from "@/components/icons";
+import {
+  ChevronRightIcon,
+  MapPinIcon,
+  TelegramIcon,
+  WrenchIcon,
+} from "@/components/icons";
 import { PageHeader } from "@/components/PageHeader";
 import { loadServices } from "@/lib/data";
 import { formatPrice } from "@/lib/format";
-import { buildTelegramLink } from "@/lib/site-config";
+import { buildContactLink, buildTelegramLink } from "@/lib/site-config";
 
 export const dynamic = "force-dynamic";
 
@@ -22,9 +27,12 @@ export default async function ServicesPage() {
           <p className="text-sm text-muted">Пока нет доступных услуг.</p>
         ) : (
           services.map((service) => {
-            const telegramLink = buildTelegramLink(
-              `Здравствуйте! Интересует услуга «${service.title}».`
-            );
+            const message = `Здравствуйте! Интересует услуга «${service.title}».`;
+            // У услуги может быть собственный контакт исполнителя — он важнее
+            // общего контакта компании.
+            const telegramLink = service.contact
+              ? buildContactLink(service.contact, message)
+              : buildTelegramLink(message);
 
             const card = (
               <>
@@ -45,6 +53,12 @@ export default async function ServicesPage() {
                   {service.description && (
                     <p className="line-clamp-2 text-xs text-muted">
                       {service.description}
+                    </p>
+                  )}
+                  {service.location && (
+                    <p className="flex items-center gap-1 text-xs text-muted">
+                      <MapPinIcon className="h-3.5 w-3.5 shrink-0" />
+                      <span className="truncate">{service.location}</span>
                     </p>
                   )}
                   <p className="text-sm font-medium text-accent">

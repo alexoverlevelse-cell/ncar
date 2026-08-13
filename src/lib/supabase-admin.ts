@@ -1,14 +1,18 @@
 import "server-only";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+let cached: SupabaseClient | null | undefined;
 
-if (!supabaseUrl || !serviceRoleKey) {
-  throw new Error(
-    "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env vars"
-  );
+// Серверный клиент с полным доступом к базе (обходит RLS).
+// НИКОГДА не импортировать из клиентских компонентов.
+// Возвращает null, если Supabase ещё не настроен — вызывающий код должен
+// корректно сообщить, что запись пока недоступна.
+export function getSupabaseAdmin(): SupabaseClient | null {
+  if (cached !== undefined) return cached;
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  cached = url && serviceRoleKey ? createClient(url, serviceRoleKey) : null;
+  return cached;
 }
-
-// Server-only client with full DB access. Never import this from client components.
-export const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);

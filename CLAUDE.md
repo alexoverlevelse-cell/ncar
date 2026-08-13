@@ -12,11 +12,15 @@
 
 ## Модель доступа
 
-- Публиковать (создавать/редактировать/удалять свои объявления) может **только пользователь из списка доверенных публикующих** — таблица `allowed_publishers` (Telegram ID → активен/неактивен).
-- Обычный пользователь (не в списке): видит все опубликованные машины и услуги, может написать автору в Telegram, оставить заявку. Не может ничего публиковать.
-- Публикующий редактирует и удаляет **только свои** объявления, не чужие.
-- Права проверяются **на сервере** по Telegram ID из подписанного `initData`, а не только скрытием кнопки в интерфейсе.
-- Добавление/удаление человека из списка доверенных — ручная операция суперадминистратора (владельца проекта), не самостоятельная регистрация.
+Три роли:
+
+1. **Администратор** — может редактировать **всё**: добавлять, менять и удалять любые машины и услуги (не только свои), ставить статусы «зарезервировано» и «продано». Список Telegram ID админов — в переменной окружения `ADMIN_TELEGRAM_IDS` (через запятую) и/или флаг `is_admin` в `allowed_publishers`.
+2. **Публикующий** — из таблицы `allowed_publishers`. Создаёт и редактирует **только свои** объявления, чужие не трогает.
+3. **Обычный пользователь** — видит опубликованные машины и услуги, пишет автору в Telegram. Ничего не публикует.
+
+- Права проверяются **на сервере** по Telegram ID из подписанного `initData`, а не только скрытием кнопки в интерфейсе. Кнопка админки в навигации скрыта от неадминов, но это лишь удобство — настоящая защита в API-роутах.
+- Добавление/удаление админов и публикующих — ручная операция владельца проекта, не самостоятельная регистрация.
+- **Telegram ID админов не коммитить в репозиторий** — он публичный. Только в `.env.local` и в переменных окружения Vercel.
 
 ## Масштаб MVP
 
@@ -46,20 +50,28 @@
 ## Структура проекта
 
 ```
-src/app/                    # App Router: / (главная), /cars, /cars/[id], /services, /contact
-src/components/             # BottomNav, CarCard, Logo, PageHeader, DemoNotice, icons
-src/types/                  # Car, Service + списки колонок для select в Supabase
-src/lib/site-config.ts      # название, регион, валюта, контакты + buildTelegramLink()
-src/lib/data.ts             # загрузка машин/услуг: Supabase, иначе фоллбэк на демо
-src/lib/demo-data.ts        # демо-машины и услуги для показа, пока нет базы
-src/lib/format.ts           # формат цены, пробега, чисел
-src/lib/supabase.ts         # клиент для браузера (anon key, только чтение по RLS)
-src/lib/supabase-admin.ts   # серверный клиент (service role) — только в API-роутах
-src/lib/telegram.ts         # клиентский доступ к window.Telegram.WebApp, initData
-src/lib/telegram-auth.ts    # серверная проверка подписи initData + isAllowedPublisher()
-supabase/schema.sql         # таблицы cars, services, allowed_publishers + RLS-политики
-.env.example                # список нужных переменных окружения (без значений)
-AGENTS.md                   # генерируется Next.js автоматически, не редактировать
+src/app/                     # / (главная), /cars, /cars/[id], /services, /contact
+src/app/admin/               # админка: список, /cars/new, /cars/[id], /services/...
+src/app/api/me/              # роль текущего пользователя (показывать ли кнопку админки)
+src/app/api/admin/data/      # списки для админки, включая черновики и скрытые
+src/app/api/cars/            # POST | PATCH /[id] | DELETE /[id]
+src/app/api/services/        # POST | PATCH /[id] | DELETE /[id]
+src/components/              # BottomNav, CarCard, формы, поля ввода, AdminOnly, icons
+src/types/                   # Car, Service, статусы и их подписи + колонки для select
+src/lib/site-config.ts       # название, регион, валюта, контакты + buildContactLink()
+src/lib/data.ts              # загрузка машин/услуг: Supabase, иначе фоллбэк на демо
+src/lib/demo-data.ts         # демо-машины и услуги для показа, пока нет базы
+src/lib/validate.ts          # разбор и проверка входных данных API
+src/lib/api-auth.ts          # requireAdmin() — общая защита роутов записи
+src/lib/telegram-auth.ts     # проверка подписи initData, роли (admin/publisher/viewer)
+src/lib/telegram.ts          # клиентский initData, apiFetch(), подтверждение действий
+src/lib/use-role.ts          # хук: узнать свою роль с сервера
+src/lib/supabase.ts          # клиент для браузера (anon key, только чтение по RLS)
+src/lib/supabase-admin.ts    # серверный клиент (service role) — только в API-роутах
+supabase/schema.sql          # cars, services, allowed_publishers + RLS-политики
+supabase/seed-admins.example.sql  # шаблон выдачи прав админа (реальные ID не коммитить)
+.env.example                 # список нужных переменных окружения (без значений)
+AGENTS.md                    # генерируется Next.js автоматически, не редактировать
 ```
 
 **Дизайн**: тёмная тема, оранжевый акцент, нижняя навигация из 4 пунктов —
@@ -72,12 +84,12 @@ AGENTS.md                   # генерируется Next.js автомати�
 
 **Как работает запись данных**: клиент никогда не пишет в Supabase напрямую.
 Публикация/редактирование идёт через API-роут в `src/app/api/*`, который:
-1. получает `initData` от клиента (`getInitData()` из `telegram.ts`);
-2. проверяет подпись через `verifyTelegramInitData()`;
-3. проверяет `isAllowedPublisher(user.id)`;
-4. только после этого пишет через `supabaseAdmin`.
+1. получает `initData` заголовком `x-telegram-init-data` (`apiFetch()` из `telegram.ts`);
+2. проверяет подпись и срок годности через `verifyTelegramInitData()`;
+3. определяет роль через `resolveRole()` и требует `admin` (`requireAdmin()`);
+4. только после этого пишет через `getSupabaseAdmin()`.
 
-Такие API-роуты ещё не созданы — это следующий шаг разработки.
+Без переменных окружения Supabase роуты записи честно отвечают 503, а не падают.
 
 **Команды**:
 - `npm run dev` — локальный запуск

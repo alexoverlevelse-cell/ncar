@@ -14,12 +14,21 @@ create extension if not exists "pgcrypto";
 -- Список людей, которым разрешено публиковать. Управляется вручную владельцем
 -- проекта (через service role), самостоятельная регистрация не предусмотрена.
 
+-- is_admin: может редактировать и удалять ЛЮБЫЕ объявления, не только свои.
+-- Реальные Telegram ID админов здесь не хранятся в репозитории — заполняются
+-- вручную (см. supabase/seed-admins.example.sql) или задаются через
+-- переменную окружения ADMIN_TELEGRAM_IDS.
 create table if not exists allowed_publishers (
   telegram_id bigint primary key,
   name text not null,
   is_active boolean not null default true,
+  is_admin boolean not null default false,
   added_at timestamptz not null default now()
 );
+
+-- Для существующей базы, где таблица уже создана без is_admin:
+alter table allowed_publishers
+  add column if not exists is_admin boolean not null default false;
 
 alter table allowed_publishers enable row level security;
 -- Намеренно без policy для anon/authenticated: таблица целиком закрыта от
@@ -71,11 +80,17 @@ create table if not exists services (
   price numeric(12, 2), -- null = "цена по запросу"
   duration text,
   photo text,
+  contact text, -- ссылка t.me или телефон исполнителя услуги
+  location text, -- где оказывается услуга
   status text not null default 'active'
     check (status in ('active', 'inactive')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Для существующей базы, созданной до появления этих полей:
+alter table services add column if not exists contact text;
+alter table services add column if not exists location text;
 
 create index if not exists services_owner_idx on services(owner_telegram_id);
 create index if not exists services_status_idx on services(status);

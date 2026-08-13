@@ -1,6 +1,7 @@
 import { CarCard } from "@/components/CarCard";
 import { DemoNotice } from "@/components/DemoNotice";
 import { PageHeader } from "@/components/PageHeader";
+import { PlaceYourCarCard } from "@/components/PlaceYourCarCard";
 import { loadCars } from "@/lib/data";
 import { siteConfig } from "@/lib/site-config";
 
@@ -24,6 +25,8 @@ export default async function CarsPage() {
         ) : (
           cars.map((car) => <CarCard key={car.id} car={car} />)
         )}
+
+        <PlaceYourCarCard />
       </div>
     </main>
   );

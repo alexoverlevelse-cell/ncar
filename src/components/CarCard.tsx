@@ -1,13 +1,7 @@
 import Link from "next/link";
 import { formatMileage, formatPrice } from "@/lib/format";
-import type { Car } from "@/types/car";
+import { CAR_STATUS_LABELS, type Car } from "@/types/car";
 import { CarPlaceholderIcon } from "./icons";
-
-const statusLabels: Record<Car["status"], string> = {
-  available: "В наличии",
-  reserved: "Зарезервирован",
-  sold: "Продан",
-};
 
 export function CarPhoto({ car, className = "" }: { car: Car; className?: string }) {
   const photo = car.photos?.[0];
@@ -64,7 +58,7 @@ export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "t
           </h3>
           {car.status !== "available" && (
             <span className="shrink-0 rounded-full bg-surface-2 px-2 py-0.5 text-[10px] text-muted">
-              {statusLabels[car.status]}
+              {CAR_STATUS_LABELS[car.status]}
             </span>
           )}
         </div>

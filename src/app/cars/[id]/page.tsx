@@ -6,14 +6,9 @@ import { ArrowLeftIcon, TelegramIcon } from "@/components/icons";
 import { loadCar } from "@/lib/data";
 import { formatMileage, formatPrice } from "@/lib/format";
 import { buildTelegramLink } from "@/lib/site-config";
+import { CAR_STATUS_LABELS } from "@/types/car";
 
 export const dynamic = "force-dynamic";
-
-const statusLabels = {
-  available: "В наличии",
-  reserved: "Зарезервирован",
-  sold: "Продан",
-} as const;
 
 export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
   const { id } = await params;
@@ -56,7 +51,7 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
             </h1>
             {car.status !== "available" && (
               <span className="mt-1 inline-block rounded-full bg-surface-2 px-2.5 py-0.5 text-xs text-muted">
-                {statusLabels[car.status]}
+                {CAR_STATUS_LABELS[car.status]}
               </span>
             )}
           </div>

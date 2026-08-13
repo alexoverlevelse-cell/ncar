@@ -54,6 +54,9 @@ export const demoServices: Service[] = [
     price: null,
     duration: null,
     photo: "/demo/service-inspection.jpg",
+    contact: null,
+    location: null,
+    status: "active",
   },
   {
     id: "demo-cleaning",
@@ -62,5 +65,8 @@ export const demoServices: Service[] = [
     price: null,
     duration: null,
     photo: "/demo/service-cleaning.jpg",
+    contact: null,
+    location: null,
+    status: "active",
   },
 ];

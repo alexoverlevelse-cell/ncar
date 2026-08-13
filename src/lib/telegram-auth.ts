@@ -1,22 +1,30 @@
 import "server-only";
-import { createHmac } from "crypto";
-import { supabaseAdmin } from "./supabase-admin";
+import { createHmac, timingSafeEqual } from "crypto";
+import { getSupabaseAdmin } from "./supabase-admin";
 
-interface TelegramUser {
+export interface TelegramUser {
   id: number;
   first_name: string;
   username?: string;
 }
 
-const botToken = process.env.TELEGRAM_BOT_TOKEN;
+export type Role = "admin" | "publisher" | "viewer";
+
+export interface AuthResult {
+  user: TelegramUser;
+  role: Role;
+}
+
+// initData считается протухшей через сутки — защита от повторного использования
+// перехваченной строки.
+const MAX_AUTH_AGE_SECONDS = 60 * 60 * 24;
 
 // Проверяет подпись initData по алгоритму Telegram и возвращает данные
 // пользователя, если подпись верна. См.
 // https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app
 export function verifyTelegramInitData(initData: string): TelegramUser | null {
-  if (!botToken) {
-    throw new Error("Missing TELEGRAM_BOT_TOKEN env var");
-  }
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  if (!botToken) throw new Error("Missing TELEGRAM_BOT_TOKEN env var");
 
   const params = new URLSearchParams(initData);
   const hash = params.get("hash");
@@ -33,24 +41,60 @@ export function verifyTelegramInitData(initData: string): TelegramUser | null {
     .update(dataCheckString)
     .digest("hex");
 
-  if (computedHash !== hash) return null;
+  const expected = Buffer.from(computedHash, "hex");
+  const received = Buffer.from(hash, "hex");
+  if (expected.length !== received.length) return null;
+  if (!timingSafeEqual(expected, received)) return null;
+
+  const authDate = Number(params.get("auth_date"));
+  if (!authDate) return null;
+  if (Date.now() / 1000 - authDate > MAX_AUTH_AGE_SECONDS) return null;
 
   const userRaw = params.get("user");
   if (!userRaw) return null;
 
-  return JSON.parse(userRaw) as TelegramUser;
+  try {
+    return JSON.parse(userRaw) as TelegramUser;
+  } catch {
+    return null;
+  }
 }
 
-// Проверяет, что telegram_id есть в allowed_publishers и активен там.
-// Единственный источник правды по правам на публикацию — эта таблица,
-// проверка идёт на сервере, а не по факту наличия кнопки в интерфейсе.
-export async function isAllowedPublisher(telegramId: number): Promise<boolean> {
-  const { data, error } = await supabaseAdmin
+// Админы задаются переменной окружения (работает даже до подключения базы)
+// и/или флагом is_admin в allowed_publishers.
+function adminIdsFromEnv(): number[] {
+  return (process.env.ADMIN_TELEGRAM_IDS ?? "")
+    .split(",")
+    .map((id) => Number(id.trim()))
+    .filter((id) => Number.isFinite(id) && id > 0);
+}
+
+export async function resolveRole(telegramId: number): Promise<Role> {
+  if (adminIdsFromEnv().includes(telegramId)) return "admin";
+
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return "viewer";
+
+  const { data, error } = await supabase
     .from("allowed_publishers")
-    .select("is_active")
+    .select("is_active, is_admin")
     .eq("telegram_id", telegramId)
     .maybeSingle();
 
-  if (error || !data) return false;
-  return data.is_active;
+  if (error || !data || !data.is_active) return "viewer";
+  return data.is_admin ? "admin" : "publisher";
+}
+
+// Единая точка входа для API-роутов: проверяет подпись и определяет роль.
+// Возвращает null, если подпись невалидна — роут должен ответить 401.
+export async function authenticate(initData: string | null): Promise<AuthResult | null> {
+  if (!initData) return null;
+  const user = verifyTelegramInitData(initData);
+  if (!user) return null;
+  return { user, role: await resolveRole(user.id) };
+}
+
+export async function isAllowedPublisher(telegramId: number): Promise<boolean> {
+  const role = await resolveRole(telegramId);
+  return role === "admin" || role === "publisher";
 }

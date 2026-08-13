@@ -1,4 +1,24 @@
-export type CarStatus = "available" | "reserved" | "sold";
+export const CAR_STATUSES = [
+  "draft",
+  "available",
+  "reserved",
+  "sold",
+  "hidden",
+] as const;
+
+export type CarStatus = (typeof CAR_STATUSES)[number];
+
+// Что видит обычный посетитель. draft и hidden до него не доходят: их
+// отсекает RLS-политика в supabase/schema.sql.
+export const PUBLIC_CAR_STATUSES: CarStatus[] = ["available", "reserved", "sold"];
+
+export const CAR_STATUS_LABELS: Record<CarStatus, string> = {
+  draft: "Черновик",
+  available: "В наличии",
+  reserved: "Зарезервирован",
+  sold: "Продан",
+  hidden: "Скрыт",
+};
 
 export interface Car {
   id: string;
