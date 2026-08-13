@@ -17,12 +17,15 @@ export async function POST(request: Request) {
       .order("created_at", { ascending: false }),
   ]);
 
-  if (carsResult.error || servicesResult.error) {
-    console.error(
-      "Не удалось загрузить данные для админки:",
-      carsResult.error?.message ?? servicesResult.error?.message
+  const failure = carsResult.error ?? servicesResult.error;
+  if (failure) {
+    console.error("Не удалось загрузить данные для админки:", failure.message);
+    // Подробность видит только администратор — она сильно упрощает поиск
+    // причины (неверный ключ, отсутствующая таблица и т.п.).
+    return NextResponse.json(
+      { error: `Не удалось загрузить данные: ${failure.message}` },
+      { status: 500 }
     );
-    return NextResponse.json({ error: "Не удалось загрузить данные" }, { status: 500 });
   }
 
   return NextResponse.json({
