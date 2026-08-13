@@ -1,5 +1,7 @@
 -- NCar: схема БД под модель "доверенный список публикующих" (см. CLAUDE.md)
 --
+-- Файл можно выполнять повторно — существующие данные не пострадают.
+--
 -- Модель доступа:
 --   * Публичный клиент читает напрямую через anon key (RLS ниже разрешает
 --     только опубликованные записи).
@@ -65,6 +67,7 @@ create index if not exists cars_status_idx on cars(status);
 
 alter table cars enable row level security;
 
+drop policy if exists "public can read published cars" on cars;
 create policy "public can read published cars"
   on cars for select
   to anon, authenticated
@@ -97,6 +100,7 @@ create index if not exists services_status_idx on services(status);
 
 alter table services enable row level security;
 
+drop policy if exists "public can read active services" on services;
 create policy "public can read active services"
   on services for select
   to anon, authenticated
@@ -121,10 +125,12 @@ begin
 end;
 $$ language plpgsql;
 
+drop trigger if exists cars_set_updated_at on cars;
 create trigger cars_set_updated_at
   before update on cars
   for each row execute function set_updated_at();
 
+drop trigger if exists services_set_updated_at on services;
 create trigger services_set_updated_at
   before update on services
   for each row execute function set_updated_at();
