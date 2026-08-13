@@ -6,7 +6,7 @@ import { ArrowLeftIcon, TelegramIcon } from "@/components/icons";
 import { loadCar } from "@/lib/data";
 import { formatMileage, formatPrice } from "@/lib/format";
 import { buildTelegramLink } from "@/lib/site-config";
-import { CAR_STATUS_LABELS } from "@/types/car";
+import { CarStatusBadge } from "@/components/CarStatusBadge";
 
 export const dynamic = "force-dynamic";
 
@@ -50,9 +50,7 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
               {car.brand} {car.model}
             </h1>
             {car.status !== "available" && (
-              <span className="mt-1 inline-block rounded-full bg-surface-2 px-2.5 py-0.5 text-xs text-muted">
-                {CAR_STATUS_LABELS[car.status]}
-              </span>
+              <CarStatusBadge status={car.status} className="mt-1.5" />
             )}
           </div>
           <p className="shrink-0 text-xl font-semibold text-accent">

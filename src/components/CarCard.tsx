@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { formatMileage, formatPrice } from "@/lib/format";
-import { CAR_STATUS_LABELS, type Car } from "@/types/car";
+import { type Car } from "@/types/car";
 import { CarPlaceholderIcon } from "./icons";
+import { CarStatusBadge } from "./CarStatusBadge";
 
 export function CarPhoto({ car, className = "" }: { car: Car; className?: string }) {
   const photo = car.photos?.[0];
@@ -31,7 +32,15 @@ export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "t
         href={`/cars/${car.id}`}
         className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface"
       >
-        <CarPhoto car={car} className="aspect-[4/3] w-full" />
+        <div className="relative">
+          <CarPhoto car={car} className="aspect-[4/3] w-full" />
+          {car.status !== "available" && (
+            <CarStatusBadge
+              status={car.status}
+              className="absolute left-2 top-2 backdrop-blur"
+            />
+          )}
+        </div>
         <div className="flex flex-1 flex-col gap-1 p-3">
           <h3 className="text-sm font-medium leading-snug">
             {car.brand} {car.model}
@@ -57,9 +66,7 @@ export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "t
             {car.brand} {car.model}
           </h3>
           {car.status !== "available" && (
-            <span className="shrink-0 rounded-full bg-surface-2 px-2 py-0.5 text-[10px] text-muted">
-              {CAR_STATUS_LABELS[car.status]}
-            </span>
+            <CarStatusBadge status={car.status} className="shrink-0" />
           )}
         </div>
         <p className="text-xs text-muted">{details}</p>
