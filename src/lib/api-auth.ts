@@ -1,6 +1,10 @@
 import "server-only";
 import { NextResponse } from "next/server";
-import { authenticate, type AuthResult } from "./telegram-auth";
+import {
+  authenticate,
+  isTelegramAuthConfigured,
+  type AuthResult,
+} from "./telegram-auth";
 import { getSupabaseAdmin } from "./supabase-admin";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
@@ -18,6 +22,16 @@ type Guard =
 
 // Общая проверка для всех роутов записи: подпись Telegram + роль + наличие базы.
 export async function requireAdmin(request: Request): Promise<Guard> {
+  if (!isTelegramAuthConfigured()) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        { error: "На сервере не задан TELEGRAM_BOT_TOKEN — вход подтвердить нечем" },
+        { status: 503 }
+      ),
+    };
+  }
+
   const auth = await authenticate(await readInitData(request));
 
   if (!auth) {

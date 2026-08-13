@@ -85,12 +85,26 @@ export async function resolveRole(telegramId: number): Promise<Role> {
   return data.is_admin ? "admin" : "publisher";
 }
 
+// Без токена бота подпись проверить нечем — это ошибка настройки, а не
+// проблема пользователя, поэтому роуты сообщают о ней отдельно.
+export function isTelegramAuthConfigured(): boolean {
+  return Boolean(process.env.TELEGRAM_BOT_TOKEN);
+}
+
 // Единая точка входа для API-роутов: проверяет подпись и определяет роль.
 // Возвращает null, если подпись невалидна — роут должен ответить 401.
 export async function authenticate(initData: string | null): Promise<AuthResult | null> {
-  if (!initData) return null;
-  const user = verifyTelegramInitData(initData);
+  if (!initData || !isTelegramAuthConfigured()) return null;
+
+  let user: TelegramUser | null;
+  try {
+    user = verifyTelegramInitData(initData);
+  } catch (error) {
+    console.error("Проверка initData не удалась:", error);
+    return null;
+  }
   if (!user) return null;
+
   return { user, role: await resolveRole(user.id) };
 }
 
