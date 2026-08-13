@@ -19,26 +19,30 @@ export default function AdminPage() {
   const { role, loading: roleLoading } = useRole();
   const [cars, setCars] = useState<Car[]>([]);
   const [services, setServices] = useState<Service[]>([]);
+  // Состояние загрузки самих списков. Неадминам оно не нужно: им показывается
+  // экран «нет доступа», поэтому сбрасывать его для них не требуется.
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    const result = await apiFetch("/api/admin/data", { method: "POST" });
-    if (result.ok) {
-      const data = result.data as { cars: Car[]; services: Service[] };
-      setCars(data.cars);
-      setServices(data.services);
-      setError(null);
-    } else {
-      setError(result.error);
-    }
-    setLoading(false);
-  }, []);
+  const load = useCallback(
+    () =>
+      apiFetch("/api/admin/data", { method: "POST" }).then((result) => {
+        if (result.ok) {
+          const data = result.data as { cars: Car[]; services: Service[] };
+          setCars(data.cars);
+          setServices(data.services);
+          setError(null);
+        } else {
+          setError(result.error);
+        }
+        setLoading(false);
+      }),
+    []
+  );
 
   useEffect(() => {
-    if (role === "admin") load();
-    else if (role !== null) setLoading(false);
+    if (role !== "admin") return;
+    load();
   }, [role, load]);
 
   async function changeCarStatus(car: Car, status: CarStatus) {

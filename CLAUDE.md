@@ -56,6 +56,7 @@ src/app/                     # /cars, /cars/[id], /services, /contact
 src/app/admin/               # админка: список, /cars/new, /cars/[id], /services/...
 src/app/api/me/              # роль текущего пользователя (показывать ли кнопку админки)
 src/app/api/admin/data/      # списки для админки, включая черновики и скрытые
+src/app/api/upload/sign/     # подписанная ссылка на загрузку фото в Storage
 src/app/api/cars/            # POST | PATCH /[id] | DELETE /[id]
 src/app/api/services/        # POST | PATCH /[id] | DELETE /[id]
 src/components/              # BottomNav, CarCard, формы, поля ввода, AdminOnly, icons
@@ -92,6 +93,12 @@ AGENTS.md                    # генерируется Next.js автомати
 4. только после этого пишет через `getSupabaseAdmin()`.
 
 Без переменных окружения Supabase роуты записи честно отвечают 503, а не падают.
+
+**Как загружаются фото**: файл идёт с телефона напрямую в Supabase Storage
+(бакет `photos`), минуя наш сервер — у Vercel лимит тела запроса 4.5 МБ, а
+снимки с камеры обычно больше. Сервер только выдаёт админу подписанную ссылку
+(`/api/upload/sign`). У машины главное фото и галерея разделены в форме, но в
+базе это один массив `photos`, где первый элемент — главный.
 
 **Команды**:
 - `npm run dev` — локальный запуск

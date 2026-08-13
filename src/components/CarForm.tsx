@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Field, Select, SubmitBar, TextArea, TextInput } from "./Field";
+import { PhotoListUploader, PhotoUploader } from "./PhotoUploader";
 import { apiFetch } from "@/lib/telegram";
 import { CAR_STATUSES, CAR_STATUS_LABELS, type Car } from "@/types/car";
 
@@ -24,9 +25,14 @@ export function CarForm({ car }: { car?: Car }) {
     body_type: car?.body_type ?? "",
     color: car?.color ?? "",
     description: car?.description ?? "",
-    photos: (car?.photos ?? []).join("\n"),
     status: car?.status ?? "available",
   });
+
+  // В базе фото лежат одним списком, где первое — главное. В форме их
+  // разделяем: главное фото снимается по единому образцу, чтобы список
+  // машин выглядел ровно.
+  const [mainPhoto, setMainPhoto] = useState<string | null>(car?.photos?.[0] ?? null);
+  const [gallery, setGallery] = useState<string[]>(car?.photos?.slice(1) ?? []);
 
   function update(field: keyof typeof form, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -42,10 +48,7 @@ export function CarForm({ car }: { car?: Car }) {
       price: form.price,
       year: form.year,
       mileage: form.mileage === "" ? null : form.mileage,
-      photos: form.photos
-        .split("\n")
-        .map((line) => line.trim())
-        .filter(Boolean),
+      photos: [mainPhoto, ...gallery].filter((url): url is string => Boolean(url)),
     };
 
     const result = car
@@ -160,16 +163,19 @@ export function CarForm({ car }: { car?: Car }) {
         />
       </Field>
 
-      <Field
-        label="Фотографии"
-        hint="По одной ссылке в строке. Первая станет главной."
-      >
-        <TextArea
-          value={form.photos}
-          onChange={(e) => update("photos", e.target.value)}
-          placeholder="https://..."
-        />
-      </Field>
+      <PhotoUploader
+        label="Главное фото"
+        hint="Показывается в списке и на обложке карточки."
+        value={mainPhoto}
+        onChange={setMainPhoto}
+      />
+
+      <PhotoListUploader
+        label="Дополнительные фото"
+        hint="Можно выбрать сразу несколько."
+        value={gallery}
+        onChange={setGallery}
+      />
 
       <Field label="Статус">
         <Select value={form.status} onChange={(e) => update("status", e.target.value)}>

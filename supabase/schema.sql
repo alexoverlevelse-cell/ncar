@@ -102,6 +102,15 @@ create policy "public can read active services"
   to anon, authenticated
   using (status = 'active');
 
+-- === хранилище фотографий ====================================================
+-- Публичное на чтение: ссылки на фото открываются прямо из приложения.
+-- Загружать может только наш сервер — он выдаёт подписанные ссылки админам
+-- (см. src/app/api/upload/sign/route.ts), поэтому политик на запись нет.
+
+insert into storage.buckets (id, name, public)
+values ('photos', 'photos', true)
+on conflict (id) do update set public = true;
+
 -- === updated_at триггер ======================================================
 
 create or replace function set_updated_at()

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Field, Select, SubmitBar, TextArea, TextInput } from "./Field";
+import { PhotoUploader } from "./PhotoUploader";
 import { apiFetch } from "@/lib/telegram";
 import {
   SERVICE_STATUSES,
@@ -111,13 +112,11 @@ export function ServiceForm({ service }: { service?: Service }) {
         />
       </Field>
 
-      <Field label="Фотография" hint="Ссылка на изображение">
-        <TextInput
-          value={form.photo}
-          onChange={(e) => update("photo", e.target.value)}
-          placeholder="https://..."
-        />
-      </Field>
+      <PhotoUploader
+        label="Фотография услуги"
+        value={form.photo || null}
+        onChange={(url) => update("photo", url ?? "")}
+      />
 
       <Field label="Статус">
         <Select value={form.status} onChange={(e) => update("status", e.target.value)}>
