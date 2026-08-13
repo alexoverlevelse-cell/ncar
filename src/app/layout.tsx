@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
-import { BottomNav } from "@/components/BottomNav";
+import { AppFrame } from "@/components/AppFrame";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -38,10 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-full">
-        <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col pb-[76px]">
-          {children}
-        </div>
-        <BottomNav />
+        <AppFrame>{children}</AppFrame>
       </body>
     </html>
   );

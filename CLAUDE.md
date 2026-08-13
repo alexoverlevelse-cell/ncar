@@ -50,7 +50,9 @@
 ## Структура проекта
 
 ```
-src/app/                     # / (главная), /cars, /cars/[id], /services, /contact
+src/app/page.tsx             # приветственный экран при запуске: «Продолжить» + админка
+src/app/home/                # главная приложения (hero, новые поступления, плитки)
+src/app/                     # /cars, /cars/[id], /services, /contact
 src/app/admin/               # админка: список, /cars/new, /cars/[id], /services/...
 src/app/api/me/              # роль текущего пользователя (показывать ли кнопку админки)
 src/app/api/admin/data/      # списки для админки, включая черновики и скрытые

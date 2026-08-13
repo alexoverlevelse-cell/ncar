@@ -6,7 +6,7 @@ import { useRole } from "@/lib/use-role";
 import { CarIcon, HomeIcon, PhoneIcon, ShieldIcon, WrenchIcon } from "./icons";
 
 const baseItems = [
-  { href: "/", label: "Главная", Icon: HomeIcon },
+  { href: "/home", label: "Главная", Icon: HomeIcon },
   { href: "/cars", label: "Авто", Icon: CarIcon },
   { href: "/services", label: "Услуги", Icon: WrenchIcon },
   { href: "/contact", label: "Контакты", Icon: PhoneIcon },
@@ -26,8 +26,7 @@ export function BottomNav() {
     <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 backdrop-blur">
       <ul className="mx-auto flex w-full max-w-md items-stretch pb-[env(safe-area-inset-bottom)]">
         {items.map(({ href, label, Icon }) => {
-          const active =
-            href === "/" ? pathname === "/" : pathname.startsWith(href);
+          const active = pathname.startsWith(href);
 
           return (
             <li key={href} className="flex-1">
