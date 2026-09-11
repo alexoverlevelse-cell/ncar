@@ -48,23 +48,25 @@ export const demoCars: Car[] = [
 
 export const demoServices: Service[] = [
   {
-    id: "demo-inspection",
-    title: "Прохождение техосмотра",
-    description: "Подготовим автомобиль и пройдём техосмотр за вас.",
+    id: "demo-sourcing",
+    title: "Подбор автомобиля",
+    description:
+      "Найдём и проверим автомобиль под ваш запрос и бюджет — от поиска объявлений до сделки.",
     price: null,
     duration: null,
-    photo: "/demo/service-inspection.jpg",
+    photo: "/demo/service-sourcing.jpg",
     contact: null,
     location: null,
     status: "active",
   },
   {
-    id: "demo-cleaning",
-    title: "Химчистка авто",
-    description: "Глубокая чистка салона: сиденья, потолок, ковролин.",
+    id: "demo-inspection",
+    title: "Проверка перед покупкой",
+    description:
+      "Осмотрим автомобиль, который вы собираетесь купить: техническое состояние, юридическая чистота, реальный пробег.",
     price: null,
     duration: null,
-    photo: "/demo/service-cleaning.jpg",
+    photo: "/demo/service-inspection.jpg",
     contact: null,
     location: null,
     status: "active",

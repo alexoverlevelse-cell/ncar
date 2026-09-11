@@ -4,7 +4,7 @@ import { buildTelegramLink, siteConfig } from "@/lib/site-config";
 
 export default function ContactPage() {
   const sellCarLink = buildTelegramLink(
-    "Здравствуйте! Хочу выставить свой автомобиль на продажу."
+    "Здравствуйте! Хочу продать свой автомобиль через OlehDK."
   );
   const hasAnyContact = Boolean(siteConfig.telegramContact || siteConfig.phone);
 
@@ -13,12 +13,11 @@ export default function ContactPage() {
       <PageHeader title="Продать автомобиль" />
 
       <section className="px-5">
-        {/* Формы подачи объявления намеренно нет: условия согласуются лично
-            с администрацией, публикует объявление сам владелец из списка
-            доверенных (см. CLAUDE.md). */}
+        {/* Формы подачи объявления намеренно нет: все условия и оценка
+            автомобиля обсуждаются лично с Олегом (см. CLAUDE.md). */}
         <p className="text-sm leading-relaxed text-muted">
-          Хотите выставить свой автомобиль? Свяжитесь с администрацией — расскажем
-          об условиях и поможем подготовить объявление.
+          Хотите продать свой автомобиль? Напишите — обсудим состояние,
+          оценим машину и договоримся об условиях лично.
         </p>
 
         <div className="mt-4 flex flex-col gap-3">

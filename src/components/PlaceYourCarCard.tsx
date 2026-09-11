@@ -2,12 +2,12 @@ import Link from "next/link";
 import { buildTelegramLink } from "@/lib/site-config";
 import { ChevronRightIcon, TagIcon } from "./icons";
 
-// Промо-карточка в конце списка машин: приглашает выставить своё авто и ведёт
-// прямо в диалог с ответственным человеком. Формы подачи объявления
-// намеренно нет — условия обсуждаются лично (см. CLAUDE.md).
+// Промо-карточка в конце списка машин: приглашает продать своё авто и ведёт
+// прямо в диалог с Олегом. Формы подачи объявления намеренно нет — условия
+// и оценка обсуждаются лично (см. CLAUDE.md).
 export function PlaceYourCarCard() {
   const link = buildTelegramLink(
-    "Здравствуйте! Хочу выставить своё авто на продажу в NordCar."
+    "Здравствуйте! Хочу продать своё авто через OlehDK."
   );
 
   const content = (
@@ -18,7 +18,7 @@ export function PlaceYourCarCard() {
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-1 py-3 pr-3">
         <h3 className="font-medium leading-snug">Тут может быть твоё авто</h3>
         <p className="text-xs text-muted">
-          Напишите нам — расскажем об условиях размещения.
+          Напишите — оценим автомобиль и обсудим продажу.
         </p>
         <span className="text-sm font-medium text-accent">Связаться</span>
       </div>

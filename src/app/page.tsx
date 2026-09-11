@@ -31,8 +31,8 @@ export default function WelcomePage() {
             {user ? `Здравствуйте, ${user.first_name}!` : "Добро пожаловать"}
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted">
-            {siteConfig.tagline}. Машины в продаже и услуги для вашего авто
-            в {siteConfig.locationIn} — в одном приложении.
+            {siteConfig.tagline} в {siteConfig.locationIn}. Олег лично
+            сопровождает каждую сделку — от выбора машины до оформления.
           </p>
 
           <div className="mt-8 flex flex-col gap-3">

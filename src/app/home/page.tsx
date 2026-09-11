@@ -25,7 +25,7 @@ export default async function HomePage() {
             {siteConfig.tagline}
           </h1>
           <p className="mt-3 text-sm text-muted">
-            Проверенные автомобили в {siteConfig.locationIn}
+            Личное сопровождение сделки в {siteConfig.locationIn}
           </p>
           <Link
             href="/cars"
