@@ -35,10 +35,7 @@ export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "t
         <div className="relative">
           <CarPhoto car={car} className="aspect-[4/3] w-full" />
           {car.status !== "available" && (
-            <CarStatusBadge
-              status={car.status}
-              className="absolute left-2 top-2 backdrop-blur"
-            />
+            <CarStatusBadge status={car.status} className="absolute left-2 top-2" />
           )}
         </div>
         <div className="flex flex-1 flex-col gap-1 p-3">
