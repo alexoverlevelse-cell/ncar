@@ -37,12 +37,12 @@ export default function MenuPage() {
             href={section.href}
             className="overflow-hidden rounded-2xl border border-border bg-surface"
           >
+            {/* Никакой принудительной пропорции и object-cover: фото вырезаны
+                из макета ровно по своим границам (~2.6:1), поэтому показываем
+                их целиком. Любая заданная пропорция обрезала бы красные линии
+                сверху и снизу — композиция из макета ломалась. */}
             {/* eslint-disable-next-line @next/next/no-img-element -- локальный статический ассет из public/, next/image здесь не даёт преимуществ */}
-            <img
-              src={section.photo}
-              alt=""
-              className="aspect-[4/3] w-full object-cover"
-            />
+            <img src={section.photo} alt="" className="w-full" />
             <div className="flex items-center justify-between gap-3 p-4">
               <div>
                 <p className="font-semibold">{section.title}</p>
