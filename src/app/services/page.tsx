@@ -18,16 +18,16 @@ export default async function ServicesPage() {
 
   return (
     <main className="flex flex-1 flex-col">
-      <PageHeader title="Услуги" subtitle="Записаться можно прямо в Telegram" />
+      <PageHeader title="Послуги" subtitle="Записатися можна прямо в Telegram" />
 
       <div className="flex flex-col gap-3 px-5 pb-8">
         {source === "demo" && <DemoNotice />}
 
         {services.length === 0 ? (
-          <p className="text-sm text-muted">Пока нет доступных услуг.</p>
+          <p className="text-sm text-muted">Поки немає доступних послуг.</p>
         ) : (
           services.map((service) => {
-            const message = `Здравствуйте! Интересует услуга «${service.title}».`;
+            const message = `Добрий день! Цікавить послуга «${service.title}».`;
             // У услуги может быть собственный контакт исполнителя — он важнее
             // общего контакта компании.
             const telegramLink = service.contact
@@ -62,7 +62,7 @@ export default async function ServicesPage() {
                     </p>
                   )}
                   <p className="text-sm font-medium text-accent">
-                    {service.price != null ? formatPrice(service.price) : "Цена по запросу"}
+                    {service.price != null ? formatPrice(service.price) : "Ціна за запитом"}
                   </p>
                 </div>
                 {telegramLink ? (
