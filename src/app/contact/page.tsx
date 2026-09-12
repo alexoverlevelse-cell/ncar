@@ -4,20 +4,20 @@ import { buildTelegramLink, siteConfig } from "@/lib/site-config";
 
 export default function ContactPage() {
   const sellCarLink = buildTelegramLink(
-    "Здравствуйте! Хочу продать свой автомобиль через OlehDK."
+    "Добрий день! Хочу продати свій автомобіль через OLEH DK."
   );
   const hasAnyContact = Boolean(siteConfig.telegramContact || siteConfig.phone);
 
   return (
     <main className="flex flex-1 flex-col">
-      <PageHeader title="Продать автомобиль" />
+      <PageHeader title="Продати автомобіль" />
 
       <section className="px-5">
         {/* Формы подачи объявления намеренно нет: все условия и оценка
             автомобиля обсуждаются лично с Олегом (см. CLAUDE.md). */}
         <p className="text-sm leading-relaxed text-muted">
-          Хотите продать свой автомобиль? Напишите — обсудим состояние,
-          оценим машину и договоримся об условиях лично.
+          Хочете продати свій автомобіль? Напишіть — обговоримо стан, оцінимо
+          машину та домовимося про умови особисто.
         </p>
 
         <div className="mt-4 flex flex-col gap-3">
@@ -26,14 +26,14 @@ export default function ContactPage() {
               href={sellCarLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-black"
+              className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-foreground"
             >
               <TelegramIcon className="h-5 w-5" />
-              Написать в Telegram
+              Написати в Telegram
             </a>
           ) : (
             <p className="rounded-xl border border-dashed border-border px-4 py-3 text-sm text-muted">
-              Контакт в Telegram ещё не указан.
+              Контакт у Telegram ще не вказано.
             </p>
           )}
 
@@ -43,14 +43,14 @@ export default function ContactPage() {
               className="flex items-center justify-center gap-2 rounded-xl border border-border py-3.5 font-medium"
             >
               <PhoneIcon className="h-5 w-5" />
-              Позвонить
+              Зателефонувати
             </a>
           )}
         </div>
       </section>
 
       <section className="mt-8 px-5 pb-8">
-        <h2 className="text-xl font-semibold">Контакты</h2>
+        <h2 className="text-xl font-semibold">Контакти</h2>
 
         {hasAnyContact ? (
           <dl className="mt-3 flex flex-col gap-3 rounded-2xl border border-border bg-surface p-4 text-sm">
@@ -62,25 +62,25 @@ export default function ContactPage() {
             )}
             {siteConfig.address && (
               <div className="flex justify-between gap-3">
-                <dt className="text-muted">Адрес</dt>
+                <dt className="text-muted">Адреса</dt>
                 <dd className="text-right">{siteConfig.address}</dd>
               </div>
             )}
             {siteConfig.workingHours && (
               <div className="flex justify-between gap-3">
-                <dt className="text-muted">Часы работы</dt>
+                <dt className="text-muted">Години роботи</dt>
                 <dd className="text-right">{siteConfig.workingHours}</dd>
               </div>
             )}
             <div className="flex justify-between gap-3">
-              <dt className="text-muted">Регион</dt>
+              <dt className="text-muted">Регіон</dt>
               <dd>{siteConfig.location}</dd>
             </div>
           </dl>
         ) : (
           <p className="mt-3 text-sm text-muted">
-            Телефон, адрес и часы работы появятся здесь, как только владельцы их
-            подтвердят.
+            Телефон, адреса та години роботи з&rsquo;являться тут, щойно власники
+            їх підтвердять.
           </p>
         )}
       </section>
