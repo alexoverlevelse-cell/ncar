@@ -17,17 +17,17 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
   if (!car) notFound();
 
   const specs = [
-    { label: "Год", value: String(car.year) },
-    { label: "Пробег", value: formatMileage(car.mileage) },
-    { label: "Топливо", value: car.fuel_type },
-    { label: "Коробка", value: car.transmission },
+    { label: "Рік", value: String(car.year) },
+    { label: "Пробіг", value: formatMileage(car.mileage) },
+    { label: "Паливо", value: car.fuel_type },
+    { label: "Коробка передач", value: car.transmission },
     { label: "Кузов", value: car.body_type },
-    { label: "Цвет", value: car.color },
+    { label: "Колір", value: car.color },
   ].filter((spec): spec is { label: string; value: string } => Boolean(spec.value));
 
   // В сообщение подставляем машину, чтобы продавец сразу понимал, о чём речь.
   const telegramLink = buildTelegramLink(
-    `Здравствуйте! Интересует ${car.brand} ${car.model} ${car.year} за ${formatPrice(car.price)}.`
+    `Добрий день! Цікавить ${car.brand} ${car.model} ${car.year} за ${formatPrice(car.price)}.`
   );
 
   return (
@@ -36,7 +36,7 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
         <CarPhoto car={car} className="aspect-[4/3] w-full" />
         <Link
           href="/cars"
-          aria-label="Назад к списку"
+          aria-label="Назад до списку"
           className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-background/70 backdrop-blur"
         >
           <ArrowLeftIcon className="h-5 w-5" />
@@ -71,7 +71,7 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
 
         {car.description && (
           <section>
-            <h2 className="mb-2 font-semibold">Описание</h2>
+            <h2 className="mb-2 font-semibold">Опис</h2>
             <p className="text-sm leading-relaxed text-muted">{car.description}</p>
           </section>
         )}
@@ -81,17 +81,17 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
             href={telegramLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-black"
+            className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-foreground"
           >
             <TelegramIcon className="h-5 w-5" />
-            Связаться с продавцом
+            Зв&rsquo;язатися з продавцем
           </a>
         ) : (
           <Link
             href="/contact"
-            className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-black"
+            className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-foreground"
           >
-            Связаться с продавцом
+            Зв&rsquo;язатися з продавцем
           </Link>
         )}
       </div>
