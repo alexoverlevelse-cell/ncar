@@ -14,7 +14,7 @@ const sections = [
   },
   {
     href: "/services",
-    photo: "/demo/service-inspection.jpg",
+    photo: "/menu/services-banner.jpg",
     title: "Послуги",
     subtitle: "Підбір та перевірка авто",
   },
