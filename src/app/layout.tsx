@@ -7,7 +7,9 @@ import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin", "cyrillic"],
+  // cyrillic-ext обязателен: обычный cyrillic не содержит українські
+  // літери ї/є/ґ — без него они рендерились бы "квадратиками".
+  subsets: ["latin", "cyrillic", "cyrillic-ext"],
 });
 
 export const metadata: Metadata = {
@@ -16,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0d0d0f",
+  themeColor: "#202222",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -27,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     // suppressHydrationWarning: telegram-web-app.js дописывает в <html> свои
     // CSS-переменные до гидратации React — расхождение ожидаемо и безопасно.
     <html
-      lang="ru"
+      lang="uk"
       className={`${geistSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >

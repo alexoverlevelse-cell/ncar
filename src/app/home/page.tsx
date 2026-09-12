@@ -1,84 +1,60 @@
 import Link from "next/link";
-import { CarCard } from "@/components/CarCard";
-import { DemoNotice } from "@/components/DemoNotice";
-import { ArrowRightIcon, ChevronRightIcon, TagIcon, WrenchIcon } from "@/components/icons";
 import { Logo } from "@/components/Logo";
-import { loadCars } from "@/lib/data";
-import { siteConfig } from "@/lib/site-config";
+import { ArrowRightIcon } from "@/components/icons";
 
-export const dynamic = "force-dynamic";
+// Главное меню — согласованный макет "03-главное-меню": ровно две
+// карточки-раздела, без вложенных списков услуг и без предпросмотра машин
+// (см. OlehDKreference/Шаблон Для кода/README_ДЛЯ_CLAUDE.md).
+const sections = [
+  {
+    href: "/cars",
+    photo: "/menu/cars-banner.jpg",
+    title: "Авто в наявності",
+    subtitle: "Переглянути автомобілі",
+  },
+  {
+    href: "/services",
+    photo: "/demo/service-inspection.jpg",
+    title: "Послуги",
+    subtitle: "Підбір та перевірка авто",
+  },
+];
 
-export default async function HomePage() {
-  const { cars, source } = await loadCars();
-  const latest = cars.slice(0, 2);
-
+export default function MenuPage() {
   return (
-    <main className="flex flex-1 flex-col">
-      <section className="relative overflow-hidden px-5 pb-8 pt-6">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/20 blur-3xl"
-        />
-        <div className="relative">
-          <Logo />
-          <h1 className="mt-8 max-w-[16rem] text-[2rem] font-semibold leading-[1.15] tracking-tight">
-            {siteConfig.tagline}
-          </h1>
-          <p className="mt-3 text-sm text-muted">
-            Личное сопровождение сделки в {siteConfig.locationIn}
-          </p>
+    <main className="flex flex-1 flex-col px-6 pt-8 pb-10">
+      <Logo variant="inline" className="justify-center" />
+
+      <h1 className="mt-6 text-center text-[1.9rem] font-extrabold tracking-tight">
+        Що вас цікавить?
+      </h1>
+      <p className="mt-1 text-center text-sm text-muted">Оберіть розділ</p>
+
+      <div className="mt-8 flex flex-col gap-5">
+        {sections.map((section) => (
           <Link
-            href="/cars"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-black"
+            key={section.href}
+            href={section.href}
+            className="overflow-hidden rounded-2xl border border-border bg-surface"
           >
-            Смотреть автомобили
-            <ArrowRightIcon className="h-4 w-4" />
+            {/* eslint-disable-next-line @next/next/no-img-element -- локальный статический ассет из public/, next/image здесь не даёт преимуществ */}
+            <img
+              src={section.photo}
+              alt=""
+              className="aspect-[4/3] w-full object-cover"
+            />
+            <div className="flex items-center justify-between gap-3 p-4">
+              <div>
+                <p className="font-semibold">{section.title}</p>
+                <p className="mt-0.5 text-sm text-muted">{section.subtitle}</p>
+              </div>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-foreground/40">
+                <ArrowRightIcon className="h-4 w-4" />
+              </span>
+            </div>
           </Link>
-        </div>
-      </section>
-
-      <section className="px-5">
-        <div className="flex items-baseline justify-between gap-3">
-          <h2 className="text-xl font-semibold">Новые поступления</h2>
-          <Link href="/cars" className="flex items-center gap-1 text-sm text-accent">
-            Все
-            <ArrowRightIcon className="h-3.5 w-3.5" />
-          </Link>
-        </div>
-
-        {source === "demo" && <DemoNotice className="mt-3" />}
-
-        {latest.length === 0 ? (
-          <p className="mt-4 text-sm text-muted">Пока нет автомобилей в продаже.</p>
-        ) : (
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            {latest.map((car) => (
-              <CarCard key={car.id} car={car} layout="tile" />
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section className="mt-4 grid grid-cols-2 gap-3 px-5 pb-8">
-        <Link
-          href="/contact"
-          className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-4"
-        >
-          <TagIcon className="h-6 w-6 shrink-0 text-accent" />
-          <span className="flex-1 text-sm font-medium leading-snug">
-            Продать автомобиль
-          </span>
-          <ChevronRightIcon className="h-4 w-4 shrink-0 text-muted" />
-        </Link>
-        <Link
-          href="/services"
-          className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-4"
-        >
-          <WrenchIcon className="h-6 w-6 shrink-0 text-accent" />
-          <span className="flex-1 text-sm font-medium leading-snug">Наши услуги</span>
-          <ChevronRightIcon className="h-4 w-4 shrink-0 text-muted" />
-        </Link>
-      </section>
+        ))}
+      </div>
     </main>
   );
 }

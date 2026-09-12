@@ -1,15 +1,21 @@
 @import "tailwindcss";
 
-/* Приложение намеренно всегда тёмное — так сделан макет. */
+/* Приложение намеренно всегда тёмное — так сделан макет.
+   Точные цвета из утверждённых макетов OLEH DK (см.
+   OlehDKreference/Шаблон Для кода/README_ДЛЯ_CLAUDE.md):
+   графит #202222, молочный текст #F1EFE8, вторичный серый #A5A7A7,
+   сдержанный красный #B64246. surface/surface-2/border — не из макета
+   буквально (там показан только фон), а выведены между background и
+   foreground, чтобы карточки/поля визуально отделялись от фона. */
 :root {
-  --background: #0d0d0f;
-  --surface: #17171a;
-  --surface-2: #1f1f24;
-  --border: #2c2c33;
-  --foreground: #f4f4f5;
-  --muted: #8c8c95;
-  --accent: #f0872a;
-  --accent-strong: #ff9436;
+  --background: #202222;
+  --surface: #2a2c2c;
+  --surface-2: #333535;
+  --border: #3d3f3f;
+  --foreground: #f1efe8;
+  --muted: #a5a7a7;
+  --accent: #b64246;
+  --accent-strong: #c65458;
 }
 
 @theme inline {

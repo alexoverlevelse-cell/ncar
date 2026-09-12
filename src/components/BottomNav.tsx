@@ -5,14 +5,18 @@ import { usePathname } from "next/navigation";
 import { useRole } from "@/lib/use-role";
 import { CarIcon, HomeIcon, PhoneIcon, ShieldIcon, WrenchIcon } from "./icons";
 
+// Интерфейс переходит на украинский (см. OlehDKreference); подписи навигации
+// переведены как общая для всего приложения оболочка. Содержимое самих
+// внутренних страниц (/cars, /services, /contact) пока не согласовано и не
+// переведено — см. CLAUDE.md.
 const baseItems = [
-  { href: "/home", label: "Главная", Icon: HomeIcon },
+  { href: "/home", label: "Головна", Icon: HomeIcon },
   { href: "/cars", label: "Авто", Icon: CarIcon },
-  { href: "/services", label: "Услуги", Icon: WrenchIcon },
-  { href: "/contact", label: "Контакты", Icon: PhoneIcon },
+  { href: "/services", label: "Послуги", Icon: WrenchIcon },
+  { href: "/contact", label: "Контакти", Icon: PhoneIcon },
 ];
 
-const adminItem = { href: "/admin", label: "Админ", Icon: ShieldIcon };
+const adminItem = { href: "/admin", label: "Адмін", Icon: ShieldIcon };
 
 export function BottomNav() {
   const pathname = usePathname();

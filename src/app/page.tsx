@@ -3,60 +3,85 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { ArrowRightIcon, ShieldIcon } from "@/components/icons";
-import { siteConfig } from "@/lib/site-config";
 import { useRole } from "@/lib/use-role";
 
-// Экран запуска приложения. Кнопка «Админ-панель» появляется только у
-// администраторов — роль подтверждает сервер по подписи Telegram.
+// Текст и порядок пунктов зафиксированы в согласованном макете
+// "02-знакомство-в-приложении" (см. OlehDKreference/Шаблон Для кода/
+// README_ДЛЯ_CLAUDE.md) — не менять без нового согласования.
+const features = [
+  {
+    number: "01",
+    title: "Авто для покупки",
+    description: "Переглядайте автомобілі в наявності",
+  },
+  {
+    number: "02",
+    title: "Послуги та ціни",
+    description: "Дізнавайтеся вартість і що входить",
+  },
+  {
+    number: "03",
+    title: "Підбір під ваш запит",
+    description: "Залишайте побажання та бюджет",
+  },
+];
+
+// Экран знакомства всередині Mini App — узгоджений варіант "без портрета".
+// Портрет Олега (01-приветствие-с-Олегом.png) — це окремий асет для самого
+// Telegram-бота (аватар/фото в чаті), а не частина цього екрана.
 export default function WelcomePage() {
-  const { role, user, loading } = useRole();
+  const { role, loading } = useRole();
 
   return (
-    <main className="relative flex min-h-dvh flex-1 flex-col overflow-hidden px-6 pb-10 pt-16">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-accent/25 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl"
-      />
+    <main className="flex min-h-dvh flex-1 flex-col px-6 pt-8 pb-[max(2.5rem,env(safe-area-inset-bottom))]">
+      <Logo />
 
-      <div className="relative flex flex-1 flex-col">
-        <Logo />
+      <h1 className="mt-8 text-[2.4rem] font-extrabold leading-[1.05] tracking-tight">
+        Вітаємо
+        <br />в OLEH DK
+      </h1>
+      <p className="mt-3 text-base leading-relaxed text-muted">
+        Авто та допомога з вибором в одному місці.
+      </p>
 
-        {/* Приветствие и кнопки — одним блоком по центру экрана, а не внизу. */}
-        <div className="flex flex-1 flex-col justify-center pb-12">
-          <h1 className="text-[2.1rem] font-semibold leading-[1.15] tracking-tight">
-            {user ? `Здравствуйте, ${user.first_name}!` : "Добро пожаловать"}
-          </h1>
-          <p className="mt-4 text-base leading-relaxed text-muted">
-            {siteConfig.tagline} в {siteConfig.locationIn}. Олег лично
-            сопровождает каждую сделку — от выбора машины до оформления.
-          </p>
+      <ul className="mt-8 flex flex-col">
+        {features.map((feature, index) => (
+          <li
+            key={feature.number}
+            className={`flex gap-4 py-4 ${index > 0 ? "border-t border-border" : ""}`}
+          >
+            <span className="shrink-0 text-lg font-bold text-accent">
+              {feature.number}
+            </span>
+            <div>
+              <p className="font-semibold">{feature.title}</p>
+              <p className="mt-0.5 text-sm text-muted">{feature.description}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
 
-          <div className="mt-8 flex flex-col gap-3">
-            <Link
-              href="/home"
-              className="flex items-center justify-center gap-2 rounded-xl bg-accent py-4 text-base font-medium text-black"
-            >
-              Продолжить
-              <ArrowRightIcon className="h-4 w-4" />
-            </Link>
+      <div className="mt-auto flex flex-col gap-3 pt-8">
+        <Link
+          href="/home"
+          className="flex items-center justify-center gap-2 rounded-xl bg-accent py-4 text-base font-medium text-foreground"
+        >
+          Продовжити
+          <ArrowRightIcon className="h-4 w-4" />
+        </Link>
 
-            {/* Пока роль не пришла, кнопку не показываем — чтобы она не мигала
-                у обычных пользователей. */}
-            {!loading && role === "admin" && (
-              <Link
-                href="/admin"
-                className="flex items-center justify-center gap-2 rounded-xl border border-border py-4 text-base font-medium text-foreground"
-              >
-                <ShieldIcon className="h-5 w-5 text-accent" />
-                Админ-панель
-              </Link>
-            )}
-          </div>
-        </div>
+        {/* Кнопки нет в макете — это функциональная необходимость для
+            единственного администратора, не элемент утверждённого дизайна.
+            Пока роль не пришла, кнопку не показываем, чтобы не мигала. */}
+        {!loading && role === "admin" && (
+          <Link
+            href="/admin"
+            className="flex items-center justify-center gap-1.5 py-2 text-sm text-muted"
+          >
+            <ShieldIcon className="h-4 w-4" />
+            Адмін-панель
+          </Link>
+        )}
       </div>
     </main>
   );
