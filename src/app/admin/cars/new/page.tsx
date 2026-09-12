@@ -8,7 +8,7 @@ export default function NewCarPage() {
   return (
     <AdminOnly>
       <main className="flex flex-1 flex-col">
-        <PageHeader title="Новая машина" />
+        <PageHeader title="Нове авто" />
         <div className="px-5 pb-8">
           <CarForm />
         </div>

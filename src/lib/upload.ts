@@ -14,15 +14,15 @@ export type UploadResult =
 // ссылку, а сам файл уходит с телефона прямо в Supabase Storage.
 export async function uploadPhoto(file: File): Promise<UploadResult> {
   if (!file.type.startsWith("image/")) {
-    return { ok: false, error: "Это не изображение" };
+    return { ok: false, error: "Це не зображення" };
   }
   if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-    return { ok: false, error: `Файл больше ${MAX_SIZE_MB} МБ` };
+    return { ok: false, error: `Файл більший за ${MAX_SIZE_MB} МБ` };
   }
 
   const supabase = getSupabaseClient();
   if (!supabase) {
-    return { ok: false, error: "Хранилище не подключено" };
+    return { ok: false, error: "Сховище не підключено" };
   }
 
   const signed = await apiFetch("/api/upload/sign", {
@@ -42,7 +42,7 @@ export async function uploadPhoto(file: File): Promise<UploadResult> {
     .uploadToSignedUrl(path, token, file);
 
   if (error) {
-    return { ok: false, error: `Не удалось загрузить файл: ${error.message}` };
+    return { ok: false, error: `Не вдалося завантажити файл: ${error.message}` };
   }
 
   return { ok: true, url: publicUrl };

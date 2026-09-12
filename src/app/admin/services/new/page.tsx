@@ -8,7 +8,7 @@ export default function NewServicePage() {
   return (
     <AdminOnly>
       <main className="flex flex-1 flex-col">
-        <PageHeader title="Новая услуга" />
+        <PageHeader title="Нова послуга" />
         <div className="px-5 pb-8">
           <ServiceForm />
         </div>

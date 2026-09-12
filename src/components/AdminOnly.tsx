@@ -12,7 +12,7 @@ export function AdminOnly({ children }: { children: ReactNode }) {
   if (loading) {
     return (
       <main className="flex-1 px-5 py-6">
-        <p className="text-sm text-muted">Проверяем доступ…</p>
+        <p className="text-sm text-muted">Перевіряємо доступ…</p>
       </main>
     );
   }
@@ -20,9 +20,9 @@ export function AdminOnly({ children }: { children: ReactNode }) {
   if (role !== "admin") {
     return (
       <main className="flex-1 px-5 py-6">
-        <PageHeader title="Нет доступа" />
+        <PageHeader title="Немає доступу" />
         <p className="text-sm text-muted">
-          Раздел доступен только администраторам.
+          Розділ доступний лише адміністраторам.
         </p>
       </main>
     );

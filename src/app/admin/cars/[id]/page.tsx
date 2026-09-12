@@ -28,11 +28,11 @@ export default function EditCarPage({ params }: { params: Promise<{ id: string }
   return (
     <AdminOnly>
       <main className="flex flex-1 flex-col">
-        <PageHeader title="Редактирование машины" />
+        <PageHeader title="Редагування авто" />
         <div className="px-5 pb-8">
-          {state === "loading" && <p className="text-sm text-muted">Загружаем…</p>}
+          {state === "loading" && <p className="text-sm text-muted">Завантажуємо…</p>}
           {state === "missing" && (
-            <p className="text-sm text-muted">Машина не найдена.</p>
+            <p className="text-sm text-muted">Авто не знайдено.</p>
           )}
           {state === "ready" && car && <CarForm car={car} />}
         </div>

@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Некорректный запрос" }, { status: 400 });
+    return NextResponse.json({ error: "Некоректний запит" }, { status: 400 });
   }
 
   const parsed = parseCarInput(body, { partial: false });
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
   if (error) {
     console.error("Не удалось создать машину:", error.message);
-    return NextResponse.json({ error: "Не удалось сохранить" }, { status: 500 });
+    return NextResponse.json({ error: "Не вдалося зберегти" }, { status: 500 });
   }
 
   return NextResponse.json({ car: data }, { status: 201 });

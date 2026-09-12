@@ -26,7 +26,7 @@ export async function requireAdmin(request: Request): Promise<Guard> {
     return {
       ok: false,
       response: NextResponse.json(
-        { error: "На сервере не задан TELEGRAM_BOT_TOKEN — вход подтвердить нечем" },
+        { error: "На сервері не задано TELEGRAM_BOT_TOKEN — підтвердити вхід нічим" },
         { status: 503 }
       ),
     };
@@ -38,7 +38,7 @@ export async function requireAdmin(request: Request): Promise<Guard> {
     return {
       ok: false,
       response: NextResponse.json(
-        { error: "Не удалось подтвердить вход через Telegram" },
+        { error: "Не вдалося підтвердити вхід через Telegram" },
         { status: 401 }
       ),
     };
@@ -48,7 +48,7 @@ export async function requireAdmin(request: Request): Promise<Guard> {
     return {
       ok: false,
       response: NextResponse.json(
-        { error: "Недостаточно прав" },
+        { error: "Недостатньо прав" },
         { status: 403 }
       ),
     };
@@ -59,7 +59,7 @@ export async function requireAdmin(request: Request): Promise<Guard> {
     return {
       ok: false,
       response: NextResponse.json(
-        { error: "База данных не подключена — сохранять пока некуда" },
+        { error: "Базу даних не підключено — зберігати поки що нікуди" },
         { status: 503 }
       ),
     };

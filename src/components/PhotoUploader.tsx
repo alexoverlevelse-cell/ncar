@@ -50,7 +50,7 @@ export function PhotoUploader({
           <button
             type="button"
             onClick={() => onChange(null)}
-            aria-label="Удалить фото"
+            aria-label="Видалити фото"
             className="absolute right-2 top-2 rounded-lg bg-background/80 p-2 text-red-400 backdrop-blur"
           >
             <TrashIcon className="h-4 w-4" />
@@ -64,7 +64,7 @@ export function PhotoUploader({
           className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-surface text-muted disabled:opacity-60"
         >
           <PlusIcon className="h-6 w-6" />
-          <span className="text-sm">{uploading ? "Загружаем…" : "Выбрать фото"}</span>
+          <span className="text-sm">{uploading ? "Завантажуємо…" : "Вибрати фото"}</span>
         </button>
       )}
 
@@ -136,7 +136,7 @@ export function PhotoListUploader({
             <button
               type="button"
               onClick={() => remove(url)}
-              aria-label="Удалить фото"
+              aria-label="Видалити фото"
               className="absolute right-1 top-1 rounded-md bg-background/80 p-1.5 text-red-400 backdrop-blur"
             >
               <TrashIcon className="h-3.5 w-3.5" />
@@ -151,7 +151,7 @@ export function PhotoListUploader({
           className="flex aspect-square flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-surface text-muted disabled:opacity-60"
         >
           <PlusIcon className="h-5 w-5" />
-          <span className="text-[11px]">{uploading ? "Грузим…" : "Добавить"}</span>
+          <span className="text-[11px]">{uploading ? "Вантажимо…" : "Додати"}</span>
         </button>
       </div>
 

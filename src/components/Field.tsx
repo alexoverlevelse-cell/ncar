@@ -38,7 +38,7 @@ export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
 export function SubmitBar({
   saving,
   onCancel,
-  submitLabel = "Сохранить",
+  submitLabel = "Зберегти",
 }: {
   saving: boolean;
   onCancel: () => void;
@@ -49,16 +49,16 @@ export function SubmitBar({
       <button
         type="submit"
         disabled={saving}
-        className="flex-1 rounded-xl bg-accent py-3 font-medium text-black disabled:opacity-60"
+        className="flex-1 rounded-xl bg-accent py-3 font-medium text-foreground disabled:opacity-60"
       >
-        {saving ? "Сохраняем…" : submitLabel}
+        {saving ? "Зберігаємо…" : submitLabel}
       </button>
       <button
         type="button"
         onClick={onCancel}
         className="rounded-xl border border-border px-5 py-3 font-medium text-muted"
       >
-        Отмена
+        Скасувати
       </button>
     </div>
   );

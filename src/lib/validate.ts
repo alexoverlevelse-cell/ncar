@@ -43,7 +43,7 @@ export function parseCarInput(
   { partial }: { partial: boolean }
 ): Parsed<Partial<CarInput>> {
   if (typeof body !== "object" || body === null) {
-    return { error: "Некорректный запрос" };
+    return { error: "Некоректний запит" };
   }
   const raw = body as Record<string, unknown>;
   const value: Partial<CarInput> = {};
@@ -54,28 +54,28 @@ export function parseCarInput(
   const year = asNumber(raw.year);
 
   if (!partial || raw.brand !== undefined) {
-    if (!brand) return { error: "Укажите марку" };
+    if (!brand) return { error: "Вкажіть марку" };
     value.brand = brand;
   }
   if (!partial || raw.model !== undefined) {
-    if (!model) return { error: "Укажите модель" };
+    if (!model) return { error: "Вкажіть модель" };
     value.model = model;
   }
   if (!partial || raw.price !== undefined) {
-    if (price === null || price < 0) return { error: "Укажите корректную цену" };
+    if (price === null || price < 0) return { error: "Вкажіть коректну ціну" };
     value.price = price;
   }
   if (!partial || raw.year !== undefined) {
     const currentYear = new Date().getFullYear();
     if (year === null || year < 1900 || year > currentYear + 1) {
-      return { error: "Укажите корректный год выпуска" };
+      return { error: "Вкажіть коректний рік випуску" };
     }
     value.year = year;
   }
 
   if (raw.mileage !== undefined) {
     const mileage = asNumber(raw.mileage);
-    if (mileage !== null && mileage < 0) return { error: "Пробег не может быть отрицательным" };
+    if (mileage !== null && mileage < 0) return { error: "Пробіг не може бути від'ємним" };
     value.mileage = mileage;
   }
   if (raw.fuel_type !== undefined) value.fuel_type = asTrimmedString(raw.fuel_type);
@@ -88,7 +88,7 @@ export function parseCarInput(
   if (!partial || raw.status !== undefined) {
     const status = asTrimmedString(raw.status) ?? "available";
     if (!CAR_STATUSES.includes(status as CarStatus)) {
-      return { error: "Неизвестный статус" };
+      return { error: "Невідомий статус" };
     }
     value.status = status as CarStatus;
   }
@@ -112,14 +112,14 @@ export function parseServiceInput(
   { partial }: { partial: boolean }
 ): Parsed<Partial<ServiceInput>> {
   if (typeof body !== "object" || body === null) {
-    return { error: "Некорректный запрос" };
+    return { error: "Некоректний запит" };
   }
   const raw = body as Record<string, unknown>;
   const value: Partial<ServiceInput> = {};
 
   if (!partial || raw.title !== undefined) {
     const title = asTrimmedString(raw.title);
-    if (!title) return { error: "Укажите название услуги" };
+    if (!title) return { error: "Вкажіть назву послуги" };
     value.title = title;
   }
 
@@ -132,14 +132,14 @@ export function parseServiceInput(
   if (raw.price !== undefined) {
     // Пустая цена — это "по запросу", а не ошибка.
     const price = asNumber(raw.price);
-    if (price !== null && price < 0) return { error: "Цена не может быть отрицательной" };
+    if (price !== null && price < 0) return { error: "Ціна не може бути від'ємною" };
     value.price = price;
   }
 
   if (!partial || raw.status !== undefined) {
     const status = asTrimmedString(raw.status) ?? "active";
     if (!SERVICE_STATUSES.includes(status as ServiceStatus)) {
-      return { error: "Неизвестный статус" };
+      return { error: "Невідомий статус" };
     }
     value.status = status as ServiceStatus;
   }

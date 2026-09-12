@@ -77,7 +77,7 @@ export default function AdminPage() {
 
   async function removeCar(car: Car) {
     const confirmed = await confirmAction(
-      `Удалить ${car.brand} ${car.model}? Действие необратимо.`
+      `Видалити ${car.brand} ${car.model}? Дію не можна скасувати.`
     );
     if (!confirmed) return;
 
@@ -88,7 +88,7 @@ export default function AdminPage() {
 
   async function removeService(service: Service) {
     const confirmed = await confirmAction(
-      `Удалить услугу «${service.title}»? Действие необратимо.`
+      `Видалити послугу «${service.title}»? Дію не можна скасувати.`
     );
     if (!confirmed) return;
 
@@ -100,7 +100,7 @@ export default function AdminPage() {
   if (roleLoading) {
     return (
       <main className="flex-1 px-5 py-6">
-        <p className="text-sm text-muted">Проверяем доступ…</p>
+        <p className="text-sm text-muted">Перевіряємо доступ…</p>
       </main>
     );
   }
@@ -108,10 +108,10 @@ export default function AdminPage() {
   if (role !== "admin") {
     return (
       <main className="flex-1 px-5 py-6">
-        <PageHeader title="Админ-панель" />
+        <PageHeader title="Адмін-панель" />
         <p className="text-sm text-muted">
-          Раздел доступен только администраторам. Откройте приложение из Telegram
-          под учётной записью администратора.
+          Розділ доступний лише адміністраторам. Відкрийте застосунок із Telegram
+          під обліковим записом адміністратора.
         </p>
       </main>
     );
@@ -119,7 +119,7 @@ export default function AdminPage() {
 
   return (
     <main className="flex flex-1 flex-col">
-      <PageHeader title="Админ-панель" subtitle="Управление машинами и услугами" />
+      <PageHeader title="Адмін-панель" subtitle="Керування авто та послугами" />
 
       <div className="flex flex-col gap-6 px-5 pb-8">
         {error && (
@@ -130,20 +130,20 @@ export default function AdminPage() {
 
         <section>
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold">Автомобили</h2>
+            <h2 className="text-lg font-semibold">Автомобілі</h2>
             <Link
               href="/admin/cars/new"
-              className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-black"
+              className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-foreground"
             >
               <PlusIcon className="h-4 w-4" />
-              Добавить
+              Додати
             </Link>
           </div>
 
           {loading ? (
-            <p className="mt-3 text-sm text-muted">Загружаем…</p>
+            <p className="mt-3 text-sm text-muted">Завантажуємо…</p>
           ) : cars.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">Пока ни одной машины.</p>
+            <p className="mt-3 text-sm text-muted">Поки що жодного авто.</p>
           ) : (
             <ul className="mt-3 flex flex-col gap-3">
               {cars.map((car) => (
@@ -161,7 +161,7 @@ export default function AdminPage() {
                     <div className="flex shrink-0 gap-1">
                       <Link
                         href={`/admin/cars/${car.id}`}
-                        aria-label="Редактировать"
+                        aria-label="Редагувати"
                         className="rounded-lg border border-border p-2 text-muted"
                       >
                         <PencilIcon className="h-4 w-4" />
@@ -169,7 +169,7 @@ export default function AdminPage() {
                       <button
                         type="button"
                         onClick={() => removeCar(car)}
-                        aria-label="Удалить"
+                        aria-label="Видалити"
                         className="rounded-lg border border-border p-2 text-red-400"
                       >
                         <TrashIcon className="h-4 w-4" />
@@ -201,20 +201,20 @@ export default function AdminPage() {
 
         <section>
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold">Услуги</h2>
+            <h2 className="text-lg font-semibold">Послуги</h2>
             <Link
               href="/admin/services/new"
-              className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-black"
+              className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-foreground"
             >
               <PlusIcon className="h-4 w-4" />
-              Добавить
+              Додати
             </Link>
           </div>
 
           {loading ? (
-            <p className="mt-3 text-sm text-muted">Загружаем…</p>
+            <p className="mt-3 text-sm text-muted">Завантажуємо…</p>
           ) : services.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">Пока ни одной услуги.</p>
+            <p className="mt-3 text-sm text-muted">Поки що жодної послуги.</p>
           ) : (
             <ul className="mt-3 flex flex-col gap-3">
               {services.map((service) => (
@@ -228,13 +228,13 @@ export default function AdminPage() {
                       <p className="text-sm text-accent">
                         {service.price != null
                           ? formatPrice(service.price)
-                          : "Цена по запросу"}
+                          : "Ціна за запитом"}
                       </p>
                     </div>
                     <div className="flex shrink-0 gap-1">
                       <Link
                         href={`/admin/services/${service.id}`}
-                        aria-label="Редактировать"
+                        aria-label="Редагувати"
                         className="rounded-lg border border-border p-2 text-muted"
                       >
                         <PencilIcon className="h-4 w-4" />
@@ -242,7 +242,7 @@ export default function AdminPage() {
                       <button
                         type="button"
                         onClick={() => removeService(service)}
-                        aria-label="Удалить"
+                        aria-label="Видалити"
                         className="rounded-lg border border-border p-2 text-red-400"
                       >
                         <TrashIcon className="h-4 w-4" />

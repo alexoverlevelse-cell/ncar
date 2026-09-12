@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     // Подробность видит только администратор — она сильно упрощает поиск
     // причины (неверный ключ, отсутствующая таблица и т.п.).
     return NextResponse.json(
-      { error: `Не удалось загрузить данные: ${failure.message}` },
+      { error: `Не вдалося завантажити дані: ${failure.message}` },
       { status: 500 }
     );
   }

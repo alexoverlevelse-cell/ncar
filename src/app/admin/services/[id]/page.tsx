@@ -32,11 +32,11 @@ export default function EditServicePage({
   return (
     <AdminOnly>
       <main className="flex flex-1 flex-col">
-        <PageHeader title="Редактирование услуги" />
+        <PageHeader title="Редагування послуги" />
         <div className="px-5 pb-8">
-          {state === "loading" && <p className="text-sm text-muted">Загружаем…</p>}
+          {state === "loading" && <p className="text-sm text-muted">Завантажуємо…</p>}
           {state === "missing" && (
-            <p className="text-sm text-muted">Услуга не найдена.</p>
+            <p className="text-sm text-muted">Послугу не знайдено.</p>
           )}
           {state === "ready" && service && <ServiceForm service={service} />}
         </div>

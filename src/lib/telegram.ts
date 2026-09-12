@@ -45,7 +45,7 @@ export async function apiFetch(
   if (!initData) {
     return {
       ok: false,
-      error: "Откройте приложение внутри Telegram — иначе вход не подтвердить",
+      error: "Відкрийте застосунок усередині Telegram — інакше вхід не підтвердити",
     };
   }
 
@@ -65,13 +65,13 @@ export async function apiFetch(
       const message =
         typeof data === "object" && data !== null && "error" in data
           ? String((data as { error: unknown }).error)
-          : "Что-то пошло не так";
+          : "Щось пішло не так";
       return { ok: false, error: message };
     }
 
     return { ok: true, data };
   } catch {
-    return { ok: false, error: "Нет связи с сервером" };
+    return { ok: false, error: "Немає зв'язку із сервером" };
   }
 }
 

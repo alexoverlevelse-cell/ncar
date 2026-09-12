@@ -61,25 +61,25 @@ export function ServiceForm({ service }: { service?: Service }) {
         </p>
       )}
 
-      <Field label="Название">
+      <Field label="Назва">
         <TextInput
           value={form.title}
           onChange={(e) => update("title", e.target.value)}
-          placeholder="Химчистка авто"
+          placeholder="Підбір автомобіля"
           required
         />
       </Field>
 
-      <Field label="Описание">
+      <Field label="Опис">
         <TextArea
           value={form.description}
           onChange={(e) => update("description", e.target.value)}
-          placeholder="Что входит в услугу"
+          placeholder="Що входить у послугу"
         />
       </Field>
 
       <div className="grid grid-cols-2 gap-3">
-        <Field label="Цена, DKK" hint="Пусто — «по запросу»">
+        <Field label="Ціна, DKK" hint="Порожньо — «за запитом»">
           <TextInput
             value={form.price}
             onChange={(e) => update("price", e.target.value)}
@@ -87,16 +87,16 @@ export function ServiceForm({ service }: { service?: Service }) {
             placeholder="—"
           />
         </Field>
-        <Field label="Длительность">
+        <Field label="Тривалість">
           <TextInput
             value={form.duration}
             onChange={(e) => update("duration", e.target.value)}
-            placeholder="2–3 часа"
+            placeholder="2–3 години"
           />
         </Field>
       </div>
 
-      <Field label="Контакт" hint="Ссылка t.me или телефон исполнителя">
+      <Field label="Контакт" hint="Посилання t.me або телефон виконавця">
         <TextInput
           value={form.contact}
           onChange={(e) => update("contact", e.target.value)}
@@ -104,16 +104,16 @@ export function ServiceForm({ service }: { service?: Service }) {
         />
       </Field>
 
-      <Field label="Местонахождение" hint="Где оказывается услуга">
+      <Field label="Місцезнаходження" hint="Де надається послуга">
         <TextInput
           value={form.location}
           onChange={(e) => update("location", e.target.value)}
-          placeholder="Копенгаген, ул. ..."
+          placeholder="Копенгаген, вул. ..."
         />
       </Field>
 
       <PhotoUploader
-        label="Фотография услуги"
+        label="Фотографія послуги"
         value={form.photo || null}
         onChange={(url) => update("photo", url ?? "")}
       />

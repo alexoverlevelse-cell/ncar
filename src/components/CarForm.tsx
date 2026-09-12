@@ -92,7 +92,7 @@ export function CarForm({ car }: { car?: Car }) {
       </Field>
 
       <div className="grid grid-cols-2 gap-3">
-        <Field label="Цена, DKK">
+        <Field label="Ціна, DKK">
           <TextInput
             value={form.price}
             onChange={(e) => update("price", e.target.value)}
@@ -101,7 +101,7 @@ export function CarForm({ car }: { car?: Car }) {
             required
           />
         </Field>
-        <Field label="Год">
+        <Field label="Рік">
           <TextInput
             value={form.year}
             onChange={(e) => update("year", e.target.value)}
@@ -113,7 +113,7 @@ export function CarForm({ car }: { car?: Car }) {
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <Field label="Пробег, км">
+        <Field label="Пробіг, км">
           <TextInput
             value={form.mileage}
             onChange={(e) => update("mileage", e.target.value)}
@@ -121,7 +121,7 @@ export function CarForm({ car }: { car?: Car }) {
             placeholder="154000"
           />
         </Field>
-        <Field label="Топливо">
+        <Field label="Паливо">
           <TextInput
             value={form.fuel_type}
             onChange={(e) => update("fuel_type", e.target.value)}
@@ -131,7 +131,7 @@ export function CarForm({ car }: { car?: Car }) {
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <Field label="Коробка">
+        <Field label="Коробка передач">
           <TextInput
             value={form.transmission}
             onChange={(e) => update("transmission", e.target.value)}
@@ -142,37 +142,37 @@ export function CarForm({ car }: { car?: Car }) {
           <TextInput
             value={form.body_type}
             onChange={(e) => update("body_type", e.target.value)}
-            placeholder="Хэтчбек"
+            placeholder="Хетчбек"
           />
         </Field>
       </div>
 
-      <Field label="Цвет">
+      <Field label="Колір">
         <TextInput
           value={form.color}
           onChange={(e) => update("color", e.target.value)}
-          placeholder="Чёрный"
+          placeholder="Чорний"
         />
       </Field>
 
-      <Field label="Описание">
+      <Field label="Опис">
         <TextArea
           value={form.description}
           onChange={(e) => update("description", e.target.value)}
-          placeholder="Состояние, комплектация, история обслуживания"
+          placeholder="Стан, комплектація, історія обслуговування"
         />
       </Field>
 
       <PhotoUploader
-        label="Главное фото"
-        hint="Показывается в списке и на обложке карточки."
+        label="Головне фото"
+        hint="Показується у списку та на обкладинці картки."
         value={mainPhoto}
         onChange={setMainPhoto}
       />
 
       <PhotoListUploader
-        label="Дополнительные фото"
-        hint="Можно выбрать сразу несколько."
+        label="Додаткові фото"
+        hint="Можна вибрати одразу кілька."
         value={gallery}
         onChange={setGallery}
       />

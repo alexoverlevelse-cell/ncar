@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Некорректный запрос" }, { status: 400 });
+    return NextResponse.json({ error: "Некоректний запит" }, { status: 400 });
   }
 
   const { contentType } = (body ?? {}) as { contentType?: string };
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
   if (!extension) {
     return NextResponse.json(
-      { error: "Можно загружать только изображения: JPG, PNG, WEBP или HEIC" },
+      { error: "Завантажувати можна лише зображення: JPG, PNG, WEBP або HEIC" },
       { status: 400 }
     );
   }
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "Не удалось подготовить загрузку. Проверьте, что в Supabase создано хранилище «photos».",
+          "Не вдалося підготувати завантаження. Перевірте, що в Supabase створено сховище «photos».",
       },
       { status: 500 }
     );
