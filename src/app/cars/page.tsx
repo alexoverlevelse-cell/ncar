@@ -13,15 +13,15 @@ export default async function CarsPage() {
   return (
     <main className="flex flex-1 flex-col">
       <PageHeader
-        title="Автомобили"
-        subtitle={`Проверенные авто в ${siteConfig.locationIn}`}
+        title="Авто в наявності"
+        subtitle={`Перевірені автомобілі в ${siteConfig.locationIn}`}
       />
 
       <div className="flex flex-col gap-3 px-5 pb-8">
         {source === "demo" && <DemoNotice />}
 
         {cars.length === 0 ? (
-          <p className="text-sm text-muted">Пока нет автомобилей в продаже.</p>
+          <p className="text-sm text-muted">Поки немає автомобілів у продажу.</p>
         ) : (
           cars.map((car) => <CarCard key={car.id} car={car} />)
         )}
