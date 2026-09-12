@@ -7,7 +7,7 @@ import { ChevronRightIcon, TagIcon } from "./icons";
 // и оценка обсуждаются лично (см. CLAUDE.md).
 export function PlaceYourCarCard() {
   const link = buildTelegramLink(
-    "Здравствуйте! Хочу продать своё авто через OlehDK."
+    "Добрий день! Хочу продати своє авто через OLEH DK."
   );
 
   const content = (
@@ -16,11 +16,11 @@ export function PlaceYourCarCard() {
         <TagIcon className="h-8 w-8 text-accent" />
       </div>
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-1 py-3 pr-3">
-        <h3 className="font-medium leading-snug">Тут может быть твоё авто</h3>
+        <h3 className="font-medium leading-snug">Тут може бути твоє авто</h3>
         <p className="text-xs text-muted">
-          Напишите — оценим автомобиль и обсудим продажу.
+          Напишіть — оцінимо автомобіль і обговоримо продаж.
         </p>
-        <span className="text-sm font-medium text-accent">Связаться</span>
+        <span className="text-sm font-medium text-accent">Зв&rsquo;язатися</span>
       </div>
       <ChevronRightIcon className="mr-3 h-4 w-4 shrink-0 self-center text-muted" />
     </>
