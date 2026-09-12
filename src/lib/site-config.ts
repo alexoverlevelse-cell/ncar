@@ -2,9 +2,9 @@
 // пустыми, интерфейс корректно работает без них (см. TODO ниже).
 export const siteConfig = {
   companyName: "OlehDK",
-  tagline: "Подбор, проверка и продажа автомобилей",
-  location: "Дания",
-  locationIn: "Дании", // предложный падеж: "автомобили в Дании"
+  tagline: "Підбір, перевірка та продаж автомобілів",
+  location: "Данія",
+  locationIn: "Данії", // місцевий відмінок: "автомобілі в Данії"
   currencyLabel: "DKK",
 
   telegramContact: "", // TODO: https://t.me/username продавца
