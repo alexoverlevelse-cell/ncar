@@ -13,11 +13,11 @@ export type CarStatus = (typeof CAR_STATUSES)[number];
 export const PUBLIC_CAR_STATUSES: CarStatus[] = ["available", "reserved", "sold"];
 
 export const CAR_STATUS_LABELS: Record<CarStatus, string> = {
-  draft: "Черновик",
-  available: "В наличии",
-  reserved: "Зарезервирован",
-  sold: "Продан",
-  hidden: "Скрыт",
+  draft: "Чернетка",
+  available: "В наявності",
+  reserved: "Заброньовано",
+  sold: "Продано",
+  hidden: "Приховано",
 };
 
 export interface Car {
