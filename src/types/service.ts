@@ -3,8 +3,8 @@ export const SERVICE_STATUSES = ["active", "inactive"] as const;
 export type ServiceStatus = (typeof SERVICE_STATUSES)[number];
 
 export const SERVICE_STATUS_LABELS: Record<ServiceStatus, string> = {
-  active: "Показывается",
-  inactive: "Скрыта",
+  active: "Показується",
+  inactive: "Прихована",
 };
 
 export interface Service {
