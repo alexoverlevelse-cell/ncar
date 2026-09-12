@@ -1,6 +1,6 @@
 import { siteConfig } from "./site-config";
 
-const numberFormatter = new Intl.NumberFormat("ru-RU");
+const numberFormatter = new Intl.NumberFormat("uk-UA");
 
 export function formatNumber(value: number): string {
   return numberFormatter.format(value);
