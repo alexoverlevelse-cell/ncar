@@ -6,7 +6,7 @@ export function DemoNotice({ className = "" }: { className?: string }) {
     <p
       className={`rounded-xl border border-dashed border-border px-3 py-2 text-xs text-muted ${className}`}
     >
-      Демонстрационные данные — для примера, пока не подключена база.
+      Демонстраційні дані — для прикладу, поки не підключено базу.
     </p>
   );
 }
