@@ -12,8 +12,8 @@
   --surface: #2a2c2c;
   --surface-2: #333535;
   --border: #3d3f3f;
-  --foreground: #f1efe8;
-  --muted: #a5a7a7;
+  --foreground: #ffffff;
+  --muted: #ffffff;
   --accent: #b64246;
   --accent-strong: #c65458;
 }
@@ -43,11 +43,22 @@ body {
   }
 
   .welcome-screen > div:first-child {
-    min-height: 12.5rem;
+    min-height: 19rem;
   }
 
   .welcome-screen ul {
     margin-top: 1rem;
     row-gap: 0.75rem;
   }
+}
+
+/* Text hierarchy uses weight and size rather than dimmed text. */
+h1, h2, h3, strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #fff;
+  opacity: 1;
 }
