@@ -13,6 +13,7 @@ export default async function CarsPage() {
   return (
     <main className="flex flex-1 flex-col">
       <PageHeader
+        backHref="/home"
         title="Авто в наявності"
         subtitle={`Перевірені автомобілі в ${siteConfig.locationIn}`}
       />
