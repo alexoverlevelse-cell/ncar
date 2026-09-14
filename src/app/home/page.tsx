@@ -4,7 +4,7 @@ import { ArrowRightIcon } from "@/components/icons";
 
 const sections = [
   { href: "/cars", photo: "/menu/cars-mercedes.jpg", title: "Авто в наявності", subtitle: "Переглянути автомобілі" },
-  { href: "/services", photo: "/menu/services-mercedes.jpg", title: "Послуги", subtitle: "Підбір та перевірка авто" },
+  { href: "/services", photo: "/menu/services-mercedes.jpg", title: "Послуги", subtitle: "Підбір • Перевірка • Продаж • Сервіс" },
 ];
 
 export default function MenuPage() {
