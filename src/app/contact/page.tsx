@@ -10,7 +10,7 @@ export default function ContactPage() {
 
   return (
     <main className="flex flex-1 flex-col">
-      <PageHeader title="Продати автомобіль" />
+      <PageHeader backHref="/home" title="Продати автомобіль" />
 
       <section className="px-5">
         {/* Формы подачи объявления намеренно нет: все условия и оценка
