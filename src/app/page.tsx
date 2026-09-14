@@ -37,15 +37,15 @@ export default function WelcomePage() {
 
   return (
     <main className="flex min-h-dvh flex-1 flex-col pb-[max(2.25rem,env(safe-area-inset-bottom))]">
-      {/* Верхний блок макета «01 / З Олегом»: Олег вырезан из фона и стоит
-          справа, логотип и приветствие — слева поверх него. Прямоугольника
-          фотографии нет, плечо уходит за правый край экрана. */}
-      <div className="relative min-h-[36vh] pt-7">
+      {/* Верхний блок макета «01 / З Олегом»: обычное прямоугольное фото
+          Олега сверху справа (как в баннере 01), логотип и приветствие —
+          слева. Без выреза по контуру — на референсе это просто фото. */}
+      <div className="relative min-h-[34vh] pt-7">
         {/* eslint-disable-next-line @next/next/no-img-element -- локальный статический ассет из public/ */}
         <img
-          src="/brand/oleh-cutout.png"
+          src="/brand/oleh-portrait.jpg"
           alt="Олег"
-          className="pointer-events-none absolute right-0 top-[6%] w-[60%] max-w-[286px] select-none"
+          className="pointer-events-none absolute right-0 top-0 w-[48%] max-w-[240px] select-none rounded-bl-2xl"
         />
 
         <div className="relative px-6">
