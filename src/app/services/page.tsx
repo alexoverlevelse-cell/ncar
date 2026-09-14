@@ -1,102 +1,38 @@
 import Link from "next/link";
-import { DemoNotice } from "@/components/DemoNotice";
-import {
-  ChevronRightIcon,
-  MapPinIcon,
-  TelegramIcon,
-  WrenchIcon,
-} from "@/components/icons";
+import { ChevronRightIcon, TelegramIcon } from "@/components/icons";
 import { PageHeader } from "@/components/PageHeader";
-import { loadServices } from "@/lib/data";
-import { formatPrice } from "@/lib/format";
-import { buildContactLink, buildTelegramLink } from "@/lib/site-config";
+import { serviceCatalog } from "@/lib/service-catalog";
 
-export const dynamic = "force-dynamic";
-
-export default async function ServicesPage() {
-  const { services, source } = await loadServices();
-
+export default function ServicesPage() {
   return (
     <main className="flex flex-1 flex-col">
       <PageHeader
         backHref="/home"
-        title="Послуги"
-        subtitle="Записатися можна прямо в Telegram"
+        title="Послуги Oleh DK Auto 🇩🇰"
+        subtitle="Оберіть потрібний розділ 👇"
       />
+      <div className="flex flex-col gap-3 px-5 pb-10">
+        {serviceCatalog.map((service) => (
+          <Link
+            key={service.slug}
+            href={`/services/${service.slug}`}
+            className="flex min-h-24 items-center gap-4 rounded-2xl border border-white/10 bg-[linear-gradient(120deg,#2b2d2d,#222424)] p-4 shadow-[0_12px_30px_rgba(0,0,0,0.16)]"
+          >
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-black/25 text-2xl">
+              {service.icon}
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block font-bold leading-snug">{service.title}</span>
+              <span className="mt-1 block text-sm leading-snug text-muted">{service.summary}</span>
+            </span>
+            <ChevronRightIcon className="h-5 w-5 shrink-0 text-muted" />
+          </Link>
+        ))}
 
-      <div className="flex flex-col gap-3 px-5 pb-8">
-        {source === "demo" && <DemoNotice />}
-
-        {services.length === 0 ? (
-          <p className="text-sm text-muted">Поки немає доступних послуг.</p>
-        ) : (
-          services.map((service) => {
-            const message = `Добрий день! Цікавить послуга «${service.title}».`;
-            // У услуги может быть собственный контакт исполнителя — он важнее
-            // общего контакта компании.
-            const telegramLink = service.contact
-              ? buildContactLink(service.contact, message)
-              : buildTelegramLink(message);
-
-            const card = (
-              <>
-                {service.photo ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- фото из Supabase Storage, домен заранее не известен
-                  <img
-                    src={service.photo}
-                    alt={service.title}
-                    className="h-28 w-28 shrink-0 object-cover"
-                  />
-                ) : (
-                  <div className="flex h-28 w-28 shrink-0 items-center justify-center bg-gradient-to-br from-surface-2 to-surface">
-                    <WrenchIcon className="h-7 w-7 text-border" />
-                  </div>
-                )}
-                <div className="flex min-w-0 flex-1 flex-col justify-center gap-0.5 py-3 pr-3">
-                  <h2 className="font-medium leading-snug">{service.title}</h2>
-                  {service.description && (
-                    <p className="line-clamp-2 text-xs text-muted">
-                      {service.description}
-                    </p>
-                  )}
-                  {service.location && (
-                    <p className="flex items-center gap-1 text-xs text-muted">
-                      <MapPinIcon className="h-3.5 w-3.5 shrink-0" />
-                      <span className="truncate">{service.location}</span>
-                    </p>
-                  )}
-                  <p className="text-sm font-medium text-accent">
-                    {service.price != null ? formatPrice(service.price) : "Ціна за запитом"}
-                  </p>
-                </div>
-                {telegramLink ? (
-                  <TelegramIcon className="mr-3 h-5 w-5 shrink-0 self-center text-accent" />
-                ) : (
-                  <ChevronRightIcon className="mr-3 h-4 w-4 shrink-0 self-center text-muted" />
-                )}
-              </>
-            );
-
-            const className =
-              "flex gap-3 overflow-hidden rounded-2xl border border-border bg-surface";
-
-            return telegramLink ? (
-              <a
-                key={service.id}
-                href={telegramLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={className}
-              >
-                {card}
-              </a>
-            ) : (
-              <Link key={service.id} href="/contact" className={className}>
-                {card}
-              </Link>
-            );
-          })
-        )}
+        <Link href="/contact" className="mt-1 flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/[0.04] py-4 font-semibold">
+          <TelegramIcon className="h-5 w-5 text-[#229ED9]" />
+          Зв’язатися з Oleh DK Auto
+        </Link>
       </div>
     </main>
   );
