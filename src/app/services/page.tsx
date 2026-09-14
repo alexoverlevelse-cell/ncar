@@ -18,7 +18,11 @@ export default async function ServicesPage() {
 
   return (
     <main className="flex flex-1 flex-col">
-      <PageHeader title="Послуги" subtitle="Записатися можна прямо в Telegram" />
+      <PageHeader
+        backHref="/home"
+        title="Послуги"
+        subtitle="Записатися можна прямо в Telegram"
+      />
 
       <div className="flex flex-col gap-3 px-5 pb-8">
         {source === "demo" && <DemoNotice />}
