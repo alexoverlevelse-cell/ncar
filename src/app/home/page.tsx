@@ -22,7 +22,7 @@ const sections = [
 
 export default function MenuPage() {
   return (
-    <main className="flex flex-1 flex-col px-6 pt-12 pb-10">
+    <main className="flex flex-1 flex-col pt-12 pb-10">
       <Logo size="md" className="mx-auto" />
 
       <h1 className="mt-7 text-center text-[clamp(1.7rem,7.6vw,2.1rem)] font-extrabold tracking-tight">
@@ -32,7 +32,9 @@ export default function MenuPage() {
         Оберіть розділ
       </p>
 
-      <div className="mt-8 flex flex-col gap-5">
+      {/* 84% ширины экрана — под референс главного меню, шире прежнего
+          отступа в 24px с каждой стороны. */}
+      <div className="mx-auto mt-8 flex w-[84%] flex-col gap-4">
         {sections.map((section) => (
           <Link
             key={section.href}
@@ -53,9 +55,7 @@ export default function MenuPage() {
                 <p className="font-semibold">{section.title}</p>
                 <p className="mt-0.5 text-sm text-muted">{section.subtitle}</p>
               </div>
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-foreground/40">
-                <ArrowRightIcon className="h-4 w-4" />
-              </span>
+              <ArrowRightIcon className="h-5 w-5 shrink-0 text-foreground" />
             </div>
           </Link>
         ))}
