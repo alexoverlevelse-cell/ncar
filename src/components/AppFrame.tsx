@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { ContactFab } from "./ContactFab";
-import { ScreenGlow } from "./ScreenGlow";
+import { GarageGlow, ScreenGlow } from "./ScreenGlow";
 
 // На приветственном экране плавающей кнопки связи нет — он занимает весь
 // экран, а дальше пользователь попадает в приложение.
@@ -15,7 +15,11 @@ export function AppFrame({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <ScreenGlow variant={fullscreen ? "welcome" : "full"} />
+      {pathname === "/home" ? (
+        <GarageGlow />
+      ) : (
+        <ScreenGlow variant={fullscreen ? "welcome" : "full"} />
+      )}
       <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col">
         {children}
       </div>
