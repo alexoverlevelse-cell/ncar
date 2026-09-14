@@ -21,7 +21,7 @@ export default function WelcomePage() {
           <img src="/brand/oleh-portrait.jpg" alt="Олег" className="h-full w-full select-none object-cover object-top" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--background)_0%,transparent_26%),linear-gradient(0deg,var(--background)_0%,transparent_35%)]" />
         </div>
-        <h1 className="absolute bottom-2 left-0 z-10 text-[2.75rem] font-extrabold leading-[0.98] tracking-[-0.045em] [text-shadow:0_2px_18px_rgba(0,0,0,0.8)]">
+        <h1 className="absolute bottom-1 left-0 z-10 text-[clamp(3rem,13.5vw,3.65rem)] font-extrabold leading-[0.94] tracking-[-0.05em] [text-shadow:0_3px_22px_rgba(0,0,0,0.9)]">
           Вітаю,<br />я Олег.
         </h1>
       </div>
