@@ -16,7 +16,7 @@ export function PageHeader({
     <header className="px-5 pb-4 pt-6">
       {backHref && (
         <nav className="mb-4 flex items-center justify-between gap-3">
-          <Link href={backHref} aria-label="Назад" className="inline-flex h-9 items-center gap-2 rounded-full border border-border px-3 text-xs text-muted">
+          <Link href={backHref} aria-label="Назад" className="inline-flex h-11 items-center gap-2 rounded-full border border-white/50 bg-white/5 px-4 text-sm font-bold text-white">
             <ArrowLeftIcon className="h-4 w-4" /> Назад
           </Link>
           <div className="flex gap-2">
@@ -29,7 +29,7 @@ export function PageHeader({
           </div>
         </nav>
       )}
-      <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+      <h1 className="text-2xl font-bold tracking-tight text-white">{title}</h1>
       {subtitle && <p className="mt-1 text-sm text-muted">{subtitle}</p>}
     </header>
   );
