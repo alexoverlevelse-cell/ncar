@@ -15,12 +15,11 @@ export function AppFrame({ children }: { children: ReactNode }) {
 
   return (
     <>
-      {pathname === "/home" ? (
-        <GarageGlow />
-      ) : (
+      {pathname !== "/home" && (
         <ScreenGlow variant={fullscreen ? "welcome" : "full"} />
       )}
-      <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col">
+      <div className="relative isolate mx-auto flex min-h-dvh w-full max-w-md flex-col">
+        {pathname === "/home" && <GarageGlow />}
         {children}
       </div>
       {!fullscreen && <ContactFab />}
