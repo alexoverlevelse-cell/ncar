@@ -37,11 +37,18 @@ export default function WelcomePage() {
 
   return (
     <main className="flex min-h-dvh flex-1 flex-col pb-[max(2.25rem,env(safe-area-inset-bottom))]">
-      {/* Верхний блок: логотип и приветствие слева, портрет Олега справа —
-          компоновка из макета 02. Портрет тянется на высоту левой колонки,
-          поэтому описание под ним никогда не перекрывается. */}
-      <div className="flex gap-2 pt-7 pl-6">
-        <div className="flex min-h-[36vh] min-w-0 flex-1 flex-col">
+      {/* Верхний блок макета «01 / З Олегом»: Олег вырезан из фона и стоит
+          справа, логотип и приветствие — слева поверх него. Прямоугольника
+          фотографии нет, плечо уходит за правый край экрана. */}
+      <div className="relative min-h-[36vh] pt-7">
+        {/* eslint-disable-next-line @next/next/no-img-element -- локальный статический ассет из public/ */}
+        <img
+          src="/brand/oleh-cutout.png"
+          alt="Олег"
+          className="pointer-events-none absolute right-0 top-[6%] w-[60%] max-w-[286px] select-none"
+        />
+
+        <div className="relative px-6">
           <Logo size="lg" />
 
           <h1 className="mt-9 text-[clamp(2.15rem,11vw,2.9rem)] font-extrabold leading-[1.04] tracking-tight">
@@ -49,13 +56,6 @@ export default function WelcomePage() {
             <br />я Олег.
           </h1>
         </div>
-
-        {/* eslint-disable-next-line @next/next/no-img-element -- локальный статический ассет из public/ */}
-        <img
-          src="/brand/oleh-portrait.png"
-          alt="Олег"
-          className="pointer-events-none w-[46%] max-w-[220px] select-none self-stretch object-cover object-top"
-        />
       </div>
 
       <p className="mt-6 px-6 text-[clamp(1.1rem,5.1vw,1.3rem)] leading-snug text-muted">
