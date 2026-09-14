@@ -60,16 +60,31 @@ export function GarageGlow() {
           backgroundImage: [
             "radial-gradient(44% 34% at 10% 10%, rgba(255,225,177,0.24), transparent 72%)",
             "radial-gradient(44% 34% at 90% 10%, rgba(255,225,177,0.22), transparent 72%)",
-            "radial-gradient(50% 32% at 8% 100%, rgba(182,66,70,0.16), transparent 72%)",
-            "radial-gradient(45% 28% at 92% 82%, rgba(255,225,177,0.07), transparent 76%)",
+            "radial-gradient(52% 34% at 5% 100%, rgba(182,66,70,0.20), transparent 72%)",
+            "radial-gradient(48% 35% at 93% 100%, rgba(240,240,235,0.18), transparent 73%)",
             "linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.24) 100%)",
           ].join(","),
         }}
       />
 
+      {/* граница и отражающий бетонный пол */}
+      <div className="absolute inset-x-0 bottom-0 h-[38%] border-t border-white/15 bg-[linear-gradient(180deg,rgba(160,160,154,0.16),rgba(47,48,47,0.40)_28%,rgba(10,11,11,0.58))]" />
+      <div
+        className="absolute inset-x-0 bottom-0 h-[38%] opacity-90"
+        style={{
+          backgroundImage: [
+            "radial-gradient(52% 76% at 88% 90%, rgba(248,248,242,0.36), transparent 72%)",
+            "radial-gradient(42% 70% at 16% 94%, rgba(248,248,242,0.23), transparent 74%)",
+            "radial-gradient(42% 68% at 3% 100%, rgba(190,48,53,0.20), transparent 72%)",
+            "linear-gradient(100deg, transparent 28%, rgba(255,255,255,0.10) 50%, transparent 70%)",
+          ].join(","),
+        }}
+      />
+      <div className="absolute inset-x-0 bottom-[37.8%] h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
       {/* корпуса светильников */}
       {["9%", "91%"].map((left) => (
-        <div key={left} className="absolute top-5 h-10 w-7 -translate-x-1/2 rounded-[0.45rem_0.45rem_0.6rem_0.6rem] bg-[linear-gradient(90deg,#090909,#252525_50%,#070707)] shadow-[0_8px_10px_rgba(0,0,0,0.6)]" style={{ left }}>
+        <div key={left} className="absolute top-5 h-10 w-7 -translate-x-1/2 rounded-[0.45rem_0.45rem_0.6rem_0.6rem] bg-[linear-gradient(90deg,#090909,#252525_50%,#070707)] shadow-[0_8px_10px_rgba(0,0,0,0.6)] before:absolute before:left-1/2 before:top-1/2 before:-z-10 before:h-5 before:w-9 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-md before:bg-[#111] before:shadow-[0_2px_8px_rgba(0,0,0,0.65)]" style={{ left }}>
           <div className="absolute -bottom-0.5 left-1/2 h-2 w-5 -translate-x-1/2 rounded-[50%] bg-[#ffe6bb] shadow-[0_8px_16px_5px_rgba(255,222,168,0.34)]" />
         </div>
       ))}
