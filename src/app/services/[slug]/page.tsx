@@ -59,7 +59,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 ))}
               </ul>
               <p className="mt-5 border-l-2 border-accent pl-4 text-sm leading-relaxed text-muted">
-                Ви не купуєте автомобіль наосліп. Фото, відео, рапорти та зрозуміле пояснення стану надходять до прийняття рішення.
+                До покупки ви отримуєте факти про стан авто: фото, відео, діагностичні рапорти, знайдені проблеми та мою рекомендацію — купувати, торгуватися чи відмовитися від автомобіля.
               </p>
             </section>
 
