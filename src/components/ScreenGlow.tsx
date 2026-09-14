@@ -53,14 +53,15 @@ export function GarageGlow() {
         }}
       />
 
-      {/* тёплый свет от светильников + красный отсвет + лёгкое затемнение пола */}
+      {/* широкий реалистичный свет: он виден на стене вокруг карточек */}
       <div
         className="absolute inset-0"
         style={{
           backgroundImage: [
-            "radial-gradient(40% 42% at 9% 0%, rgba(255,224,173,0.20), transparent 66%)",
-            "radial-gradient(40% 42% at 91% 0%, rgba(255,224,173,0.17), transparent 66%)",
-            "radial-gradient(58% 30% at 6% 100%, rgba(182,66,70,0.13), transparent 70%)",
+            "radial-gradient(44% 34% at 10% 10%, rgba(255,225,177,0.24), transparent 72%)",
+            "radial-gradient(44% 34% at 90% 10%, rgba(255,225,177,0.22), transparent 72%)",
+            "radial-gradient(50% 32% at 8% 100%, rgba(182,66,70,0.16), transparent 72%)",
+            "radial-gradient(45% 28% at 92% 82%, rgba(255,225,177,0.07), transparent 76%)",
             "linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.24) 100%)",
           ].join(","),
         }}
@@ -68,15 +69,9 @@ export function GarageGlow() {
 
       {/* корпуса светильников */}
       {["9%", "91%"].map((left) => (
-        <svg
-          key={left}
-          viewBox="0 0 24 16"
-          className="absolute top-2 h-4 w-6 -translate-x-1/2 text-black/75"
-          style={{ left }}
-        >
-          <rect x="7" y="0" width="10" height="6" rx="2" fill="currentColor" />
-          <ellipse cx="12" cy="7.5" rx="6.5" ry="1.7" fill="currentColor" />
-        </svg>
+        <div key={left} className="absolute top-5 h-10 w-7 -translate-x-1/2 rounded-[0.45rem_0.45rem_0.6rem_0.6rem] bg-[linear-gradient(90deg,#090909,#252525_50%,#070707)] shadow-[0_8px_10px_rgba(0,0,0,0.6)]" style={{ left }}>
+          <div className="absolute -bottom-0.5 left-1/2 h-2 w-5 -translate-x-1/2 rounded-[50%] bg-[#ffe6bb] shadow-[0_8px_16px_5px_rgba(255,222,168,0.34)]" />
+        </div>
       ))}
     </div>
   );
