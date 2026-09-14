@@ -2,60 +2,28 @@ import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { ArrowRightIcon } from "@/components/icons";
 
-// Главное меню — согласованный макет "03-главное-меню": ровно две
-// карточки-раздела, без вложенных списков услуг и без предпросмотра машин
-// (см. OlehDKreference/Шаблон Для кода/README_ДЛЯ_CLAUDE.md).
 const sections = [
-  {
-    href: "/cars",
-    photo: "/menu/cars-banner.jpg",
-    title: "Авто в наявності",
-    subtitle: "Переглянути автомобілі",
-  },
-  {
-    href: "/services",
-    photo: "/menu/services-banner.jpg",
-    title: "Послуги",
-    subtitle: "Підбір та перевірка авто",
-  },
+  { href: "/cars", photo: "/menu/cars-mercedes.jpg", title: "Авто в наявності", subtitle: "Переглянути автомобілі" },
+  { href: "/services", photo: "/menu/services-mercedes.jpg", title: "Послуги", subtitle: "Підбір та перевірка авто" },
 ];
 
 export default function MenuPage() {
   return (
-    <main className="flex flex-1 flex-col pt-12 pb-10">
-      <Logo size="md" className="mx-auto" />
+    <main className="relative flex min-h-[100svh] flex-1 flex-col px-5 pb-[calc(env(safe-area-inset-bottom)+2rem)] pt-[calc(env(safe-area-inset-top)+4.8rem)]">
+      <Logo size="md" className="mx-auto w-[10.5rem]" />
+      <h1 className="mt-8 text-center text-[2rem] font-extrabold leading-tight tracking-[-0.035em]">Що вас цікавить?</h1>
+      <p className="mt-2 text-center text-[1.1rem] text-muted">Оберіть розділ</p>
 
-      <h1 className="mt-7 text-center text-[clamp(1.7rem,7.6vw,2.1rem)] font-extrabold tracking-tight">
-        Що вас цікавить?
-      </h1>
-      <p className="mt-1.5 text-center text-[clamp(0.95rem,4vw,1.05rem)] text-muted">
-        Оберіть розділ
-      </p>
-
-      {/* 84% ширины экрана — под референс главного меню, шире прежнего
-          отступа в 24px с каждой стороны. */}
-      <div className="mx-auto mt-8 flex w-[84%] flex-col gap-4">
+      <div className="mt-8 flex flex-col gap-5">
         {sections.map((section) => (
-          <Link
-            key={section.href}
-            href={section.href}
-            className="overflow-hidden rounded-2xl border border-border bg-surface"
-          >
-            {/* Пропорция 1.9:1 — как в макете 03. Исходники шире (2.5:1),
-                поэтому object-cover подрезает их по бокам: красная подсветка
-                сверху и снизу при этом сохраняется, композиция не ломается. */}
-            {/* eslint-disable-next-line @next/next/no-img-element -- локальный статический ассет из public/, next/image здесь не даёт преимуществ */}
-            <img
-              src={section.photo}
-              alt=""
-              className="aspect-[1.9] w-full object-cover"
-            />
-            <div className="flex items-center justify-between gap-3 p-4">
+          <Link key={section.href} href={section.href} className="group overflow-hidden rounded-[1.35rem] border border-white/20 bg-[#101111] shadow-[0_18px_45px_rgba(0,0,0,0.28)] active:scale-[0.995]">
+            <img src={section.photo} alt="" className="aspect-[1.82] w-full object-cover" />
+            <div className="flex min-h-[6.4rem] items-center justify-between gap-3 bg-[linear-gradient(110deg,#151616,#0d0e0e)] px-5 py-4">
               <div>
-                <p className="font-semibold">{section.title}</p>
-                <p className="mt-0.5 text-sm text-muted">{section.subtitle}</p>
+                <p className="text-[1.24rem] font-extrabold leading-tight">{section.title}</p>
+                <p className="mt-1.5 text-[0.96rem] text-muted">{section.subtitle}</p>
               </div>
-              <ArrowRightIcon className="h-5 w-5 shrink-0 text-foreground" />
+              <ArrowRightIcon className="h-7 w-7 shrink-0 text-white transition-transform group-active:translate-x-1" />
             </div>
           </Link>
         ))}
