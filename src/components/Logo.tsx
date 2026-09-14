@@ -1,34 +1,30 @@
-// Вордмарк из утверждённых макетов: "OLEH DK" (DK — акцентным красным) +
-// "AUTO" разрядкой ниже или в строку. Текст здесь фиксированный (не из
-// siteConfig) — это визуальный лого-блок, а не название для метаданных.
+// Оригинальный логотип из 05-логотип-оригинал.jpg: серебристый контур авто,
+// белый OLEH, красный DK, AUTO с красными линиями. Растровая копия с
+// прозрачным фоном лежит в public/brand/logo.png — текстовой имитацией
+// заменять нельзя (см. README_ДЛЯ_CLAUDE.md).
+const WIDTHS = {
+  lg: 148,
+  md: 140,
+} as const;
+
 export function Logo({
   className = "",
-  variant = "stacked",
+  size = "md",
 }: {
   className?: string;
-  variant?: "stacked" | "inline";
+  size?: keyof typeof WIDTHS;
 }) {
-  if (variant === "inline") {
-    return (
-      <span className={`inline-flex items-baseline gap-2 ${className}`}>
-        <span className="text-sm font-extrabold tracking-tight">
-          OLEH <span className="text-accent">DK</span>
-        </span>
-        <span className="text-xs font-semibold tracking-[0.25em] text-muted">
-          AUTO
-        </span>
-      </span>
-    );
-  }
+  const width = WIDTHS[size];
 
   return (
-    <span className={`inline-flex flex-col ${className}`}>
-      <span className="text-2xl font-extrabold leading-none tracking-tight">
-        OLEH <span className="text-accent">DK</span>
-      </span>
-      <span className="mt-1.5 text-[11px] font-semibold tracking-[0.35em] text-muted">
-        AUTO
-      </span>
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element -- локальный статический ассет из public/
+    <img
+      src="/brand/logo.png"
+      alt="OLEH DK AUTO"
+      width={width}
+      height={Math.round((width * 355) / 1054)}
+      className={className}
+      style={{ width, height: "auto" }}
+    />
   );
 }
