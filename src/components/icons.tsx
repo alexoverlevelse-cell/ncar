@@ -52,6 +52,24 @@ export function TelegramIcon({ className }: IconProps) {
   );
 }
 
+export function DocumentIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <rect x="5" y="3" width="14" height="18" rx="2.5" />
+      <path d="M9 8.5h6M9 12h6M9 15.5h3.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function PersonIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className}>
+      <circle cx="12" cy="8" r="3.6" />
+      <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function ChevronRightIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
