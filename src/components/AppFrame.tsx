@@ -7,7 +7,7 @@ import { GarageGlow, ScreenGlow } from "./ScreenGlow";
 
 // На приветственном экране плавающей кнопки связи нет — он занимает весь
 // экран, а дальше пользователь попадает в приложение.
-const FULLSCREEN_ROUTES = ["/"];
+const FULLSCREEN_ROUTES = ["/", "/home"];
 
 export function AppFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname();
