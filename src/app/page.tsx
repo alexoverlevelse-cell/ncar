@@ -15,13 +15,13 @@ export default function WelcomePage() {
   const { role, loading } = useRole();
   return (
     <main className="welcome-screen relative flex min-h-[100svh] flex-col overflow-x-hidden px-6 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] pt-[calc(env(safe-area-inset-top)+1.5rem)]">
-      <div className="relative min-h-[15.5rem]">
+      <div className="relative min-h-[19rem]">
         <Logo size="md" className="relative z-10 w-[8.8rem]" />
-        <div className="absolute -right-11 -top-4 h-[17rem] w-[14.5rem] overflow-hidden">
+        <div className="absolute -right-6 -top-4 h-[20.5rem] w-[16.5rem] max-w-[82vw] overflow-hidden">
           <img src="/brand/oleh-portrait.jpg" alt="Олег" className="h-full w-full select-none object-cover object-top" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--background)_0%,transparent_26%),linear-gradient(0deg,var(--background)_0%,transparent_35%)]" />
         </div>
-        <h1 className="absolute bottom-2 left-0 z-10 text-[2.75rem] font-extrabold leading-[0.98] tracking-[-0.045em]">
+        <h1 className="absolute bottom-2 left-0 z-10 text-[2.75rem] font-extrabold leading-[0.98] tracking-[-0.045em] [text-shadow:0_2px_18px_rgba(0,0,0,0.8)]">
           Вітаю,<br />я Олег.
         </h1>
       </div>
