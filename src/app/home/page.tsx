@@ -22,13 +22,15 @@ const sections = [
 
 export default function MenuPage() {
   return (
-    <main className="flex flex-1 flex-col px-6 pt-8 pb-10">
-      <Logo variant="inline" className="justify-center" />
+    <main className="flex flex-1 flex-col px-6 pt-12 pb-10">
+      <Logo size="md" className="mx-auto" />
 
-      <h1 className="mt-6 text-center text-[1.9rem] font-extrabold tracking-tight">
+      <h1 className="mt-7 text-center text-[clamp(1.7rem,7.6vw,2.1rem)] font-extrabold tracking-tight">
         Що вас цікавить?
       </h1>
-      <p className="mt-1 text-center text-sm text-muted">Оберіть розділ</p>
+      <p className="mt-1.5 text-center text-[clamp(0.95rem,4vw,1.05rem)] text-muted">
+        Оберіть розділ
+      </p>
 
       <div className="mt-8 flex flex-col gap-5">
         {sections.map((section) => (
@@ -37,18 +39,21 @@ export default function MenuPage() {
             href={section.href}
             className="overflow-hidden rounded-2xl border border-border bg-surface"
           >
-            {/* Никакой принудительной пропорции и object-cover: фото вырезаны
-                из макета ровно по своим границам (~2.6:1), поэтому показываем
-                их целиком. Любая заданная пропорция обрезала бы красные линии
-                сверху и снизу — композиция из макета ломалась. */}
+            {/* Пропорция 1.9:1 — как в макете 03. Исходники шире (2.5:1),
+                поэтому object-cover подрезает их по бокам: красная подсветка
+                сверху и снизу при этом сохраняется, композиция не ломается. */}
             {/* eslint-disable-next-line @next/next/no-img-element -- локальный статический ассет из public/, next/image здесь не даёт преимуществ */}
-            <img src={section.photo} alt="" className="w-full" />
+            <img
+              src={section.photo}
+              alt=""
+              className="aspect-[1.9] w-full object-cover"
+            />
             <div className="flex items-center justify-between gap-3 p-4">
               <div>
                 <p className="font-semibold">{section.title}</p>
                 <p className="mt-0.5 text-sm text-muted">{section.subtitle}</p>
               </div>
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-foreground/40">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-foreground/40">
                 <ArrowRightIcon className="h-4 w-4" />
               </span>
             </div>
