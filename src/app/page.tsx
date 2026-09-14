@@ -2,72 +2,89 @@
 
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import { ArrowRightIcon, ShieldIcon } from "@/components/icons";
+import {
+  ArrowRightIcon,
+  CarIcon,
+  DocumentIcon,
+  PersonIcon,
+  ShieldIcon,
+} from "@/components/icons";
 import { useRole } from "@/lib/use-role";
 
-// Текст и порядок пунктов зафиксированы в согласованном макете
-// "02-знакомство-в-приложении" (см. OlehDKreference/Шаблон Для кода/
-// README_ДЛЯ_CLAUDE.md) — не менять без нового согласования.
+// Тексты и порядок пунктов зафиксированы макетом "02-знакомство-в-приложении"
+// (см. OlehDKreference/Шаблон Для кода/README_ДЛЯ_CLAUDE.md) — не менять без
+// нового согласования. Других CTA и каталога на этом экране нет.
 const features = [
   {
-    number: "01",
+    Icon: CarIcon,
     title: "Авто для покупки",
     description: "Переглядайте автомобілі в наявності",
   },
   {
-    number: "02",
+    Icon: DocumentIcon,
     title: "Послуги та ціни",
     description: "Дізнавайтеся вартість і що входить",
   },
   {
-    number: "03",
+    Icon: PersonIcon,
     title: "Підбір під ваш запит",
     description: "Залишайте побажання та бюджет",
   },
 ];
 
-// Экран знакомства всередині Mini App — узгоджений варіант "без портрета".
-// Портрет Олега (01-приветствие-с-Олегом.png) — це окремий асет для самого
-// Telegram-бота (аватар/фото в чаті), а не частина цього екрана.
 export default function WelcomePage() {
   const { role, loading } = useRole();
 
   return (
-    <main className="flex min-h-dvh flex-1 flex-col px-6 pt-8 pb-[max(2.5rem,env(safe-area-inset-bottom))]">
-      <Logo />
+    <main className="flex min-h-dvh flex-1 flex-col pb-[max(2.25rem,env(safe-area-inset-bottom))]">
+      {/* Верхний блок: логотип и приветствие слева, портрет Олега справа —
+          компоновка из макета 02. Портрет тянется на высоту левой колонки,
+          поэтому описание под ним никогда не перекрывается. */}
+      <div className="flex gap-2 pt-7 pl-6">
+        <div className="flex min-h-[36vh] min-w-0 flex-1 flex-col">
+          <Logo size="lg" />
 
-      <h1 className="mt-8 text-[2.4rem] font-extrabold leading-[1.05] tracking-tight">
-        Вітаємо
-        <br />в OLEH DK
-      </h1>
-      <p className="mt-3 text-base leading-relaxed text-muted">
-        Авто та допомога з вибором в одному місці.
+          <h1 className="mt-9 text-[clamp(2.15rem,11vw,2.9rem)] font-extrabold leading-[1.04] tracking-tight">
+            Вітаю,
+            <br />я Олег.
+          </h1>
+        </div>
+
+        {/* eslint-disable-next-line @next/next/no-img-element -- локальный статический ассет из public/ */}
+        <img
+          src="/brand/oleh-portrait.png"
+          alt="Олег"
+          className="pointer-events-none w-[46%] max-w-[220px] select-none self-stretch object-cover object-top"
+        />
+      </div>
+
+      <p className="mt-6 px-6 text-[clamp(1.1rem,5.1vw,1.3rem)] leading-snug text-muted">
+        Допоможу вам із вибором та перевіркою авто в Данії.
       </p>
 
-      <ul className="mt-8 flex flex-col">
-        {features.map((feature, index) => (
-          <li
-            key={feature.number}
-            className={`flex gap-4 py-4 ${index > 0 ? "border-t border-border" : ""}`}
-          >
-            <span className="shrink-0 text-lg font-bold text-accent">
-              {feature.number}
-            </span>
-            <div>
-              <p className="font-semibold">{feature.title}</p>
-              <p className="mt-0.5 text-sm text-muted">{feature.description}</p>
+      <ul className="mt-auto flex flex-col gap-8 px-6 pt-8">
+        {features.map(({ Icon, title, description }) => (
+          <li key={title} className="flex items-center gap-4">
+            <Icon className="h-9 w-9 shrink-0 text-foreground" />
+            <div className="min-w-0">
+              <p className="text-[1.05rem] font-semibold leading-tight">
+                {title}
+              </p>
+              <p className="mt-1 text-sm leading-tight text-muted">
+                {description}
+              </p>
             </div>
           </li>
         ))}
       </ul>
 
-      <div className="mt-auto flex flex-col gap-3 pt-8">
+      <div className="mt-auto flex flex-col gap-2 px-6 pt-9">
         <Link
           href="/home"
-          className="flex items-center justify-center gap-2 rounded-xl bg-accent py-4 text-base font-medium text-foreground"
+          className="flex items-center justify-center gap-2.5 rounded-xl bg-accent py-4 text-base font-semibold text-foreground"
         >
           Продовжити
-          <ArrowRightIcon className="h-4 w-4" />
+          <ArrowRightIcon className="h-4.5 w-4.5" />
         </Link>
 
         {/* Кнопки нет в макете — это функциональная необходимость для
