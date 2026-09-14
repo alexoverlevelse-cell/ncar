@@ -93,7 +93,7 @@ export default function WelcomePage() {
         {!loading && role === "admin" && (
           <Link
             href="/admin"
-            className="flex items-center justify-center gap-1.5 py-2 text-sm text-muted"
+            className="flex items-center justify-center gap-2 rounded-xl bg-[#2F7A4D] py-3 text-sm font-semibold text-foreground"
           >
             <ShieldIcon className="h-4 w-4" />
             Адмін-панель
