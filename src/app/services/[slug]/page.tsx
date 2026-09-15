@@ -37,6 +37,34 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           </section>
         )}
 
+        {slug === "inspection" && (
+          <>
+            <details open className="rounded-2xl border border-white/10 bg-surface p-5">
+              <summary className="cursor-pointer font-bold">Як проходить підбір — 7 кроків</summary>
+              <div className="mt-5 space-y-5">
+                {selectionSteps.map(([title, text], index) => (
+                  <div key={title}>
+                    <h3 className="font-bold">{index + 1}. {title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </details>
+
+            <details open className="rounded-2xl border border-white/10 bg-surface p-5">
+              <summary className="cursor-pointer font-bold">Що перевіряється?</summary>
+              <div className="mt-5 space-y-5">
+                {inspectionChecks.map(([icon, title, text]) => (
+                  <div key={title}>
+                    <h3 className="font-semibold">{icon} {title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </details>
+          </>
+        )}
+
         {slug !== "inspection" && <section>
           <h2 className="text-xl font-bold">Що входить</h2>
           <ul className="mt-3 space-y-2.5">
@@ -71,29 +99,6 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
               <p className="mt-4 text-sm leading-relaxed text-muted">Доїзд: 200 DKK за кожну фактичну годину дороги туди й назад. Повна вартість погоджується до виїзду.</p>
             </section>
 
-            <details open className="rounded-2xl border border-white/10 bg-surface p-5">
-              <summary className="cursor-pointer font-bold">Як проходить підбір — 7 кроків</summary>
-              <div className="mt-5 space-y-5">
-                {selectionSteps.map(([title, text], index) => (
-                  <div key={title}>
-                    <h3 className="font-bold">{index + 1}. {title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted">{text}</p>
-                  </div>
-                ))}
-              </div>
-            </details>
-
-            <details open className="rounded-2xl border border-white/10 bg-surface p-5">
-              <summary className="cursor-pointer font-bold">Детальна інформація про перевірку</summary>
-              <div className="mt-5 space-y-5">
-                {inspectionChecks.map(([icon, title, text]) => (
-                  <div key={title}>
-                    <h3 className="font-semibold">{icon} {title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted">{text}</p>
-                  </div>
-                ))}
-              </div>
-            </details>
           </>
         )}
 
