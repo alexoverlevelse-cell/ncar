@@ -7,6 +7,20 @@ import { PhotoListUploader, PhotoUploader } from "./PhotoUploader";
 import { apiFetch } from "@/lib/telegram";
 import { CAR_STATUSES, CAR_STATUS_LABELS, type Car } from "@/types/car";
 
+const FUEL_OPTIONS = ["Бензин", "Дизель", "Гібрид", "Plug-in гібрид", "Електро"] as const;
+const TRANSMISSION_OPTIONS = ["Автомат", "Механіка"] as const;
+const BODY_OPTIONS = [
+  "Хетчбек",
+  "Універсал",
+  "Седан",
+  "SUV / Кросовер",
+  "Купе",
+  "Кабріолет",
+  "Мінівен",
+  "Фургон",
+  "Пікап",
+] as const;
+
 // Одна форма и на создание, и на редактирование: отличается только тем,
 // куда уходит запрос.
 export function CarForm({ car }: { car?: Car }) {
@@ -122,28 +136,52 @@ export function CarForm({ car }: { car?: Car }) {
           />
         </Field>
         <Field label="Паливо">
-          <TextInput
+          <Select
             value={form.fuel_type}
             onChange={(e) => update("fuel_type", e.target.value)}
-            placeholder="Дизель"
-          />
+            required
+          >
+            <option value="" disabled>Оберіть паливо</option>
+            {form.fuel_type && !FUEL_OPTIONS.some((option) => option === form.fuel_type) && (
+              <option value={form.fuel_type}>{form.fuel_type}</option>
+            )}
+            {FUEL_OPTIONS.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </Select>
         </Field>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid gap-4">
         <Field label="Коробка передач">
-          <TextInput
+          <Select
             value={form.transmission}
             onChange={(e) => update("transmission", e.target.value)}
-            placeholder="Автомат"
-          />
+            required
+          >
+            <option value="" disabled>Оберіть коробку передач</option>
+            {form.transmission && !TRANSMISSION_OPTIONS.some((option) => option === form.transmission) && (
+              <option value={form.transmission}>{form.transmission}</option>
+            )}
+            {TRANSMISSION_OPTIONS.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </Select>
         </Field>
-        <Field label="Кузов">
-          <TextInput
+        <Field label="Тип кузова">
+          <Select
             value={form.body_type}
             onChange={(e) => update("body_type", e.target.value)}
-            placeholder="Хетчбек"
-          />
+            required
+          >
+            <option value="" disabled>Оберіть тип кузова</option>
+            {form.body_type && !BODY_OPTIONS.some((option) => option === form.body_type) && (
+              <option value={form.body_type}>{form.body_type}</option>
+            )}
+            {BODY_OPTIONS.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </Select>
         </Field>
       </div>
 
