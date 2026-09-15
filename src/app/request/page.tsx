@@ -5,7 +5,7 @@ import { FormEvent, Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 
-type Field = { name: string; label: string; placeholder?: string };
+type Field = { name: string; label: string; placeholder?: string; options?: string[]; required?: boolean };
 
 const commonFields: Field[] = [
   { name: "name", label: "Ваше ім’я", placeholder: "Як до вас звертатися" },
@@ -18,14 +18,14 @@ const foundFields: Field[] = [
   { name: "adLink", label: "Посилання на авто", placeholder: "https://…" },
 ];
 const searchFields: Field[] = [
-  { name: "budget", label: "Максимальний бюджет", placeholder: "DKK" },
-  { name: "body", label: "Тип кузова", placeholder: "Хетчбек / універсал / седан / SUV / не знаю" },
-  { name: "fuel", label: "Паливо", placeholder: "Бензин / дизель / Hybrid / Electric / не знаю" },
-  { name: "transmission", label: "Коробка", placeholder: "Автомат / механіка / без різниці" },
-  { name: "purpose", label: "Для чого потрібне авто?", placeholder: "Місто / траса / сім’я / робота / змішано" },
-  { name: "annualMileage", label: "Приблизний річний пробіг", placeholder: "км на рік" },
-  { name: "models", label: "Марки або моделі, які подобаються", placeholder: "Можна пропустити" },
-  { name: "priority", label: "Що найважливіше?", placeholder: "Надійність / економічність / комфорт / простір…" },
+  { name: "budget", label: "Максимальний бюджет", options: ["До 50 000 DKK", "50 000–75 000 DKK", "75 000–100 000 DKK", "100 000–150 000 DKK", "150 000–200 000 DKK", "Понад 200 000 DKK"] },
+  { name: "body", label: "Тип кузова", options: ["Хетчбек", "Універсал", "Седан", "SUV / кросовер", "Купе", "Мінівен", "Без різниці"] },
+  { name: "fuel", label: "Паливо", options: ["Бензин", "Дизель", "Гібрид", "Plug-in гібрид", "Електро", "Без різниці"] },
+  { name: "transmission", label: "Коробка передач", options: ["Автомат", "Механіка", "Без різниці"] },
+  { name: "purpose", label: "Для чого потрібне авто?", options: ["Місто", "Траса", "Сім’я", "Робота", "Місто та траса", "Перше авто"] },
+  { name: "annualMileage", label: "Річний пробіг", options: ["До 10 000 км", "10 000–20 000 км", "20 000–30 000 км", "Понад 30 000 км", "Ще не знаю"] },
+  { name: "models", label: "Марка, яка подобається", required: false, options: ["Без переваг", "Volkswagen", "Skoda", "Toyota", "Hyundai", "Peugeot", "Mercedes-Benz", "BMW", "Audi", "Інша марка — напишу в коментарі"] },
+  { name: "priority", label: "Що найважливіше?", options: ["Надійність", "Економічність", "Комфорт", "Простір для сім’ї", "Динаміка", "Низька ціна обслуговування"] },
 ];
 const serviceTitles: Record<string, string> = {
   sale: "Продаж • Викуп • Обмін",
@@ -87,7 +87,19 @@ function RequestContent() {
         {fields.map((field) => (
           <label key={field.name} className="block">
             <span className="mb-2 block text-sm font-medium">{field.label}</span>
-            <input name={field.name} placeholder={field.placeholder} required={field.name !== "models"} className="min-h-12 w-full rounded-xl border border-white/10 bg-surface px-4 text-sm outline-none placeholder:text-muted/55 focus:border-accent" />
+            {field.options ? (
+              <select
+                name={field.name}
+                defaultValue=""
+                required={field.required ?? true}
+                className="min-h-12 w-full rounded-xl border border-white/10 bg-surface px-4 text-sm outline-none focus:border-accent"
+              >
+                <option value="" disabled>Оберіть варіант</option>
+                {field.options.map((option) => <option key={option} value={option}>{option}</option>)}
+              </select>
+            ) : (
+              <input name={field.name} placeholder={field.placeholder} required={field.required ?? true} className="min-h-12 w-full rounded-xl border border-white/10 bg-surface px-4 text-sm outline-none placeholder:text-muted/55 focus:border-accent" />
+            )}
           </label>
         ))}
         {!isFound && (
