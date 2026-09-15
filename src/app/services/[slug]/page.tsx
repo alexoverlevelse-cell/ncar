@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { TelegramIcon } from "@/components/icons";
 import { PageHeader } from "@/components/PageHeader";
+import { buildTelegramLink, siteConfig } from "@/lib/site-config";
 import { getService, inspectionChecks, selectionSteps, serviceCatalog } from "@/lib/service-catalog";
 
 export function generateStaticParams() {
@@ -13,6 +15,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   if (!service) notFound();
 
   const requestHref = slug === "inspection" ? "/request?type=inspection" : `/request?type=${service.requestType}`;
+  const telegramLink = buildTelegramLink(`Добрий день! Цікавить послуга «${service.title}».`);
 
   return (
     <main className="flex flex-1 flex-col pb-10">
@@ -112,6 +115,19 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         <Link href={requestHref} className="flex min-h-14 items-center justify-center rounded-2xl bg-accent px-5 text-center font-bold text-white shadow-[0_10px_30px_rgba(182,66,70,0.2)]">
           {service.cta}
         </Link>
+
+        {telegramLink && (
+          <a
+            href={telegramLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-14 items-center justify-center gap-2 rounded-2xl border border-[#229ED9]/45 bg-[#229ED9]/10 px-5 text-center font-semibold text-foreground"
+          >
+            <TelegramIcon className="h-5 w-5 text-[#229ED9]" />
+            Написати Олегу в Telegram
+          </a>
+        )}
+        <p className="text-center text-sm text-muted">{siteConfig.telegramContact}</p>
       </div>
     </main>
   );
