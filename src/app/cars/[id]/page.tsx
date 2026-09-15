@@ -33,7 +33,21 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
   return (
     <main className="flex flex-1 flex-col">
       <div className="relative">
-        <CarPhoto car={car} className="aspect-[4/3] w-full" />
+        {car.photos.length > 1 ? (
+          <div className="flex snap-x snap-mandatory overflow-x-auto">
+            {car.photos.map((photo, index) => (
+              // eslint-disable-next-line @next/next/no-img-element -- фото приходять із Supabase Storage
+              <img
+                key={photo}
+                src={photo}
+                alt={`${car.brand} ${car.model}, фото ${index + 1}`}
+                className="aspect-[4/3] w-full shrink-0 snap-center object-cover"
+              />
+            ))}
+          </div>
+        ) : (
+          <CarPhoto car={car} className="aspect-[4/3] w-full" />
+        )}
         <Link
           href="/cars"
           aria-label="Назад до списку"
@@ -41,6 +55,11 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
         >
           <ArrowLeftIcon className="h-5 w-5" />
         </Link>
+        {car.photos.length > 1 && (
+          <p className="pointer-events-none absolute bottom-3 right-4 rounded-full bg-background/75 px-2.5 py-1 text-xs font-semibold text-foreground backdrop-blur">
+            {car.photos.length} фото · гортайте
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-5 px-5 py-5">
@@ -94,6 +113,7 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
             Зв&rsquo;язатися з продавцем
           </Link>
         )}
+
       </div>
     </main>
   );
