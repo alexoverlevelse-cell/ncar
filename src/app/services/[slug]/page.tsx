@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
-import { getService, inspectionChecks, inspectionResults, serviceCatalog } from "@/lib/service-catalog";
+import { getService, inspectionChecks, inspectionResults, selectionSteps, serviceCatalog } from "@/lib/service-catalog";
 
 export function generateStaticParams() {
   return serviceCatalog.map(({ slug }) => ({ slug }));
@@ -21,21 +21,26 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         <p className="text-[1.02rem] leading-relaxed text-muted">{service.lead}</p>
 
         {slug === "inspection" && (
-          <section className="grid grid-cols-2 gap-3">
-            <Link href="/request?type=found" className="rounded-2xl border border-white/10 bg-surface p-4">
-              <span className="text-xl">🔗</span>
-              <h2 className="mt-3 font-bold">Вже знайшли авто</h2>
-              <p className="mt-1 text-xs leading-relaxed text-muted">Надішліть оголошення на перевірку</p>
+          <section className="space-y-4">
+            <Link href="/request?type=found" className="block rounded-2xl border border-white/10 bg-surface p-5">
+              <h2 className="text-lg font-bold">🔗 Вже знайшли авто?</h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                Надішліть оголошення — зв’яжусь із продавцем, домовлюсь про огляд та проведу комплексну перевірку.
+              </p>
             </Link>
-            <Link href="/request?type=search" className="rounded-2xl border border-white/10 bg-surface p-4">
-              <span className="text-xl">🎯</span>
-              <h2 className="mt-3 font-bold">Потрібен пошук</h2>
-              <p className="mt-1 text-xs leading-relaxed text-muted">Підберемо авто під ваш бюджет</p>
+            <Link href="/request?type=search" className="block rounded-2xl border border-white/10 bg-surface p-5">
+              <h2 className="text-lg font-bold">🎯 Потрібен підбір авто?</h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                Підберу варіанти під ваш бюджет, паливо, коробку передач, пробіг, комплектацію та інші побажання. Відібрані оголошення надсилаю вам — <strong>ви обираєте автомобіль, який хочете перевірити.</strong>
+              </p>
             </Link>
+            <p className="text-sm leading-relaxed text-muted">
+              Після вибору я зв’язуюсь із продавцем, домовляюсь про огляд та проводжу комплексну перевірку.
+            </p>
           </section>
         )}
 
-        <section>
+        {slug !== "inspection" && <section>
           <h2 className="text-xl font-bold">Що входить</h2>
           <ul className="mt-3 space-y-2.5">
             {service.items.map((item) => (
@@ -45,7 +50,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
               </li>
             ))}
           </ul>
-        </section>
+        </section>}
 
         {slug === "inspection" && (
           <>
@@ -67,9 +72,9 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
               <h2 className="text-xl font-bold">Вартість перевірки</h2>
               <div className="mt-3 overflow-hidden rounded-2xl border border-white/10">
                 {[
-                  ["Бензин / Дизель до 50.000 DKK", "2.500 DKK"],
-                  ["Бензин / Дизель від 50.000 DKK", "3.000 DKK"],
-                  ["Electric / Hybrid", "3.500 DKK"],
+                  ["Бензин / Дизель до 50 000 DKK", "2 500 DKK"],
+                  ["Бензин / Дизель від 50 000 DKK", "3 000 DKK"],
+                  ["Electric / Hybrid", "3 500 DKK"],
                 ].map(([category, price]) => (
                   <div key={category} className="flex items-center justify-between gap-4 border-b border-white/10 bg-surface px-4 py-3 last:border-b-0">
                     <span className="text-sm text-muted">{category}</span>
@@ -77,8 +82,23 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                   </div>
                 ))}
               </div>
-              <p className="mt-3 text-xs leading-relaxed text-muted">Доїзд: 200 DKK за кожну фактичну годину дороги туди й назад. Повна вартість погоджується до виїзду.</p>
+              <p className="mt-4 border-l-2 border-white/30 pl-4 text-sm leading-relaxed text-muted">
+                <strong>Ціна вказана за перевірку одного автомобіля.</strong> Якщо після перевірки автомобіль не підходить і ви обираєте інший — його перевірка оплачується окремо за відповідним тарифом.
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-muted">Доїзд: 200 DKK за кожну фактичну годину дороги туди й назад. Повна вартість погоджується до виїзду.</p>
             </section>
+
+            <details className="rounded-2xl border border-white/10 bg-surface p-5">
+              <summary className="cursor-pointer font-bold">Як проходить підбір — 7 кроків</summary>
+              <div className="mt-5 space-y-5">
+                {selectionSteps.map(([title, text], index) => (
+                  <div key={title}>
+                    <h3 className="font-bold">{index + 1}. {title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </details>
 
             <details className="rounded-2xl border border-white/10 bg-surface p-5">
               <summary className="cursor-pointer font-bold">Детально: що саме перевіряється?</summary>
