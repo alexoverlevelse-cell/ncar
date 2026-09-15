@@ -72,7 +72,7 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
               <CarStatusBadge status={car.status} className="mt-1.5" />
             )}
           </div>
-          <p className="shrink-0 text-xl font-semibold text-accent">
+          <p className="shrink-0 text-xl font-semibold text-[#F6C644]">
             {formatPrice(car.price)}
           </p>
         </div>
