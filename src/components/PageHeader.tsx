@@ -20,10 +20,10 @@ export function PageHeader({
             <ArrowLeftIcon className="h-4 w-4" /> Назад
           </Link>
           <div className="flex gap-2">
-            <Link href="/home" aria-label="Головне меню" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted">
+            <Link href="/home" aria-label="Головне меню" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#B64246] bg-[#B64246] text-white shadow-[0_6px_16px_rgba(182,66,70,0.35)]">
               <HomeIcon className="h-4 w-4" />
             </Link>
-            <Link href="/contact" aria-label="Зв’язатися" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted">
+            <Link href="/contact" aria-label="Зв’язатися" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#229ED9] bg-[#229ED9] text-white shadow-[0_6px_16px_rgba(34,158,217,0.32)]">
               <TelegramIcon className="h-4 w-4" />
             </Link>
           </div>
