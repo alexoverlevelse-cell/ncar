@@ -7,6 +7,7 @@ export function formatNumber(value: number): string {
 }
 
 export function formatPrice(value: number): string {
+  if (value <= 0) return "Ціна за запитом";
   return `${numberFormatter.format(value)} ${siteConfig.currencyLabel}`;
 }
 
