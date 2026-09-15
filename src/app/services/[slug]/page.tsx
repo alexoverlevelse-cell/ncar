@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TelegramIcon } from "@/components/icons";
 import { PageHeader } from "@/components/PageHeader";
-import { buildTelegramLink, siteConfig } from "@/lib/site-config";
+import { buildTelegramLink } from "@/lib/site-config";
 import { getService, inspectionChecks, selectionSteps, serviceCatalog } from "@/lib/service-catalog";
 
 export function generateStaticParams() {
@@ -141,7 +141,6 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             Написати Олегу в Telegram
           </a>
         )}
-        <p className="text-center text-sm text-muted">{siteConfig.telegramContact}</p>
       </div>
     </main>
   );
