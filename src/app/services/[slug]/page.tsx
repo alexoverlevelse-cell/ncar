@@ -42,8 +42,19 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
         {slug === "inspection" && (
           <>
-            <details open className="rounded-2xl border border-white/10 bg-surface p-5">
-              <summary className="cursor-pointer font-bold">Як проходить підбір — 7 кроків</summary>
+            <aside className="rounded-2xl border border-[#F6C644]/35 bg-[#F6C644]/[0.08] p-4 text-sm leading-relaxed">
+              <p className="font-bold text-[#F6C644]">ℹ️ Важлива інформація</p>
+              <p className="mt-1 text-foreground/90">
+                Детально про те, як проходить підбір і що входить у перевірку, розписано нижче.
+                Натисніть «Розгорнути» у потрібному блоці.
+              </p>
+            </aside>
+
+            <details className="rounded-2xl border border-white/10 bg-surface p-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-bold">
+                <span>Як проходить підбір — 7 кроків</span>
+                <span className="shrink-0 rounded-lg border border-white/15 bg-white/[0.06] px-3 py-1.5 text-xs font-semibold text-[#F6C644]">Розгорнути</span>
+              </summary>
               <div className="mt-5 space-y-5">
                 {selectionSteps.map(([title, text], index) => (
                   <div key={title}>
@@ -54,8 +65,11 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
               </div>
             </details>
 
-            <details open className="rounded-2xl border border-white/10 bg-surface p-5">
-              <summary className="cursor-pointer font-bold">Що перевіряється?</summary>
+            <details className="rounded-2xl border border-white/10 bg-surface p-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-bold">
+                <span>Що перевіряється?</span>
+                <span className="shrink-0 rounded-lg border border-white/15 bg-white/[0.06] px-3 py-1.5 text-xs font-semibold text-[#F6C644]">Розгорнути</span>
+              </summary>
               <div className="mt-5 space-y-5">
                 {inspectionChecks.map(([icon, title, text]) => (
                   <div key={title}>
