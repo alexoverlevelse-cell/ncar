@@ -43,7 +43,7 @@ export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "t
             {car.brand} {car.model}
           </h3>
           <p className="text-xs text-muted">{details}</p>
-          <p className="mt-auto pt-2 text-base font-semibold text-accent">
+          <p className="mt-auto pt-2 text-base font-semibold text-[#F6C644]">
             {formatPrice(car.price)}
           </p>
         </div>
@@ -67,7 +67,7 @@ export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "t
           )}
         </div>
         <p className="text-xs text-muted">{details}</p>
-        <p className="text-lg font-semibold text-accent">{formatPrice(car.price)}</p>
+        <p className="text-lg font-semibold text-[#F6C644]">{formatPrice(car.price)}</p>
       </div>
     </Link>
   );
