@@ -13,11 +13,9 @@ const commonFields: Field[] = [
   { name: "city", label: "Місто", placeholder: "Де ви знаходитесь" },
 ];
 const foundFields: Field[] = [
-  { name: "adLink", label: "Посилання на оголошення", placeholder: "https://…" },
-  { name: "price", label: "Ціна автомобіля", placeholder: "Наприклад, 85.000 DKK" },
-  { name: "fuel", label: "Тип", placeholder: "Бензин / Дизель / Electric / Hybrid" },
-  { name: "carLocation", label: "Де знаходиться автомобіль?", placeholder: "Місто або адреса" },
-  { name: "purchaseDate", label: "Коли плануєте покупку?", placeholder: "Дата або орієнтовний термін" },
+  { name: "name", label: "Ім’я", placeholder: "Як до вас звертатися" },
+  { name: "phone", label: "Телефон", placeholder: "+45…" },
+  { name: "adLink", label: "Посилання на авто", placeholder: "https://…" },
 ];
 const searchFields: Field[] = [
   { name: "budget", label: "Максимальний бюджет", placeholder: "DKK" },
@@ -62,7 +60,7 @@ function RequestContent() {
   const isFound = type === "found";
   const isSearch = type === "search";
   const title = isFound ? "Перевірити знайдене авто" : isSearch ? "Підібрати автомобіль" : serviceTitles[type] ?? "Заявка";
-  const fields = [...commonFields, ...(isFound ? foundFields : isSearch ? searchFields : [
+  const fields = isFound ? foundFields : [...commonFields, ...(isSearch ? searchFields : [
     { name: "car", label: "Марка, модель і рік автомобіля", placeholder: "Наприклад, Mercedes E220, 2019" },
   ])];
 
@@ -92,10 +90,12 @@ function RequestContent() {
             <input name={field.name} placeholder={field.placeholder} required={field.name !== "models"} className="min-h-12 w-full rounded-xl border border-white/10 bg-surface px-4 text-sm outline-none placeholder:text-muted/55 focus:border-accent" />
           </label>
         ))}
-        <label className="block">
-          <span className="mb-2 block text-sm font-medium">Коментар</span>
-          <textarea name="comment" rows={4} placeholder="Додаткова інформація або побажання" className="w-full resize-none rounded-xl border border-white/10 bg-surface p-4 text-sm outline-none placeholder:text-muted/55 focus:border-accent" />
-        </label>
+        {!isFound && (
+          <label className="block">
+            <span className="mb-2 block text-sm font-medium">Коментар</span>
+            <textarea name="comment" rows={4} placeholder="Додаткова інформація або побажання" className="w-full resize-none rounded-xl border border-white/10 bg-surface p-4 text-sm outline-none placeholder:text-muted/55 focus:border-accent" />
+          </label>
+        )}
         <button className="min-h-14 w-full rounded-2xl bg-accent px-5 font-bold text-white">Підготувати заявку</button>
       </form>
     </main>
