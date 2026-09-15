@@ -7,7 +7,7 @@ export const siteConfig = {
   locationIn: "Данії", // місцевий відмінок: "автомобілі в Данії"
   currencyLabel: "DKK",
 
-  telegramContact: "", // TODO: https://t.me/username продавца
+  telegramContact: "@Oleh_Andriichuk",
   phone: "", // TODO
   address: "", // TODO
   workingHours: "", // TODO
