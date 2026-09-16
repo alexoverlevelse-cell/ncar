@@ -12,6 +12,7 @@ interface TelegramWebApp {
   ready: () => void;
   expand: () => void;
   showConfirm?: (message: string, callback: (confirmed: boolean) => void) => void;
+  openTelegramLink?: (url: string) => void;
   // Появился в Bot API 6.1 — в старых клиентах Telegram его может не быть,
   // поэтому поле и методы опциональные.
   HapticFeedback?: {
@@ -79,6 +80,20 @@ export async function apiFetch(
   } catch {
     return { ok: false, error: "Немає зв'язку із сервером" };
   }
+}
+
+// Внутри мини-аппа target="_blank" для t.me либо не срабатывает, либо
+// выбрасывает во внешний браузер — диалог открывается без подставленного
+// текста. Родной openTelegramLink переводит в чат прямо в Telegram.
+// Возвращает false, если открыть родным способом нельзя (обычный браузер
+// или не t.me-ссылка) — тогда работает обычный переход по href.
+export function openTelegramLink(url: string): boolean {
+  const webApp = getTelegramWebApp();
+  if (!webApp?.openTelegramLink) return false;
+  if (!url.startsWith("https://t.me/")) return false;
+
+  webApp.openTelegramLink(url);
+  return true;
 }
 
 // Подтверждение опасного действия: родное окно Telegram, если доступно.
