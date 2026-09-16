@@ -29,13 +29,15 @@ export default function MenuPage() {
         ))}
       </div>
 
-      <footer className="mt-10 flex flex-col items-center border-t border-white/10 pt-7">
-        <div className="flex items-center gap-3">
-          <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/15 bg-[#101419] shadow-[0_8px_22px_rgba(0,0,0,0.35)]" aria-hidden="true">
-            <span className="text-xl font-light tracking-[-0.18em] text-white">N</span>
+      <footer className="mt-7 flex flex-col items-center gap-3 pt-2">
+        <div className="flex max-w-full items-center justify-center gap-2.5">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0b1016] shadow-[0_4px_12px_rgba(0,0,0,0.25)]" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" className="h-7 w-7" stroke="#aab0b8" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 26V8l20 18V6M6 8l4-4 16 15M10 13l12 11" />
+            </svg>
           </span>
-          <p className="text-[0.95rem] font-semibold text-muted">
-            Developed by <span className="font-extrabold text-white">NordConnection</span>
+          <p className="text-[clamp(10px,3.1vw,13px)] leading-5 whitespace-nowrap">
+            <span className="font-medium text-[#b9bec5]">Developed by</span>{" "}<span className="font-bold text-white">NordConnection</span>
           </p>
         </div>
 
@@ -43,11 +45,11 @@ export default function MenuPage() {
           href="https://t.me/ncfounder"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full border border-[#229ED9]/45 bg-[#229ED9]/10 px-6 text-sm font-bold tracking-[0.08em] text-white active:scale-[0.98]"
+          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/20 bg-[#11171c]/80 px-5 text-xs text-white transition-colors hover:border-[#229ED9]/60 active:scale-[0.98]"
         >
           <TelegramIcon className="h-5 w-5 text-[#229ED9]" />
-          <span className="text-muted">CONTACT</span>
-          <span className="tracking-normal text-white">@ncfounder</span>
+          <span className="font-medium tracking-[0.1em] text-[#b9bec5]">CONTACT</span>
+          <span className="font-bold text-white">@ncfounder</span>
         </a>
       </footer>
     </main>
