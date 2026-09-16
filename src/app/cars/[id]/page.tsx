@@ -7,6 +7,7 @@ import { loadCar } from "@/lib/data";
 import { formatMileage, formatPrice } from "@/lib/format";
 import { buildTelegramLink } from "@/lib/site-config";
 import { CarStatusBadge } from "@/components/CarStatusBadge";
+import { TelegramLink } from "@/components/TelegramLink";
 
 export const dynamic = "force-dynamic";
 
@@ -96,15 +97,13 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
         )}
 
         {telegramLink ? (
-          <a
+          <TelegramLink
             href={telegramLink}
-            target="_blank"
-            rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-foreground"
           >
             <TelegramIcon className="h-5 w-5" />
             Зв&rsquo;язатися з продавцем
-          </a>
+          </TelegramLink>
         ) : (
           <Link
             href="/contact"
