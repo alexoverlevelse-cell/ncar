@@ -12,6 +12,12 @@ interface TelegramWebApp {
   ready: () => void;
   expand: () => void;
   showConfirm?: (message: string, callback: (confirmed: boolean) => void) => void;
+  // Появился в Bot API 6.1 — в старых клиентах Telegram его может не быть,
+  // поэтому поле и методы опциональные.
+  HapticFeedback?: {
+    impactOccurred?: (style: "light" | "medium" | "heavy" | "rigid" | "soft") => void;
+    notificationOccurred?: (type: "error" | "success" | "warning") => void;
+  };
 }
 
 declare global {
