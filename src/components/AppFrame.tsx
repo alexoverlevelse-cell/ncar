@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { GarageGlow, ScreenGlow } from "./ScreenGlow";
 import { TapFeedback } from "./TapFeedback";
+import { TelegramInit } from "./TelegramInit";
 
 const FULLSCREEN_ROUTES = ["/", "/home"];
 
@@ -13,6 +14,7 @@ export function AppFrame({ children }: { children: ReactNode }) {
 
   return (
     <>
+      <TelegramInit />
       <TapFeedback />
       {pathname !== "/home" && (
         <ScreenGlow variant={fullscreen ? "welcome" : "full"} />
