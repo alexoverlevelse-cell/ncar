@@ -4,6 +4,8 @@ import Link from "next/link";
 import { FormEvent, Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
+import { TelegramLink } from "@/components/TelegramLink";
+import { buildTelegramLink } from "@/lib/site-config";
 
 type Field = { name: string; label: string; placeholder?: string; options?: string[]; required?: boolean };
 
@@ -42,7 +44,7 @@ const serviceTitles: Record<string, string> = {
 function RequestContent() {
   const searchParams = useSearchParams();
   const type = searchParams.get("type") ?? "inspection";
-  const [prepared, setPrepared] = useState(false);
+  const [preparedMessage, setPreparedMessage] = useState<string | null>(null);
   const [hasLink, setHasLink] = useState(true);
 
   if (type === "inspection") {
@@ -72,18 +74,42 @@ function RequestContent() {
     { name: "car", label: "Марка, модель і рік автомобіля", placeholder: "Наприклад, Mercedes E220, 2019" },
   ])];
 
+  // Отдельной базы заявок нет — заявка уходит Олегу сообщением в Telegram,
+  // поэтому ответы собираем в читаемый текст с подписями полей.
   function prepare(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setPrepared(true);
+
+    const labels = new Map(fields.map((field) => [field.name, field.label]));
+    labels.set("comment", "Коментар");
+
+    const answers = [...new FormData(event.currentTarget).entries()]
+      .map(([name, value]) => [labels.get(name) ?? name, String(value).trim()] as const)
+      .filter(([, value]) => value)
+      .map(([label, value]) => `${label}: ${value}`);
+
+    setPreparedMessage([`Заявка — ${title}`, ...answers].join("\n"));
   }
 
-  if (prepared) {
+  if (preparedMessage) {
+    const telegramLink = buildTelegramLink(preparedMessage);
+
     return (
       <main className="flex min-h-[100svh] flex-col items-center justify-center px-6 text-center">
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#2f7a4d] text-3xl">✓</div>
         <h1 className="mt-5 text-2xl font-bold">Заявку підготовлено</h1>
-        <p className="mt-2 max-w-xs text-muted">Перейдіть до контакту Oleh DK Auto, щоб передати заявку.</p>
-        <Link href="/contact" className="mt-7 rounded-xl bg-accent px-6 py-3 font-semibold">Зв’язатися</Link>
+        <p className="mt-2 max-w-xs text-muted">Надішліть її Олегу — текст заявки вже підставлено в повідомлення.</p>
+        <pre className="mt-6 w-full max-w-sm whitespace-pre-wrap rounded-2xl border border-white/10 bg-surface p-4 text-left text-sm leading-relaxed text-muted">
+          {preparedMessage}
+        </pre>
+        {telegramLink ? (
+          <TelegramLink href={telegramLink} className="mt-6 w-full max-w-sm rounded-xl bg-accent px-6 py-3.5 font-semibold text-white">
+            Надіслати в Telegram
+          </TelegramLink>
+        ) : (
+          <Link href="/contact" className="mt-6 w-full max-w-sm rounded-xl bg-accent px-6 py-3.5 font-semibold text-white">
+            Зв’язатися
+          </Link>
+        )}
       </main>
     );
   }
