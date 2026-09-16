@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import { ArrowRightIcon } from "@/components/icons";
+import { ArrowRightIcon, TelegramIcon } from "@/components/icons";
 
 const sections = [
   { href: "/cars", photo: "/menu/cars-mercedes.jpg", title: "Авто в наявності", subtitle: "Переглянути автомобілі" },
@@ -28,6 +28,28 @@ export default function MenuPage() {
           </Link>
         ))}
       </div>
+
+      <footer className="mt-10 flex flex-col items-center border-t border-white/10 pt-7">
+        <div className="flex items-center gap-3">
+          <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/15 bg-[#101419] shadow-[0_8px_22px_rgba(0,0,0,0.35)]" aria-hidden="true">
+            <span className="text-xl font-light tracking-[-0.18em] text-white">N</span>
+          </span>
+          <p className="text-[0.95rem] font-semibold text-muted">
+            Developed by <span className="font-extrabold text-white">NordConnection</span>
+          </p>
+        </div>
+
+        <a
+          href="https://t.me/ncfounder"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full border border-[#229ED9]/45 bg-[#229ED9]/10 px-6 text-sm font-bold tracking-[0.08em] text-white active:scale-[0.98]"
+        >
+          <TelegramIcon className="h-5 w-5 text-[#229ED9]" />
+          <span className="text-muted">CONTACT</span>
+          <span className="tracking-normal text-white">@ncfounder</span>
+        </a>
+      </footer>
     </main>
   );
 }
