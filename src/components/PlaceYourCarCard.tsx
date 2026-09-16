@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { buildTelegramLink } from "@/lib/site-config";
 import { ChevronRightIcon, TagIcon } from "./icons";
+import { TelegramLink } from "./TelegramLink";
 
 // Промо-карточка в конце списка машин: приглашает продать своё авто и ведёт
 // прямо в диалог с Олегом. Формы подачи объявления намеренно нет — условия
@@ -30,9 +31,9 @@ export function PlaceYourCarCard() {
     "flex gap-3 overflow-hidden rounded-2xl border border-dashed border-border bg-surface/50";
 
   return link ? (
-    <a href={link} target="_blank" rel="noopener noreferrer" className={className}>
+    <TelegramLink href={link} className={className}>
       {content}
-    </a>
+    </TelegramLink>
   ) : (
     <Link href="/contact" className={className}>
       {content}
