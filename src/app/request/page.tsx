@@ -12,11 +12,16 @@ const commonFields: Field[] = [
   { name: "contact", label: "Телефон або Telegram", placeholder: "+45… або @username" },
   { name: "city", label: "Місто", placeholder: "Де ви знаходитесь" },
 ];
-const foundFields: Field[] = [
+const foundBaseFields: Field[] = [
   { name: "name", label: "Ім’я", placeholder: "Як до вас звертатися" },
   { name: "phone", label: "Телефон", placeholder: "+45…" },
-  { name: "adLink", label: "Посилання на авто", placeholder: "https://…" },
 ];
+const foundLinkField: Field = { name: "adLink", label: "Посилання на авто", placeholder: "https://…" };
+const foundLocationField: Field = {
+  name: "carLocation",
+  label: "Де фізично знаходиться авто",
+  placeholder: "Адреса, майданчик або як його знайти",
+};
 const searchFields: Field[] = [
   { name: "budget", label: "Максимальний бюджет", options: ["До 50 000 DKK", "50 000–75 000 DKK", "75 000–100 000 DKK", "100 000–150 000 DKK", "150 000–200 000 DKK", "Понад 200 000 DKK"] },
   { name: "body", label: "Тип кузова", options: ["Хетчбек", "Універсал", "Седан", "SUV / кросовер", "Купе", "Мінівен", "Без різниці"] },
@@ -38,6 +43,7 @@ function RequestContent() {
   const searchParams = useSearchParams();
   const type = searchParams.get("type") ?? "inspection";
   const [prepared, setPrepared] = useState(false);
+  const [hasLink, setHasLink] = useState(true);
 
   if (type === "inspection") {
     return (
@@ -60,7 +66,9 @@ function RequestContent() {
   const isFound = type === "found";
   const isSearch = type === "search";
   const title = isFound ? "Перевірити знайдене авто" : isSearch ? "Підібрати автомобіль" : serviceTitles[type] ?? "Заявка";
-  const fields = isFound ? foundFields : [...commonFields, ...(isSearch ? searchFields : [
+  const fields = isFound
+    ? [...foundBaseFields, hasLink ? foundLinkField : foundLocationField]
+    : [...commonFields, ...(isSearch ? searchFields : [
     { name: "car", label: "Марка, модель і рік автомобіля", placeholder: "Наприклад, Mercedes E220, 2019" },
   ])];
 
@@ -84,6 +92,24 @@ function RequestContent() {
     <main className="flex flex-1 flex-col pb-10">
       <PageHeader backHref={isFound || isSearch ? "/services/inspection" : "/services"} title={title} subtitle="Заповніть дані для Oleh DK Auto" />
       <form onSubmit={prepare} className="space-y-4 px-5">
+        {isFound && (
+          <div className="grid grid-cols-2 gap-2 rounded-xl border border-white/10 bg-surface p-1">
+            <button
+              type="button"
+              onClick={() => setHasLink(true)}
+              className={`min-h-11 rounded-lg text-sm font-semibold transition ${hasLink ? "bg-accent text-white" : "text-muted"}`}
+            >
+              Є посилання
+            </button>
+            <button
+              type="button"
+              onClick={() => setHasLink(false)}
+              className={`min-h-11 rounded-lg text-sm font-semibold transition ${!hasLink ? "bg-accent text-white" : "text-muted"}`}
+            >
+              Авто без оголошення
+            </button>
+          </div>
+        )}
         {fields.map((field) => (
           <label key={field.name} className="block">
             <span className="mb-2 block text-sm font-medium">{field.label}</span>
