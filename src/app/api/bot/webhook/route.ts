@@ -1,8 +1,8 @@
 import "server-only";
 import { NextResponse } from "next/server";
 
-// Вебхук самого Telegram-бота (не Mini App). Отвечает на /start рекламным
-// видео и оставляет в подписи короткую инструкцию по открытию Mini App.
+// Вебхук самого Telegram-бота (не Mini App). Отвечает на /start картинкой
+// и короткой инструкцией по открытию Mini App.
 
 const CAPTION = [
   "Як відкрити застосунок?",
@@ -18,28 +18,27 @@ function siteUrl(request: Request): string {
   return process.env.NEXT_PUBLIC_SITE_URL ?? new URL(request.url).origin;
 }
 
-async function sendStartVideo(chatId: number, request: Request) {
+async function sendStartPhoto(chatId: number, request: Request) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   if (!token) {
     console.error("Нет TELEGRAM_BOT_TOKEN — вебхук не может отвечать боту");
     return;
   }
 
-  const videoUrl = `${siteUrl(request)}/bot/oleh-dk-ad.mp4`;
+  const photoUrl = `${siteUrl(request)}/bot/open-app-guide.png`;
 
-  const response = await fetch(`https://api.telegram.org/bot${token}/sendVideo`, {
+  const response = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       chat_id: chatId,
-      video: videoUrl,
+      photo: photoUrl,
       caption: CAPTION,
-      supports_streaming: true,
     }),
   });
 
   if (!response.ok) {
-    console.error("sendVideo не удался:", await response.text().catch(() => ""));
+    console.error("sendPhoto не удался:", await response.text().catch(() => ""));
   }
 }
 
@@ -68,7 +67,7 @@ export async function POST(request: Request) {
 
   if (chatId && text && text.startsWith("/start")) {
     // Не блокируем ответ Telegram ожиданием отправки — но и не теряем ошибку.
-    await sendStartVideo(chatId, request);
+    await sendStartPhoto(chatId, request);
   }
 
   return NextResponse.json({ ok: true });
