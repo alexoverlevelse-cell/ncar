@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TelegramIcon } from "@/components/icons";
 import { PageHeader } from "@/components/PageHeader";
+import { TelegramLink } from "@/components/TelegramLink";
 import { buildTelegramLink } from "@/lib/site-config";
 import { getService, inspectionChecks, selectionSteps, serviceCatalog } from "@/lib/service-catalog";
 
@@ -131,15 +132,13 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </Link>
 
         {telegramLink && (
-          <a
+          <TelegramLink
             href={telegramLink}
-            target="_blank"
-            rel="noopener noreferrer"
             className="flex min-h-14 items-center justify-center gap-2 rounded-2xl border border-[#229ED9]/45 bg-[#229ED9]/10 px-5 text-center font-semibold text-foreground"
           >
             <TelegramIcon className="h-5 w-5 text-[#229ED9]" />
             Написати Олегу в Telegram
-          </a>
+          </TelegramLink>
         )}
       </div>
     </main>
