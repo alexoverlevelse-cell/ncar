@@ -1,5 +1,4 @@
 import type { Car } from "@/types/car";
-import type { Service } from "@/types/service";
 
 // ВНИМАНИЕ: это демонстрационные данные для показа макета, пока не подключена
 // база. Машины и характеристики взяты из макета дизайна и реальным
@@ -43,32 +42,5 @@ export const demoCars: Car[] = [
       "Демонстраційний опис. Реальний текст про стан і комплектацію додасть власник під час публікації оголошення.",
     photos: ["/demo/vw-golf.jpg"],
     status: "available",
-  },
-];
-
-export const demoServices: Service[] = [
-  {
-    id: "demo-sourcing",
-    title: "Підбір автомобіля",
-    description:
-      "Знайдемо та перевіримо автомобіль під ваш запит і бюджет — від пошуку оголошень до угоди.",
-    price: null,
-    duration: null,
-    photo: "/demo/service-sourcing.jpg",
-    contact: null,
-    location: null,
-    status: "active",
-  },
-  {
-    id: "demo-inspection",
-    title: "Перевірка перед покупкою",
-    description:
-      "Оглянемо автомобіль, який ви збираєтеся купити: технічний стан, юридична чистота, реальний пробіг.",
-    price: null,
-    duration: null,
-    photo: "/demo/service-inspection.jpg",
-    contact: null,
-    location: null,
-    status: "active",
   },
 ];
