@@ -1,5 +1,6 @@
 import { PhoneIcon, TelegramIcon } from "@/components/icons";
 import { PageHeader } from "@/components/PageHeader";
+import { TelegramLink } from "@/components/TelegramLink";
 import { buildTelegramLink, siteConfig } from "@/lib/site-config";
 
 export default function ContactPage() {
@@ -22,15 +23,13 @@ export default function ContactPage() {
 
         <div className="mt-4 flex flex-col gap-3">
           {sellCarLink ? (
-            <a
+            <TelegramLink
               href={sellCarLink}
-              target="_blank"
-              rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-foreground"
             >
               <TelegramIcon className="h-5 w-5" />
               Написати в Telegram
-            </a>
+            </TelegramLink>
           ) : (
             <p className="rounded-xl border border-dashed border-border px-4 py-3 text-sm text-muted">
               Контакт у Telegram ще не вказано.
