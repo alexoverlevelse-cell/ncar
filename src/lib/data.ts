@@ -1,7 +1,6 @@
 import { getSupabaseClient } from "./supabase";
-import { demoCars, demoServices } from "./demo-data";
+import { demoCars } from "./demo-data";
 import { CAR_COLUMNS, type Car } from "@/types/car";
-import { SERVICE_COLUMNS, type Service } from "@/types/service";
 
 // "demo" — показаны данные-заглушки из demo-data.ts, потому что Supabase ещё
 // не подключён. Интерфейс помечает такие данные, чтобы их не приняли за
@@ -47,22 +46,3 @@ export async function loadCar(
   return { car: (data as Car) ?? null, source: "supabase" };
 }
 
-export async function loadServices(): Promise<{
-  services: Service[];
-  source: DataSource;
-}> {
-  const supabase = getSupabaseClient();
-  if (!supabase) return { services: demoServices, source: "demo" };
-
-  const { data, error } = await supabase
-    .from("services")
-    .select(SERVICE_COLUMNS)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Не удалось загрузить услуги из Supabase:", error.message);
-    return { services: demoServices, source: "demo" };
-  }
-
-  return { services: (data ?? []) as Service[], source: "supabase" };
-}
