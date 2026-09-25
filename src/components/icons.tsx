@@ -156,3 +156,36 @@ export function CarPlaceholderIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+// Флаги рисуем сами, а не эмодзи 🇺🇦/🇬🇧: Windows не имеет глифов для флагов
+// и показывает вместо них буквы «UA» и «GB».
+export function FlagUkraineIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 60 40" className={className} aria-hidden="true">
+      <rect width="60" height="20" fill="#005BBB" />
+      <rect y="20" width="60" height="20" fill="#FFD500" />
+    </svg>
+  );
+}
+
+// Пропорция 3:2 — как у украинского флага рядом, чтобы оба заняли одинаковую
+// рамку. Настоящий Union Jack вдвое длиннее, здесь он подогнан под соседа.
+export function FlagUnitedKingdomIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 60 40" className={className} aria-hidden="true">
+      <clipPath id="uk-flag-counterchange">
+        <path d="M30,20 h30 v20 z v20 h-30 z h-30 v-20 z v-20 h30 z" />
+      </clipPath>
+      <rect width="60" height="40" fill="#012169" />
+      <path d="M0,0 L60,40 M60,0 L0,40" stroke="#FFF" strokeWidth="8" />
+      <path
+        d="M0,0 L60,40 M60,0 L0,40"
+        clipPath="url(#uk-flag-counterchange)"
+        stroke="#C8102E"
+        strokeWidth="5"
+      />
+      <path d="M30,0 v40 M0,20 h60" stroke="#FFF" strokeWidth="13" />
+      <path d="M30,0 v40 M0,20 h60" stroke="#C8102E" strokeWidth="8" />
+    </svg>
+  );
+}
