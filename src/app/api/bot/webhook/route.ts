@@ -4,12 +4,22 @@ import { NextResponse } from "next/server";
 // Вебхук самого Telegram-бота (не Mini App). Отвечает на /start картинкой
 // и короткой инструкцией по открытию Mini App.
 
+// Подпись сразу на двух языках. Выбор языка внутри Mini App здесь не помогает:
+// это сообщение приходит раньше, чем человек вообще откроет приложение.
 const CAPTION = [
   "Як відкрити застосунок?",
   "",
   "1️⃣ Знайдіть кнопку меню внизу ліворуч.",
   "2️⃣ Натисніть «Відкрити».",
   "3️⃣ Оберіть авто або послугу.",
+  "",
+  "— — —",
+  "",
+  "How to open the app?",
+  "",
+  "1️⃣ Find the menu button at the bottom left.",
+  "2️⃣ Tap “Open”.",
+  "3️⃣ Choose a car or a service.",
 ].join("\n");
 
 function siteUrl(request: Request): string {
