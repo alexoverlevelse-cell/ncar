@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
 import { AppFrame } from "@/components/AppFrame";
+import { LangProvider } from "@/components/LangProvider";
+import { dict } from "@/lib/dictionary";
+import { getLang } from "@/lib/i18n-server";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -12,10 +15,13 @@ const geistSans = Geist({
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
 });
 
-export const metadata: Metadata = {
-  title: `${siteConfig.companyName} — ${siteConfig.tagline}`,
-  description: siteConfig.tagline,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const tagline = dict(await getLang()).meta.tagline;
+  return {
+    title: `${siteConfig.companyName} — ${tagline}`,
+    description: tagline,
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#202222",
@@ -24,12 +30,14 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const lang = await getLang();
+
   return (
     // suppressHydrationWarning: telegram-web-app.js дописывает в <html> свои
     // CSS-переменные до гидратации React — расхождение ожидаемо и безопасно.
     <html
-      lang="uk"
+      lang={lang}
       className={`${geistSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
@@ -40,7 +48,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-full">
-        <AppFrame>{children}</AppFrame>
+        <LangProvider lang={lang}>
+          <AppFrame>{children}</AppFrame>
+        </LangProvider>
       </body>
     </html>
   );
