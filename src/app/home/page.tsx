@@ -1,18 +1,23 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { ArrowRightIcon, TelegramIcon } from "@/components/icons";
+import { dict } from "@/lib/dictionary";
+import { getLang } from "@/lib/i18n-server";
 
-const sections = [
-  { href: "/cars", photo: "/menu/cars-mercedes.jpg", title: "Авто в наявності", subtitle: "Переглянути автомобілі" },
-  { href: "/services", photo: "/menu/services-mercedes.jpg", title: "Послуги", subtitle: "Підбір • Перевірка • Продаж • Сервіс" },
-];
+export default async function MenuPage() {
+  const lang = await getLang();
+  const t = dict(lang).home;
 
-export default function MenuPage() {
+  const sections = [
+    { href: "/cars", photo: "/menu/cars-mercedes.jpg", title: t.carsTitle, subtitle: t.carsSubtitle },
+    { href: "/services", photo: "/menu/services-mercedes.jpg", title: t.servicesTitle, subtitle: t.servicesSubtitle },
+  ];
+
   return (
     <main className="relative flex min-h-[100svh] flex-1 flex-col px-8 pb-[calc(env(safe-area-inset-bottom)+2rem)] pt-[calc(env(safe-area-inset-top)+4.8rem)]">
       <Logo size="md" className="mx-auto w-[10.5rem]" />
-      <h1 className="mt-8 text-center text-[2rem] font-extrabold leading-tight tracking-[-0.035em]">Що вас цікавить?</h1>
-      <p className="mt-2 text-center text-[1.1rem] text-muted">Оберіть розділ</p>
+      <h1 className="mt-8 text-center text-[2rem] font-extrabold leading-tight tracking-[-0.035em]">{t.heading}</h1>
+      <p className="mt-2 text-center text-[1.1rem] text-muted">{t.subtitle}</p>
 
       <div className="mt-8 flex flex-col gap-5">
         {sections.map((section) => (
