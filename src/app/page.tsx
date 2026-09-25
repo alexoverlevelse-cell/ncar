@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { chooseLang } from "@/components/LangProvider";
-import { CarIcon, DocumentIcon, PersonIcon, ShieldIcon } from "@/components/icons";
+import {
+  CarIcon,
+  DocumentIcon,
+  FlagUkraineIcon,
+  FlagUnitedKingdomIcon,
+  PersonIcon,
+  ShieldIcon,
+} from "@/components/icons";
 import { useRole } from "@/lib/use-role";
 
 // Входной экран — единственное место, где текст идёт на обоих языках сразу:
@@ -60,14 +67,16 @@ export default function WelcomePage() {
             onClick={() => chooseLang("uk", "/home")}
             className="flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-accent px-5 text-[1.05rem] font-bold text-white shadow-[0_10px_30px_rgba(182,66,70,0.2)] active:scale-[0.99]"
           >
-            <span className="text-xl leading-none">🇺🇦</span> Продовжити українською
+            <FlagUkraineIcon className="h-5 w-[1.9rem] shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(255,255,255,0.25)]" />
+            Продовжити українською
           </button>
           <button
             type="button"
             onClick={() => chooseLang("en", "/home")}
             className="flex min-h-14 items-center justify-center gap-3 rounded-2xl border border-white/15 bg-white/[0.04] px-5 text-[1.05rem] font-bold text-foreground active:scale-[0.99]"
           >
-            <span className="text-xl leading-none">🇬🇧</span> Continue in English
+            <FlagUnitedKingdomIcon className="h-5 w-[1.9rem] shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgba(255,255,255,0.25)]" />
+            Continue in English
           </button>
         </div>
 
