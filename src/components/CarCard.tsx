@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { carValue } from "@/lib/dictionary";
 import { formatMileage, formatPrice } from "@/lib/format";
+import type { Lang } from "@/lib/i18n";
 import { type Car } from "@/types/car";
 import { CarPlaceholderIcon } from "./icons";
 import { CarStatusBadge } from "./CarStatusBadge";
@@ -21,8 +23,16 @@ export function CarPhoto({ car, className = "" }: { car: Car; className?: string
   );
 }
 
-export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "tile" }) {
-  const details = [`${car.year}`, formatMileage(car.mileage), car.fuel_type]
+export function CarCard({
+  car,
+  layout = "row",
+  lang = "uk",
+}: {
+  car: Car;
+  layout?: "row" | "tile";
+  lang?: Lang;
+}) {
+  const details = [`${car.year}`, formatMileage(car.mileage, lang), carValue(car.fuel_type, lang)]
     .filter(Boolean)
     .join(" · ");
 
@@ -35,7 +45,7 @@ export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "t
         <div className="relative">
           <CarPhoto car={car} className="aspect-[4/3] w-full" />
           {car.status !== "available" && (
-            <CarStatusBadge status={car.status} className="absolute left-2 top-2" />
+            <CarStatusBadge status={car.status} lang={lang} className="absolute left-2 top-2" />
           )}
         </div>
         <div className="flex flex-1 flex-col gap-1 p-3">
@@ -44,7 +54,7 @@ export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "t
           </h3>
           <p className="text-xs text-muted">{details}</p>
           <p className="mt-auto pt-2 text-base font-semibold text-[#F6C644]">
-            {formatPrice(car.price)}
+            {formatPrice(car.price, lang)}
           </p>
         </div>
       </Link>
@@ -63,11 +73,11 @@ export function CarCard({ car, layout = "row" }: { car: Car; layout?: "row" | "t
             {car.brand} {car.model}
           </h3>
           {car.status !== "available" && (
-            <CarStatusBadge status={car.status} className="shrink-0" />
+            <CarStatusBadge status={car.status} lang={lang} className="shrink-0" />
           )}
         </div>
         <p className="text-xs text-muted">{details}</p>
-        <p className="text-lg font-semibold text-[#F6C644]">{formatPrice(car.price)}</p>
+        <p className="text-lg font-semibold text-[#F6C644]">{formatPrice(car.price, lang)}</p>
       </div>
     </Link>
   );
