@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { dict } from "@/lib/dictionary";
+import type { Lang } from "@/lib/i18n";
 import { buildTelegramLink } from "@/lib/site-config";
 import { ChevronRightIcon, TagIcon } from "./icons";
 import { TelegramLink } from "./TelegramLink";
@@ -6,9 +8,12 @@ import { TelegramLink } from "./TelegramLink";
 // Промо-карточка в конце списка машин: приглашает продать своё авто и ведёт
 // прямо в диалог с Олегом. Формы подачи объявления намеренно нет — условия
 // и оценка обсуждаются лично (см. CLAUDE.md).
-export function PlaceYourCarCard() {
+export function PlaceYourCarCard({ lang = "uk" }: { lang?: Lang }) {
+  const t = dict(lang);
   const link = buildTelegramLink(
-    "Добрий день! Хочу продати своє авто через OLEH DK."
+    lang === "en"
+      ? "Hello! I'd like to sell my car through OLEH DK."
+      : "Добрий день! Хочу продати своє авто через OLEH DK."
   );
 
   const content = (
@@ -17,11 +22,9 @@ export function PlaceYourCarCard() {
         <TagIcon className="h-8 w-8 text-accent" />
       </div>
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-1 py-3 pr-3">
-        <h3 className="font-medium leading-snug">Тут може бути твоє авто</h3>
-        <p className="text-xs text-muted">
-          Напишіть — оцінимо автомобіль і обговоримо продаж.
-        </p>
-        <span className="text-sm font-medium text-accent">Зв&rsquo;язатися</span>
+        <h3 className="font-medium leading-snug">{t.cars.placeYourCarTitle}</h3>
+        <p className="text-xs text-muted">{t.cars.placeYourCarText}</p>
+        <span className="text-sm font-medium text-accent">{t.common.contact}</span>
       </div>
       <ChevronRightIcon className="mr-3 h-4 w-4 shrink-0 self-center text-muted" />
     </>
