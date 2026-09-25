@@ -33,10 +33,13 @@ export function ScreenGlow({
   );
 }
 
-// Фон главного меню по актуальному референсу: стена гаража с лёгкой
-// фактурой бетона, два настенных светильника в верхних углах (тёплый свет
-// падает вниз с затуханием) и едва заметный красный отсвет снизу слева.
-// Текст и карточки не светятся — свет принадлежит только окружению.
+// Фон главного меню: стена гаража с лёгкой фактурой бетона, два настенных
+// светильника в верхних углах (тёплый свет падает вниз с затуханием) и едва
+// заметный красный отсвет снизу слева. Текст и карточки не светятся — свет
+// принадлежит только окружению.
+//
+// Отражающего «пола» внизу намеренно нет: он читался отдельной мутной
+// полосой под подписью в подвале и выглядел дёшево.
 export function GarageGlow() {
   return (
     <div
@@ -66,21 +69,6 @@ export function GarageGlow() {
           ].join(","),
         }}
       />
-
-      {/* граница и отражающий бетонный пол */}
-      <div className="absolute inset-x-0 bottom-0 h-[14%] border-t border-white/15 bg-[linear-gradient(180deg,rgba(160,160,154,0.16),rgba(47,48,47,0.40)_28%,rgba(10,11,11,0.58))]" />
-      <div
-        className="absolute inset-x-0 bottom-0 h-[14%] opacity-90"
-        style={{
-          backgroundImage: [
-            "radial-gradient(52% 76% at 88% 90%, rgba(248,248,242,0.36), transparent 72%)",
-            "radial-gradient(42% 70% at 16% 94%, rgba(248,248,242,0.23), transparent 74%)",
-            "radial-gradient(42% 68% at 3% 100%, rgba(190,48,53,0.20), transparent 72%)",
-            "linear-gradient(100deg, transparent 28%, rgba(255,255,255,0.10) 50%, transparent 70%)",
-          ].join(","),
-        }}
-      />
-      <div className="absolute inset-x-0 bottom-[14%] h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
       {["9%", "91%"].map((left) => (
         <div key={left} className="absolute top-[45px] h-[250px] w-[180px] -translate-x-1/2" style={{ left }}>
