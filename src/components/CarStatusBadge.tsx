@@ -1,4 +1,6 @@
-import { CAR_STATUS_LABELS, type CarStatus } from "@/types/car";
+import { dict } from "@/lib/dictionary";
+import type { Lang } from "@/lib/i18n";
+import { type CarStatus } from "@/types/car";
 
 // Цвет несёт смысл: жёлтый — машина занята, но сделка ещё не закрыта;
 // красный — продана. Цвета заданы сплошными, без прозрачности: значок часто
@@ -29,9 +31,11 @@ const styles: Record<CarStatus, { badge: string; dot: string }> = {
 export function CarStatusBadge({
   status,
   className = "",
+  lang = "uk",
 }: {
   status: CarStatus;
   className?: string;
+  lang?: Lang;
 }) {
   const style = styles[status];
 
@@ -40,7 +44,7 @@ export function CarStatusBadge({
       className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border px-2 py-1 text-[11px] font-medium leading-none tracking-[0.01em] ${style.badge} ${className}`}
     >
       <span className={`h-1.5 w-1.5 rounded-full ${style.dot}`} />
-      {CAR_STATUS_LABELS[status]}
+      {dict(lang).status[status]}
     </span>
   );
 }
