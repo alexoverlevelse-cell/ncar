@@ -1,17 +1,15 @@
 import "server-only";
 import { NextResponse } from "next/server";
 
-// Вебхук самого Telegram-бота (не Mini App). Отвечает на /start знакомством
-// с Олегом и следом инструкцией по открытию Mini App.
+// Вебхук самого Telegram-бота (не Mini App). Отвечает на /start инструкцией
+// по открытию Mini App.
+//
+// Знакомство с Олегом здесь намеренно не отправляется: оно показывается ещё
+// до нажатия «Старт», на карточке «Що вміє цей бот?». Её картинка и текст
+// задаются в @BotFather, а не из кода.
 
-// Текст и картинки сразу на двух языках. Выбор языка внутри Mini App здесь не
-// помогает: эти сообщения приходят раньше, чем человек откроет приложение.
-const WELCOME_CAPTION = [
-  "Вітаю! Я Олег — допоможу підібрати та перевірити авто в Данії.",
-  "",
-  "Hi! I'm Oleh — I help you source and inspect cars in Denmark.",
-].join("\n");
-
+// Текст и картинка сразу на двух языках. Выбор языка внутри Mini App здесь не
+// помогает: сообщение приходит раньше, чем человек откроет приложение.
 const GUIDE_CAPTION = [
   "Як відкрити застосунок?",
   "",
@@ -34,36 +32,28 @@ function siteUrl(request: Request): string {
   return process.env.NEXT_PUBLIC_SITE_URL ?? new URL(request.url).origin;
 }
 
-async function sendPhoto(
-  token: string,
-  chatId: number,
-  photoUrl: string,
-  caption: string
-) {
-  const response = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: chatId, photo: photoUrl, caption }),
-  });
-
-  if (!response.ok) {
-    console.error("sendPhoto не удался:", await response.text().catch(() => ""));
-  }
-}
-
-async function sendStartPhotos(chatId: number, request: Request) {
+async function sendStartPhoto(chatId: number, request: Request) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   if (!token) {
     console.error("Нет TELEGRAM_BOT_TOKEN — вебхук не может отвечать боту");
     return;
   }
 
-  const base = siteUrl(request);
+  const photoUrl = `${siteUrl(request)}/bot/open-app-guide-uk-en.png`;
 
-  // Строго по очереди: параллельная отправка может перевернуть порядок, и
-  // инструкция придёт раньше знакомства.
-  await sendPhoto(token, chatId, `${base}/bot/welcome-banner-uk-en.png`, WELCOME_CAPTION);
-  await sendPhoto(token, chatId, `${base}/bot/open-app-guide-uk-en.png`, GUIDE_CAPTION);
+  const response = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      photo: photoUrl,
+      caption: GUIDE_CAPTION,
+    }),
+  });
+
+  if (!response.ok) {
+    console.error("sendPhoto не удался:", await response.text().catch(() => ""));
+  }
 }
 
 export async function POST(request: Request) {
@@ -91,7 +81,7 @@ export async function POST(request: Request) {
 
   if (chatId && text && text.startsWith("/start")) {
     // Не блокируем ответ Telegram ожиданием отправки — но и не теряем ошибку.
-    await sendStartPhotos(chatId, request);
+    await sendStartPhoto(chatId, request);
   }
 
   return NextResponse.json({ ok: true });
