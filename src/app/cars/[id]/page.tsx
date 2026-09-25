@@ -4,6 +4,8 @@ import { CarPhoto } from "@/components/CarCard";
 import { DemoNotice } from "@/components/DemoNotice";
 import { ArrowLeftIcon, TelegramIcon } from "@/components/icons";
 import { loadCar } from "@/lib/data";
+import { carValue, dict } from "@/lib/dictionary";
+import { getLang } from "@/lib/i18n-server";
 import { formatMileage, formatPrice } from "@/lib/format";
 import { buildTelegramLink } from "@/lib/site-config";
 import { CarStatusBadge } from "@/components/CarStatusBadge";
@@ -13,22 +15,26 @@ export const dynamic = "force-dynamic";
 
 export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
   const { id } = await params;
-  const { car, source } = await loadCar(id);
+  const [{ car, source }, lang] = await Promise.all([loadCar(id), getLang()]);
 
   if (!car) notFound();
 
+  const t = dict(lang).cars;
+
   const specs = [
-    { label: "Рік", value: String(car.year) },
-    { label: "Пробіг", value: formatMileage(car.mileage) },
-    { label: "Паливо", value: car.fuel_type },
-    { label: "Коробка передач", value: car.transmission },
-    { label: "Кузов", value: car.body_type },
-    { label: "Колір", value: car.color },
+    { label: t.specs.year, value: String(car.year) },
+    { label: t.specs.mileage, value: formatMileage(car.mileage, lang) },
+    { label: t.specs.fuel, value: carValue(car.fuel_type, lang) },
+    { label: t.specs.transmission, value: carValue(car.transmission, lang) },
+    { label: t.specs.body, value: carValue(car.body_type, lang) },
+    { label: t.specs.color, value: carValue(car.color, lang) },
   ].filter((spec): spec is { label: string; value: string } => Boolean(spec.value));
 
   // В сообщение подставляем машину, чтобы продавец сразу понимал, о чём речь.
   const telegramLink = buildTelegramLink(
-    `Добрий день! Цікавить ${car.brand} ${car.model} ${car.year} за ${formatPrice(car.price)}.`
+    lang === "en"
+      ? `Hello! I'm interested in the ${car.brand} ${car.model} ${car.year} at ${formatPrice(car.price, lang)}.`
+      : `Добрий день! Цікавить ${car.brand} ${car.model} ${car.year} за ${formatPrice(car.price, lang)}.`
   );
 
   return (
@@ -41,7 +47,7 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
               <img
                 key={photo}
                 src={photo}
-                alt={`${car.brand} ${car.model}, фото ${index + 1}`}
+                alt={`${car.brand} ${car.model}, photo ${index + 1}`}
                 className="aspect-[4/3] w-full shrink-0 snap-center object-cover"
               />
             ))}
@@ -51,14 +57,14 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
         )}
         <Link
           href="/cars"
-          aria-label="Назад до списку"
+          aria-label={t.backToList}
           className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-background/70 backdrop-blur"
         >
           <ArrowLeftIcon className="h-5 w-5" />
         </Link>
         {car.photos.length > 1 && (
           <p className="pointer-events-none absolute bottom-3 right-4 rounded-full bg-background/75 px-2.5 py-1 text-xs font-semibold text-foreground backdrop-blur">
-            {car.photos.length} фото · гортайте
+            {car.photos.length} {t.photosHint}
           </p>
         )}
       </div>
@@ -70,15 +76,15 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
               {car.brand} {car.model}
             </h1>
             {car.status !== "available" && (
-              <CarStatusBadge status={car.status} className="mt-1.5" />
+              <CarStatusBadge status={car.status} lang={lang} className="mt-1.5" />
             )}
           </div>
           <p className="shrink-0 text-xl font-semibold text-[#F6C644]">
-            {formatPrice(car.price)}
+            {formatPrice(car.price, lang)}
           </p>
         </div>
 
-        {source === "demo" && <DemoNotice />}
+        {source === "demo" && <DemoNotice lang={lang} />}
 
         <ul className="grid grid-cols-2 gap-3">
           {specs.map((spec) => (
@@ -91,7 +97,7 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
 
         {car.description && (
           <section>
-            <h2 className="mb-2 font-semibold">Опис</h2>
+            <h2 className="mb-2 font-semibold">{t.description}</h2>
             <p className="text-sm leading-relaxed text-muted">{car.description}</p>
           </section>
         )}
@@ -102,14 +108,14 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
             className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-foreground"
           >
             <TelegramIcon className="h-5 w-5" />
-            Зв&rsquo;язатися з продавцем
+            {t.contactSeller}
           </TelegramLink>
         ) : (
           <Link
             href="/contact"
             className="flex items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium text-foreground"
           >
-            Зв&rsquo;язатися з продавцем
+            {t.contactSeller}
           </Link>
         )}
 
