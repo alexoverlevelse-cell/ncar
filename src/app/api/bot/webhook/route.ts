@@ -14,7 +14,7 @@ const GUIDE_CAPTION = [
   "Як відкрити застосунок?",
   "",
   "1️⃣ Знайдіть кнопку меню внизу ліворуч.",
-  "2️⃣ Натисніть «Відкрити».",
+  "2️⃣ Натисніть «TestDrive».",
   "3️⃣ Оберіть авто або послугу.",
   "",
   "— — —",
@@ -22,7 +22,7 @@ const GUIDE_CAPTION = [
   "How to open the app?",
   "",
   "1️⃣ Find the menu button at the bottom left.",
-  "2️⃣ Tap “Open”.",
+  "2️⃣ Tap “TestDrive”.",
   "3️⃣ Choose a car or a service.",
 ].join("\n");
 
