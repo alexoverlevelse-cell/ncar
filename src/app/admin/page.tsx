@@ -122,6 +122,7 @@ export default function AdminPage() {
       <PageHeader title="Адмін-панель" subtitle="Керування авто та послугами" />
 
       <div className="flex flex-col gap-6 px-5 pb-8">
+        <Link href="/admin/analytics" className="rounded-2xl border border-white/20 bg-surface p-4 font-bold">Аналітика → <span className="mt-1 block text-sm font-normal">Відвідувачі, авто, послуги та дії</span></Link>
         {error && (
           <p className="rounded-xl border border-red-900 bg-red-950/40 px-3 py-2 text-sm text-red-300">
             {error}
