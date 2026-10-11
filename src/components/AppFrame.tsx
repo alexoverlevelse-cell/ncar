@@ -1,6 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
+import { AnalyticsTracker } from "./AnalyticsTracker";
 import { usePathname } from "next/navigation";
 import { GarageGlow, ScreenGlow } from "./ScreenGlow";
 import { TapFeedback } from "./TapFeedback";
@@ -15,6 +16,7 @@ export function AppFrame({ children }: { children: ReactNode }) {
   return (
     <>
       <TelegramInit />
+      <Suspense fallback={null}><AnalyticsTracker /></Suspense>
       <TapFeedback />
       {pathname !== "/home" && (
         <ScreenGlow variant={fullscreen ? "welcome" : "full"} />
