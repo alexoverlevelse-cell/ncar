@@ -8,20 +8,25 @@ export function AnalyticsTracker() {
   const path = usePathname();
   const search = useSearchParams().toString();
   useEffect(() => {
-    if (path.startsWith("/admin")) return;
     let attempts = 0;
-    const record = () => {
+    let stopped = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const record = async () => {
       if (!getInitData()) return false;
       if (!sessionStorage.getItem("analytics-visited")) {
-        track("visit");
+        if (!await track("visit")) return false;
         sessionStorage.setItem("analytics-visited", "1");
       }
-      track("page", document.querySelector("main h1, main h2")?.textContent?.trim() || path, search);
-      return true;
+      if (stopped || path.startsWith("/admin")) return true;
+      return track("page", document.querySelector("main h1, main h2")?.textContent?.trim() || path, search);
     };
-    if (record()) return;
-    const timer = setInterval(() => { if (record() || ++attempts >= 20) clearInterval(timer); }, 500);
-    return () => clearInterval(timer);
+    const attempt = async () => {
+      let recorded = false;
+      try { recorded = await record(); } catch { /* Storage may be unavailable. */ }
+      if (!stopped && !recorded && ++attempts < 20) timer = setTimeout(attempt, 1000);
+    };
+    void attempt();
+    return () => { stopped = true; clearTimeout(timer); };
   }, [path, search]);
   useEffect(() => {
     const clicked = (event: MouseEvent) => {
