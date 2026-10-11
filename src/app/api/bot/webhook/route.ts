@@ -1,5 +1,6 @@
 import "server-only";
 import { NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 
 // Вебхук самого Telegram-бота (не Mini App). Отвечает на /start инструкцией
 // по открытию Mini App.
@@ -57,15 +58,15 @@ async function sendStartPhoto(chatId: number, request: Request) {
 }
 
 export async function POST(request: Request) {
-  // Секрет проверяем, только если он задан — так вебхук можно подключить
-  // и без него на первое время, но с ним безопаснее (см. setWebhook secret_token).
   const expectedSecret = process.env.TELEGRAM_WEBHOOK_SECRET;
-  if (expectedSecret) {
-    const receivedSecret = request.headers.get("x-telegram-bot-api-secret-token");
-    if (receivedSecret !== expectedSecret) {
-      return NextResponse.json({ error: "Bad secret" }, { status: 401 });
-    }
+  if (!expectedSecret) {
+    return NextResponse.json({ error: "Webhook not configured" }, { status: 503 });
   }
+  const receivedSecret = request.headers.get("x-telegram-bot-api-secret-token") || "";
+  const expected = Buffer.from(expectedSecret);
+  const received = Buffer.from(receivedSecret);
+  if (expected.length !== received.length || !timingSafeEqual(expected, received))
+    return NextResponse.json({ error: "Bad secret" }, { status: 401 });
 
   let update: unknown;
   try {
@@ -74,12 +75,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true }); // отвечаем 200, чтобы Telegram не долбил повторами
   }
 
-  const message = (update as { message?: { text?: string; chat?: { id?: number } } })
+  const message = (update as { message?: { text?: unknown; chat?: { id?: unknown; type?: string } } } | null)
     ?.message;
-  const text = message?.text?.trim();
+  const text = typeof message?.text === "string" ? message.text.trim() : "";
   const chatId = message?.chat?.id;
 
-  if (chatId && text && text.startsWith("/start")) {
+  if (typeof chatId === "number" && Number.isSafeInteger(chatId) && chatId > 0 && message?.chat?.type === "private" && /^\/start(?:@[A-Za-z0-9_]+)?(?:\s|$)/.test(text)) {
     // Не блокируем ответ Telegram ожиданием отправки — но и не теряем ошибку.
     await sendStartPhoto(chatId, request);
   }
