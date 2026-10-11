@@ -6,6 +6,7 @@ import { dict } from "@/lib/dictionary";
 import type { Lang } from "@/lib/i18n";
 import { inspectionChecks, selectionSteps, serviceCatalog } from "@/lib/service-catalog";
 import { buildTelegramLink } from "@/lib/site-config";
+import { track } from "@/lib/analytics";
 
 export function RequestReview({ message, type, lang, onClose }: {
   message: string; type: string; lang: Lang; onClose: () => void;
@@ -21,6 +22,7 @@ export function RequestReview({ message, type, lang, onClose }: {
     const element = dialog.current;
     const overflow = document.body.style.overflow;
     element?.showModal();
+    track("request_review", type);
     document.body.style.overflow = "hidden";
     return () => {
       element?.close();
