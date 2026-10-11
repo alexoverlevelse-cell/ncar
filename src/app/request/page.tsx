@@ -5,11 +5,10 @@ import { FormEvent, Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLang } from "@/components/LangProvider";
 import { PageHeader } from "@/components/PageHeader";
-import { TelegramLink } from "@/components/TelegramLink";
+import { RequestReview } from "@/components/RequestReview";
 import { dict } from "@/lib/dictionary";
 import type { Lang, Localized } from "@/lib/i18n";
 import { serviceCatalog } from "@/lib/service-catalog";
-import { buildTelegramLink } from "@/lib/site-config";
 
 type Field = {
   name: string;
@@ -237,30 +236,6 @@ function RequestContent() {
     setPreparedMessage([`${t.messagePrefix} — ${title}`, ...answers].join("\n"));
   }
 
-  if (preparedMessage) {
-    const telegramLink = buildTelegramLink(preparedMessage);
-
-    return (
-      <main className="flex min-h-[100svh] flex-col items-center justify-center px-6 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#2f7a4d] text-3xl">✓</div>
-        <h1 className="mt-5 text-2xl font-bold">{t.doneTitle}</h1>
-        <p className="mt-2 max-w-xs text-muted">{t.doneText}</p>
-        <pre className="mt-6 w-full max-w-sm whitespace-pre-wrap rounded-2xl border border-white/10 bg-surface p-4 text-left text-sm leading-relaxed text-muted">
-          {preparedMessage}
-        </pre>
-        {telegramLink ? (
-          <TelegramLink href={telegramLink} className="mt-6 w-full max-w-sm rounded-xl bg-accent px-6 py-3.5 font-semibold text-white">
-            {t.send}
-          </TelegramLink>
-        ) : (
-          <Link href="/contact" className="mt-6 w-full max-w-sm rounded-xl bg-accent px-6 py-3.5 font-semibold text-white">
-            {dict(lang).common.contact}
-          </Link>
-        )}
-      </main>
-    );
-  }
-
   return (
     <main className="flex flex-1 flex-col pb-10">
       <PageHeader backHref={isFound || isSearch ? "/services/inspection" : "/services"} lang={lang} title={title} subtitle={t.formSubtitle} />
@@ -311,6 +286,7 @@ function RequestContent() {
         )}
         <button className="min-h-14 w-full rounded-2xl bg-accent px-5 font-bold text-white">{t.submit}</button>
       </form>
+      {preparedMessage && <RequestReview message={preparedMessage} type={type} lang={lang} onClose={() => setPreparedMessage(null)} />}
     </main>
   );
 }
