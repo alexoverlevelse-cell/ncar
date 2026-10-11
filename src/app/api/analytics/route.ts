@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     || typeof b.session !== "string" || !/^[0-9a-f-]{36}$/.test(b.session)) return NextResponse.json({}, {status:400});
   // Ілля requested that his visits count; exclude other admins and admin pages.
   const excludedAdmin = user.id !== 580108182 && (process.env.ADMIN_TELEGRAM_IDS || "").split(",").map(v=>v.trim()).includes(String(user.id));
-  if (b.path.startsWith("/admin") || excludedAdmin) return NextResponse.json({ok:true});
+  if ((b.path.startsWith("/admin") && b.event !== "visit") || excludedAdmin) return NextResponse.json({ok:true});
   const db = getSupabaseAdmin();
   if (!db) return NextResponse.json({}, {status:503});
   const {error} = await db.from("analytics_events").insert({telegram_id:user.id,first_name:user.first_name,username:user.username || null,session_id:b.session,event:b.event,path:b.path.slice(0,160),label:typeof b.label === "string" ? b.label.slice(0,120) : "",target:typeof b.target === "string" ? b.target.split("?")[0].slice(0,160) : ""});
