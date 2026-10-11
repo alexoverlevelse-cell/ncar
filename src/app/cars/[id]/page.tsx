@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CarPhoto } from "@/components/CarCard";
+import { CarGallery } from "@/components/CarGallery";
 import { DemoNotice } from "@/components/DemoNotice";
 import { ArrowLeftIcon, TelegramIcon } from "@/components/icons";
 import { loadCar } from "@/lib/data";
@@ -41,17 +42,7 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
     <main className="flex flex-1 flex-col">
       <div className="relative">
         {car.photos.length > 1 ? (
-          <div className="flex snap-x snap-mandatory overflow-x-auto">
-            {car.photos.map((photo, index) => (
-              // eslint-disable-next-line @next/next/no-img-element -- фото приходять із Supabase Storage
-              <img
-                key={photo}
-                src={photo}
-                alt={`${car.brand} ${car.model}, photo ${index + 1}`}
-                className="aspect-[4/3] w-full shrink-0 snap-center object-cover"
-              />
-            ))}
-          </div>
+          <CarGallery photos={car.photos} title={`${car.brand} ${car.model}`} lang={lang} />
         ) : (
           <CarPhoto car={car} className="aspect-[4/3] w-full" />
         )}
@@ -62,11 +53,6 @@ export default async function CarPage({ params }: PageProps<"/cars/[id]">) {
         >
           <ArrowLeftIcon className="h-5 w-5" />
         </Link>
-        {car.photos.length > 1 && (
-          <p className="pointer-events-none absolute bottom-3 right-4 rounded-full bg-background/75 px-2.5 py-1 text-xs font-semibold text-foreground backdrop-blur">
-            {car.photos.length} {t.photosHint}
-          </p>
-        )}
       </div>
 
       <div className="flex flex-col gap-5 px-5 py-5">
