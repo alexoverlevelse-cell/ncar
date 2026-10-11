@@ -47,7 +47,7 @@ const uk = {
     ] as [string, string][],
     priceNoteStrong: "Ціна вказана за перевірку одного автомобіля.",
     priceNote:
-      "Якщо після перевірки автомобіль не підходить і ви обираєте інший — його перевірка оплачується окремо за відповідним тарифом.",
+      "Якщо після перевірки обраний автомобіль вам не підходить, перевірка наступного авто проводиться за попередньою домовленістю та оплачується окремо за відповідним тарифом.",
     travelNote:
       "Доїзд: 200 DKK за кожну фактичну годину дороги туди й назад. Повна вартість погоджується до виїзду.",
   },
@@ -173,7 +173,7 @@ const en: typeof uk = {
     ] as [string, string][],
     priceNoteStrong: "The price covers the inspection of one car.",
     priceNote:
-      "If the car turns out not to suit you and you pick another one, its inspection is paid separately at the matching rate.",
+      "If the chosen car does not suit you after the inspection, an inspection of the next car is arranged by prior agreement and charged separately at the applicable rate.",
     travelNote:
       "Travel: 200 DKK per actual hour on the road there and back. The full price is agreed before the trip.",
   },
