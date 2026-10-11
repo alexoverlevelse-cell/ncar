@@ -10,6 +10,7 @@ export default function AnalyticsPage(){
   const {role,loading}=useRole();
   const [days,setDays]=useState(7),[data,setData]=useState<Data|null>(null),[error,setError]=useState(""),[busy,setBusy]=useState(false),[query,setQuery]=useState("");
   const [exporting,setExporting]=useState(false);
+  const [refresh,setRefresh]=useState(0);
   async function downloadClients(){
     setExporting(true);
     const result=await apiFetch("/api/admin/analytics",{method:"POST",body:{export:true}});
@@ -24,7 +25,7 @@ export default function AnalyticsPage(){
     let active=true;
     async function load(){setBusy(true);const r=await apiFetch("/api/admin/analytics",{method:"POST",body:{days}});if(!active)return;if(r.ok){setData(r.data as Data);setError("");}else setError(r.error);setBusy(false);}
     void load();return()=>{active=false;};
-  },[role,days]);
+  },[role,days,refresh]);
   const events=data?.events || [];
   const people=[...new Set(events.map(e=>e.telegram_id))].map(id=>events.filter(e=>e.telegram_id===id));
   function label(e:Event){const car=data?.cars.find(c=>e.path===`/cars/${c.id}`);return car?`${car.brand} ${car.model}`:e.label || e.path;}
@@ -35,6 +36,7 @@ export default function AnalyticsPage(){
   return <main className="flex-1 pb-8"><PageHeader title="Аналітика" subtitle="Інтерес клієнтів та історія відвідувань"/><div className="space-y-4 px-5">
     <div className="flex gap-2">{[1,7,30,90].map(n=><button key={n} onClick={()=>setDays(n)} className={`flex-1 rounded-xl border border-white/20 py-2 text-sm ${days===n?"bg-accent font-bold":"bg-surface"}`}>{n===1?"24 год":`${n} днів`}</button>)}</div>
     <p className="text-sm">Облік починається після підключення аналітики. Відвідування Іллі враховуються, Олега — ні. Дії в адмін-панелі не записуються. Нік відображається, якщо він є у користувача.</p>
+    <button type="button" onClick={()=>setRefresh(value=>value+1)} disabled={busy} className="rounded-xl border border-white/20 px-4 py-2 disabled:opacity-50">Оновити статистику</button>
     <button type="button" disabled={exporting} onClick={downloadClients} className="w-full rounded-xl border border-white/20 bg-surface px-4 py-3 font-bold disabled:opacity-50">{exporting?"Готуємо файл…":"Завантажити базу клієнтів · CSV"}</button>
     <p className="text-xs">Усі відвідувачі за весь час збору статистики, по одному рядку на людину. Файл відкривається в Excel. Телефони у статистиці не зберігаються.</p>
     {busy&&<p role="status">Завантажуємо…</p>}{error&&<p role="alert" className={card}>{error}</p>}
