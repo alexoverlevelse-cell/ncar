@@ -9,6 +9,16 @@ const names:Record<string,string>={visit:"Вхід",page:"Перегляд",clic
 export default function AnalyticsPage(){
   const {role,loading}=useRole();
   const [days,setDays]=useState(7),[data,setData]=useState<Data|null>(null),[error,setError]=useState(""),[busy,setBusy]=useState(false),[query,setQuery]=useState("");
+  const [exporting,setExporting]=useState(false);
+  async function downloadClients(){
+    setExporting(true);
+    const result=await apiFetch("/api/admin/analytics",{method:"POST",body:{export:true}});
+    if(!result.ok){setError(result.error);setExporting(false);return;}
+    const {csv}=result.data as {csv:string};
+    const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+    const link=document.createElement("a");link.href=url;link.download=`Oleh-DK-clients-${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);setExporting(false);
+  }
   useEffect(()=>{
     if(role!=="admin")return;
     let active=true;
@@ -25,6 +35,8 @@ export default function AnalyticsPage(){
   return <main className="flex-1 pb-8"><PageHeader title="Аналітика" subtitle="Інтерес клієнтів та історія відвідувань"/><div className="space-y-4 px-5">
     <div className="flex gap-2">{[1,7,30,90].map(n=><button key={n} onClick={()=>setDays(n)} className={`flex-1 rounded-xl border border-white/20 py-2 text-sm ${days===n?"bg-accent font-bold":"bg-surface"}`}>{n===1?"24 год":`${n} днів`}</button>)}</div>
     <p className="text-sm">Облік починається після підключення аналітики. Ваші та Олегові дії не враховуються. Нік відображається, якщо він є у користувача.</p>
+    <button type="button" disabled={exporting} onClick={downloadClients} className="w-full rounded-xl border border-white/20 bg-surface px-4 py-3 font-bold disabled:opacity-50">{exporting?"Готуємо файл…":"Завантажити базу клієнтів · CSV"}</button>
+    <p className="text-xs">Усі відвідувачі за весь час збору статистики, по одному рядку на людину. Файл відкривається в Excel. Телефони у статистиці не зберігаються.</p>
     {busy&&<p role="status">Завантажуємо…</p>}{error&&<p role="alert" className={card}>{error}</p>}
     {data&&!busy&&!error&&<><div className="grid grid-cols-2 gap-3">{[["Відвідувачі",people.length],["Входи",new Set(events.map(e=>e.session_id)).size],["Перегляди",events.filter(e=>e.event==="page").length],["Натискання",events.filter(e=>["click","contact"].includes(e.event)).length],["Умови заявки",events.filter(e=>e.event==="request_review").length],["Перехід у Telegram",events.filter(e=>e.event==="contact").length]].map(([title,count])=><div className={card} key={title}><p className="text-sm">{title}</p><p className="mt-2 text-3xl font-bold">{count}</p></div>)}</div>
     {data.truncated&&<p>Показано останні 50 000 подій. Оберіть коротший період.</p>}
