@@ -34,7 +34,7 @@ export default function AnalyticsPage(){
   if(role!=="admin")return <main className="p-5"><PageHeader title="Аналітика"/><p>Доступ лише адміністраторам через Telegram.</p></main>;
   return <main className="flex-1 pb-8"><PageHeader title="Аналітика" subtitle="Інтерес клієнтів та історія відвідувань"/><div className="space-y-4 px-5">
     <div className="flex gap-2">{[1,7,30,90].map(n=><button key={n} onClick={()=>setDays(n)} className={`flex-1 rounded-xl border border-white/20 py-2 text-sm ${days===n?"bg-accent font-bold":"bg-surface"}`}>{n===1?"24 год":`${n} днів`}</button>)}</div>
-    <p className="text-sm">Облік починається після підключення аналітики. Ваші та Олегові дії не враховуються. Нік відображається, якщо він є у користувача.</p>
+    <p className="text-sm">Облік починається після підключення аналітики. Відвідування Іллі враховуються, Олега — ні. Дії в адмін-панелі не записуються. Нік відображається, якщо він є у користувача.</p>
     <button type="button" disabled={exporting} onClick={downloadClients} className="w-full rounded-xl border border-white/20 bg-surface px-4 py-3 font-bold disabled:opacity-50">{exporting?"Готуємо файл…":"Завантажити базу клієнтів · CSV"}</button>
     <p className="text-xs">Усі відвідувачі за весь час збору статистики, по одному рядку на людину. Файл відкривається в Excel. Телефони у статистиці не зберігаються.</p>
     {busy&&<p role="status">Завантажуємо…</p>}{error&&<p role="alert" className={card}>{error}</p>}
